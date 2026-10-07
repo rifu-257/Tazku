@@ -45,6 +45,7 @@ import { ZakatTrackerScreen } from './components/ZakatTrackerScreen';
 import { RoleLoginModal } from './components/RoleLoginModals';
 import { MahalluPortalScreen } from './components/MahalluPortalScreen';
 import { VakeelPortalScreen } from './components/VakeelPortalScreen';
+import { AuthScreen } from './components/AuthScreen';
 import { FAQSupportModal } from './components/FAQSupportModal';
 import { WakalahModal } from './components/WakalahModal';
 import { 
@@ -61,8 +62,9 @@ function ZakkuApp() {
   // Cinematic Splash Screen State (2.2s duration)
   const [showSplash, setShowSplash] = useState<boolean>(true);
 
-  // High-level App Screen Flow: 'onboarding' (Screen 1) | 'main'
-  const [mainScreen, setMainScreen] = useState<'onboarding' | 'main'>('onboarding');
+  // High-level App Screen Flow: 'onboarding' (Screen 1) | 'auth' (Login / Sign Up) | 'main'
+  const [mainScreen, setMainScreen] = useState<'onboarding' | 'auth' | 'main'>('onboarding');
+  const [authInitialView, setAuthInitialView] = useState<'login' | 'signup'>('login');
 
   // Active Role State: 'donor' | 'mahal' | 'vakeel'
   const [activeRole, setActiveRole] = useState<'donor' | 'mahal' | 'vakeel'>('donor');
@@ -331,14 +333,12 @@ function ZakkuApp() {
         {mainScreen === 'onboarding' ? (
           <OnboardingScreen
             onLogin={() => {
-              setActiveRole('donor');
-              setMainScreen('main');
-              setActiveTab('home');
+              setAuthInitialView('login');
+              setMainScreen('auth');
             }}
             onCreateAccount={() => {
-              setActiveRole('donor');
-              setMainScreen('main');
-              setActiveTab('home');
+              setAuthInitialView('signup');
+              setMainScreen('auth');
             }}
             onOpenTracker={() => {
               setActiveRole('donor');
@@ -364,6 +364,19 @@ function ZakkuApp() {
             }}
             onSelectVakeelLogin={() => {
               setRoleLoginType('vakeel');
+            }}
+          />
+        ) : mainScreen === 'auth' ? (
+          /* ========================================================================= */
+          /* SCREEN: AUTHENTICATION (LOGIN & SIGN UP)                                  */
+          /* ========================================================================= */
+          <AuthScreen
+            initialView={authInitialView}
+            onBackToOnboarding={() => setMainScreen('onboarding')}
+            onAuthSuccess={(donorName) => {
+              setActiveRole('donor');
+              setMainScreen('main');
+              setActiveTab('home');
             }}
           />
         ) : activeRole === 'mahal' ? (

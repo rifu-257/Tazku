@@ -131,7 +131,7 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
             {/* Quick Contact Chips */}
             <div className="grid grid-cols-2 gap-2 text-xs">
               <a
-                href="mailto:support@tazku.org"
+                href="rifahip257@gmail.com"
                 className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-200 flex items-center gap-2 text-gray-700 hover:text-[#0D7C66]"
               >
                 <Mail className="w-4 h-4 text-[#0D7C66]" />
