@@ -68,7 +68,7 @@ export const ZakkuClaimantModal: React.FC<ZakkuClaimantModalProps> = ({
         currency: 'INR',
         zakatType,
         isAnonymous,
-        notes: `Allotted via Zakku Mahallu Platform to ${claimant.name}`,
+        notes: `Allotted via Tazku Mahallu Platform to ${claimant.name}`,
       });
 
       // Confetti effect

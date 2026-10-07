@@ -94,7 +94,7 @@ export const ZakkuGuideModal: React.FC<ZakkuGuideModalProps> = ({
           <div>
             <strong className="text-gray-900 block">Zero-Commission Mahallu Auditing</strong>
             <span className="text-[11px] text-gray-500 leading-normal block mt-0.5">
-              Zakku ensures 100% of your funds reach genuine families vetted physically by local Mahallu elders with zero overhead deductions.
+              Tazku ensures 100% of your funds reach genuine families vetted physically by local Mahallu elders with zero overhead deductions.
             </span>
           </div>
         </div>

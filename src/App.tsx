@@ -56,7 +56,7 @@ import {
 } from './types';
 import { db, submitAidApplication } from './lib/firebase';
 
-function ZakkuApp() {
+function TazkuApp() {
   const { user, profile, signInWithGoogle, signOut } = useAuth();
   
   // Cinematic Splash Screen State (2.2s duration)
@@ -1335,7 +1335,7 @@ function ZakkuApp() {
 export default function App() {
   return (
     <AuthProvider>
-      <ZakkuApp />
+      <TazkuApp />
     </AuthProvider>
   );
 }

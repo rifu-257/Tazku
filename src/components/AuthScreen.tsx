@@ -176,7 +176,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       {/* 2. BRAND HEADER (Centered) */}
       <div className="text-center pt-2 pb-5 px-6">
         <h1 className="text-4xl font-extrabold tracking-tight text-[#0D7C66] font-sans">
-          Zakku<span className="text-[#0D7C66]">.</span>
+          Tazku<span className="text-[#0D7C66]">.</span>
         </h1>
         <p className="text-base font-semibold text-[#374151] mt-1.5">
           Get Started Now
