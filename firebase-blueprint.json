@@ -1,0 +1,124 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile with donor or beneficiary metadata",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique Firebase Auth user ID" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Full name or chosen alias" },
+        "photoURL": { "type": "string", "description": "Avatar URL" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account registration timestamp" },
+        "preferredCurrency": { "type": "string", "description": "Selected fiat currency" },
+        "madhhab": { "type": "string", "description": "School of jurisprudence for calculation" }
+      },
+      "required": ["id", "email", "createdAt"]
+    },
+    "Calculation": {
+      "title": "Calculation",
+      "description": "Calculated Zakat records saved by authenticated users",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Calculation document ID" },
+        "userId": { "type": "string", "description": "UID of the owner who performed calculation" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when calculated" },
+        "cash": { "type": "number", "description": "Liquid cash and bank balances" },
+        "goldGrams": { "type": "number", "description": "Gold owned in grams" },
+        "goldKarat": { "type": "number", "description": "Gold karat (e.g. 24 or 22)" },
+        "silverGrams": { "type": "number", "description": "Silver owned in grams" },
+        "investments": { "type": "number", "description": "Zakatable portfolio value" },
+        "businessAssets": { "type": "number", "description": "Net business inventory and receivables" },
+        "liabilities": { "type": "number", "description": "Immediate debts and liabilities deducted" },
+        "netZakatable": { "type": "number", "description": "Net zakatable amount" },
+        "nisabThreshold": { "type": "number", "description": "Nisab cutoff amount at time of calculation" },
+        "zakatDue": { "type": "number", "description": "Final 2.5% calculated zakat obligation" },
+        "currency": { "type": "string", "description": "Currency symbol or code" },
+        "status": { "type": "string", "description": "Status of the calculated obligation" }
+      },
+      "required": ["id", "userId", "createdAt", "netZakatable", "zakatDue"]
+    },
+    "Case": {
+      "title": "Case",
+      "description": "Verified beneficiary case verified by community local ward committee",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Unique case ID" },
+        "title": { "type": "string", "description": "Case title" },
+        "beneficiaryAlias": { "type": "string", "description": "Dignified anonymized alias" },
+        "category": { "type": "string", "description": "Quranic beneficiary category" },
+        "location": { "type": "string", "description": "Mahallu or ward name" },
+        "description": { "type": "string", "description": "Verified summary of need" },
+        "targetAmount": { "type": "number", "description": "Total aid required in USD" },
+        "raisedAmount": { "type": "number", "description": "Amount raised to date in USD" },
+        "verifiedBy": { "type": "string", "description": "Authority or ward committee that audited case" },
+        "urgency": { "type": "string", "description": "Level of urgency" },
+        "status": { "type": "string", "description": "State of case: active, funded, disbursed" },
+        "applicantUid": { "type": "string", "description": "UID of submitting party" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Verification date" }
+      },
+      "required": ["id", "title", "beneficiaryAlias", "category", "targetAmount", "raisedAmount", "status"]
+    },
+    "Donation": {
+      "title": "Donation",
+      "description": "Disbursement and donation record ensuring 100% transparent audit ledger",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Receipt ID" },
+        "caseId": { "type": "string", "description": "Target case ID" },
+        "caseTitle": { "type": "string", "description": "Target case title" },
+        "donorId": { "type": "string", "description": "UID of donor or anonymous" },
+        "donorName": { "type": "string", "description": "Display name or Anonymous" },
+        "amount": { "type": "number", "description": "Donated amount" },
+        "currency": { "type": "string", "description": "Currency code" },
+        "zakatType": { "type": "string", "description": "Zakat al-Mal, Zakat al-Fitr, or Sadaqah" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Transaction timestamp" },
+        "receiptNumber": { "type": "string", "description": "Cryptographically indexed receipt code" },
+        "isAnonymous": { "type": "boolean", "description": "Whether donor requested anonymity" }
+      },
+      "required": ["id", "caseId", "amount", "createdAt", "receiptNumber"]
+    },
+    "Application": {
+      "title": "Application",
+      "description": "Aid request submitted by a needy individual or local community ward",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Application record ID" },
+        "applicantUid": { "type": "string", "description": "UID of user submitting application" },
+        "beneficiaryAlias": { "type": "string", "description": "Anonymized or real name of applicant" },
+        "category": { "type": "string", "description": "Beneficiary category" },
+        "requestedAmount": { "type": "number", "description": "Assistance amount requested" },
+        "currency": { "type": "string", "description": "Currency requested" },
+        "location": { "type": "string", "description": "Ward / Mahallu or town" },
+        "pincode": { "type": "string", "description": "Postal code" },
+        "description": { "type": "string", "description": "Detailed justification of circumstances" },
+        "supportingDocNotes": { "type": "string", "description": "Document verification notes" },
+        "status": { "type": "string", "description": "pending_review, approved, or rejected" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Submission time" }
+      },
+      "required": ["id", "applicantUid", "beneficiaryAlias", "category", "requestedAmount", "status", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile records restricted to owner or admin"
+    },
+    "/calculations/{calculationId}": {
+      "schema": { "$ref": "#/entities/Calculation" },
+      "description": "User Zakat calculation records restricted to owner"
+    },
+    "/cases/{caseId}": {
+      "schema": { "$ref": "#/entities/Case" },
+      "description": "Verified community beneficiary cases publicly readable, updatable by donations or admin"
+    },
+    "/donations/{donationId}": {
+      "schema": { "$ref": "#/entities/Donation" },
+      "description": "Public transparent audit log of disbursements and donations"
+    },
+    "/applications/{applicationId}": {
+      "schema": { "$ref": "#/entities/Application" },
+      "description": "Beneficiary assistance applications created by verified applicants"
+    }
+  }
+}

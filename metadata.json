@@ -1,0 +1,8 @@
+{
+  "name": "Tazku - Transparent & Dignified Zakat Platform",
+  "description": "Modern fintech Zakat calculation and transparent distribution platform empowering communities with live Nisab tracking, verified recipient causes, and real-time impact ledger.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

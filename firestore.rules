@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default Deny
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == "rifahip257@gmail.com" && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isSignedIn() && (request.auth.uid == userId || isAdmin());
+      allow list: if isSignedIn() && (resource.data.id == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == userId && incoming().id == userId;
+      allow update: if isSignedIn() && request.auth.uid == userId && incoming().id == userId;
+      allow delete: if isAdmin();
+    }
+
+    // Calculations Collection
+    match /calculations/{calculationId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && incoming().userId == request.auth.uid;
+      allow update: if isSignedIn() && existing().userId == request.auth.uid && incoming().userId == request.auth.uid;
+      allow delete: if isSignedIn() && (existing().userId == request.auth.uid || isAdmin());
+    }
+
+    // Cases Collection (Publicly browseable verified causes)
+    match /cases/{caseId} {
+      allow read: if true;
+      allow create: if isSignedIn();
+      allow update: if isSignedIn() && (
+        isAdmin() ||
+        incoming().diff(existing()).affectedKeys().hasOnly(['raisedAmount', 'status'])
+      );
+      allow delete: if isAdmin();
+    }
+
+    // Donations & Transparency Ledger (Publicly verifiable ledger)
+    match /donations/{donationId} {
+      allow read: if true;
+      allow create: if true;
+      allow update: if isAdmin();
+      allow delete: if isAdmin();
+    }
+
+    // Beneficiary Applications
+    match /applications/{applicationId} {
+      allow get: if isSignedIn() && (resource.data.applicantUid == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.applicantUid == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && incoming().applicantUid == request.auth.uid;
+      allow update: if isSignedIn() && (existing().applicantUid == request.auth.uid || isAdmin());
+      allow delete: if isAdmin();
+    }
+  }
+}
