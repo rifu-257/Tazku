@@ -5,7 +5,7 @@ import {
   signOut as fbSignOut, 
   onAuthStateChanged 
 } from 'firebase/auth';
-import { auth, googleProvider, syncUserProfile } from '../lib/firebase';
+import { auth, googleProvider, syncUserProfile, signInWithEmail, signUpWithEmail } from '../lib/firebase';
 import { UserProfile, CurrencyCode, Madhhab } from '../types';
 
 interface AuthContextType {
@@ -13,6 +13,9 @@ interface AuthContextType {
   profile: UserProfile | null;
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
+  loginWithEmail: (email: string, pass: string) => Promise<void>;
+  registerWithEmail: (email: string, pass: string, name: string, role?: 'donor' | 'mahal' | 'vakeel') => Promise<void>;
+  refreshProfile: () => Promise<void>;
   signOut: () => Promise<void>;
   updatePreferences: (currency: CurrencyCode, madhhab: Madhhab) => Promise<void>;
 }
@@ -23,6 +26,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
+
+  const refreshProfile = async () => {
+    if (auth.currentUser) {
+      try {
+        const userProf = await syncUserProfile(auth.currentUser);
+        setProfile(userProf);
+      } catch (err) {
+        console.error("Failed to refresh profile:", err);
+      }
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -58,11 +72,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginWithEmail = async (email: string, pass: string) => {
+    const fbUser = await signInWithEmail(email, pass);
+    setUser(fbUser);
+    const userProf = await syncUserProfile(fbUser);
+    setProfile(userProf);
+  };
+
+  const registerWithEmail = async (
+    email: string, 
+    pass: string, 
+    name: string, 
+    role: 'donor' | 'mahal' | 'vakeel' = 'donor'
+  ) => {
+    const fbUser = await signUpWithEmail(email, pass, name, role);
+    setUser(fbUser);
+    const userProf = await syncUserProfile(fbUser, { displayName: name, role });
+    setProfile(userProf);
+  };
+
   const signOut = async () => {
     try {
       await fbSignOut(auth);
       setUser(null);
       setProfile(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('tazku_active_role');
+      }
     } catch (err) {
       console.error("Sign out failed:", err);
     }
@@ -79,7 +115,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signInWithGoogle, signOut, updatePreferences }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      profile, 
+      loading, 
+      signInWithGoogle, 
+      loginWithEmail, 
+      registerWithEmail, 
+      refreshProfile, 
+      signOut, 
+      updatePreferences 
+    }}>
       {children}
     </AuthContext.Provider>
   );

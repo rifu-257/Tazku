@@ -335,14 +335,6 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
             <span className="text-[10px] bg-white/15 text-white font-bold px-2.5 py-1 rounded-full border border-white/20">
               Vakeel Portal
             </span>
-            <button
-              type="button"
-              onClick={onBackToHome}
-              className="p-1.5 bg-white/10 hover:bg-white/20 rounded-full text-white transition"
-              title="Sign Out to Onboarding"
-            >
-              <LogOut className="w-4 h-4" />
-            </button>
           </div>
         </div>
 

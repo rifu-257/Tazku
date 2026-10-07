@@ -11,7 +11,18 @@
         "photoURL": { "type": "string", "description": "Avatar URL" },
         "createdAt": { "type": "string", "format": "date-time", "description": "Account registration timestamp" },
         "preferredCurrency": { "type": "string", "description": "Selected fiat currency" },
-        "madhhab": { "type": "string", "description": "School of jurisprudence for calculation" }
+        "madhhab": { "type": "string", "description": "School of jurisprudence for calculation" },
+        "role": { "type": "string", "description": "Active user portal role" },
+        "linkedBankAccount": {
+          "type": "object",
+          "description": "User linked bank account details",
+          "properties": {
+            "bankName": { "type": "string" },
+            "accountNumber": { "type": "string" },
+            "ifsc": { "type": "string" },
+            "linkedAt": { "type": "string", "format": "date-time" }
+          }
+        }
       },
       "required": ["id", "email", "createdAt"]
     },

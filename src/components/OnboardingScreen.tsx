@@ -63,24 +63,24 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
     {
       id: 'tracker',
       title: 'Zakat Tracker and Money Management',
+      subtitle: 'Income, expense ledger & Nisab balance tracking',
+      tag: 'Financials',
       icon: Calendar,
       onClick: onOpenTracker,
     },
     {
       id: 'calculator',
       title: 'Zakat Calculator',
+      subtitle: 'Dynamic gold, silver, cash & asset valuation',
+      tag: 'Nisab Calculator',
       icon: Calculator,
       onClick: onOpenCalculator,
     },
     {
-      id: 'articles',
-      title: 'Zakat related Articles',
-      icon: FileText,
-      onClick: onOpenArticles,
-    },
-    {
       id: 'faq',
       title: 'FAQ',
+      subtitle: 'Common questions & instant community support',
+      tag: 'Support',
       icon: MessageSquare,
       onClick: onOpenFAQ,
     },
@@ -106,36 +106,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
             </div>
           </div>
 
-          {/* Right: Top-Right Scanner/Menu Action Button */}
+          {/* Right: Header Action Area */}
           <div className="relative flex items-center gap-1.5">
-            {/* Quick QR Scanner Icon Shortcut */}
-            <button
-              type="button"
-              onClick={() => setShowQRScanner(true)}
-              className="w-10 h-10 rounded-full bg-[#E8F6F3] text-[#0D7C66] hover:bg-[#d8efe9] flex items-center justify-center transition shadow-2xs"
-              title="Scan QR Code"
-              aria-label="Scan QR Code"
-            >
-              <QrCode className="w-4 h-4" />
-            </button>
-
-            {/* Menu Popover Trigger Button */}
-            <button
-              type="button"
-              onClick={() => setIsPopoverOpen(!isPopoverOpen)}
-              className={`w-10 h-10 rounded-full flex items-center justify-center transition ${
-                isPopoverOpen 
-                  ? 'bg-[#0D7C66] text-white shadow-md' 
-                  : 'bg-[#E8F6F3] text-[#0D7C66] hover:bg-[#d8efe9] shadow-2xs'
-              }`}
-              title="Role Portals & Menu"
-              aria-label="Open portal options menu"
-              aria-expanded={isPopoverOpen}
-            >
-              <MoreVertical className="w-4 h-4" />
-            </button>
-
-            {/* Interactive Action Popover (Anchored to top-right button) */}
+            {/* Interactive Action Popover */}
             {isPopoverOpen && (
               <>
                 {/* Backdrop dismiss overlay */}
@@ -243,23 +216,27 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
               key={card.id}
               type="button"
               onClick={card.onClick}
-              className="w-full bg-[#F8FAF9] hover:bg-[#E8F6F3]/60 border border-gray-100 rounded-2xl p-4 flex items-center justify-between transition group text-left shadow-2xs hover:border-[#0D7C66]/30"
+              className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
             >
-              <div className="flex items-center gap-3.5">
-                {/* Soft mint-circle icon background */}
-                <div className="w-11 h-11 rounded-full bg-[#E8F6F3] text-[#0D7C66] flex items-center justify-center shrink-0 group-hover:scale-105 transition">
-                  <Icon className="w-5 h-5" />
+              <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
+                {/* Soft mint squircle icon with vibrant hover transition */}
+                <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                  <Icon className="w-5 h-5 transition-transform duration-200" />
                 </div>
-                <div>
-                  <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition leading-tight">
-                    {card.title}
-                  </h3>
-                  <span className="text-[11px] text-gray-400 block mt-0.5">
-                    Tap to explore instant tools & guides
-                  </span>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                      {card.title}
+                    </h3>
+                  </div>
+                  <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug">
+                    {card.subtitle}
+                  </p>
                 </div>
               </div>
-              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-[#0D7C66] group-hover:translate-x-0.5 transition shrink-0" />
+              <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </div>
             </button>
           );
         })}
@@ -288,20 +265,6 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
           Create Account
         </button>
 
-        {/* Quick Institutional Role Access Notice */}
-        <div className="text-center pt-1">
-          <span className="text-[11px] text-gray-500">
-            Mahallu Committee or Certified Vakeel? Use the{' '}
-            <button
-              type="button"
-              onClick={() => setIsPopoverOpen(true)}
-              className="text-[#0D7C66] font-bold underline hover:text-[#0A6654]"
-            >
-              top-right menu
-            </button>{' '}
-            to sign in.
-          </span>
-        </div>
 
         {/* Legal Disclaimer */}
         <div className="pt-2 text-center">

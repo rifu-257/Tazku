@@ -20,6 +20,13 @@ export interface NisabRates {
   lastUpdated: string;
 }
 
+export interface LinkedBankAccount {
+  bankName: string;
+  accountNumber: string;
+  ifsc: string;
+  linkedAt: string;
+}
+
 export interface UserProfile {
   id: string;
   email: string;
@@ -28,6 +35,8 @@ export interface UserProfile {
   createdAt: string;
   preferredCurrency: CurrencyCode;
   madhhab: Madhhab;
+  role?: 'donor' | 'mahal' | 'vakeel';
+  linkedBankAccount?: LinkedBankAccount | null;
 }
 
 export interface ZakatCalculationInput {

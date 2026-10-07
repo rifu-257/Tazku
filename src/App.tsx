@@ -27,11 +27,14 @@ import {
   Headphones,
   Coins,
   Building2,
-  UserCheck
+  UserCheck,
+  CreditCard
 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { SplashScreen } from './components/SplashScreen';
 import { OnboardingScreen } from './components/OnboardingScreen';
+import { RoleSelectionScreen } from './components/RoleSelectionScreen';
+import { LinkBankAccountScreen } from './components/LinkBankAccountScreen';
 import { ClaimantsMethodScreen } from './components/ClaimantsMethodScreen';
 import { ZakkuCalculatorModal } from './components/ZakkuCalculatorModal';
 import { ZakatCalculatorAccordionScreen } from './components/ZakatCalculatorAccordionScreen';
@@ -46,6 +49,7 @@ import { RoleLoginModal } from './components/RoleLoginModals';
 import { MahalluPortalScreen } from './components/MahalluPortalScreen';
 import { VakeelPortalScreen } from './components/VakeelPortalScreen';
 import { AuthScreen } from './components/AuthScreen';
+import { AccountActionScreen } from './components/AccountActionScreen';
 import { FAQSupportModal } from './components/FAQSupportModal';
 import { WakalahModal } from './components/WakalahModal';
 import { 
@@ -54,20 +58,29 @@ import {
   MessageContact, 
   NotificationItem 
 } from './types';
-import { db, submitAidApplication } from './lib/firebase';
+import { db, auth, submitAidApplication, saveUserBankAccount, unlinkUserBankAccount, saveUserRole, getUserBankAccount } from './lib/firebase';
 
 function TazkuApp() {
-  const { user, profile, signInWithGoogle, signOut } = useAuth();
+  const { user, profile, signInWithGoogle, signOut, refreshProfile, loading } = useAuth();
   
   // Cinematic Splash Screen State (2.2s duration)
   const [showSplash, setShowSplash] = useState<boolean>(true);
 
-  // High-level App Screen Flow: 'onboarding' (Screen 1) | 'auth' (Login / Sign Up) | 'main'
-  const [mainScreen, setMainScreen] = useState<'onboarding' | 'auth' | 'main'>('onboarding');
+  // High-level App Screen Flow: 'role_select' -> 'account_action' -> 'auth' -> ('link_bank' if personal) -> 'main'
+  const [mainScreen, setMainScreen] = useState<'role_select' | 'account_action' | 'auth' | 'link_bank' | 'main' | 'onboarding'>('role_select');
+  const [selectedRoleType, setSelectedRoleType] = useState<'personal' | 'mahal'>('personal');
   const [authInitialView, setAuthInitialView] = useState<'login' | 'signup'>('login');
+  const [linkedBankAccount, setLinkedBankAccount] = useState<{ bankName: string; accountNumber: string; ifsc: string } | null>(null);
 
   // Active Role State: 'donor' | 'mahal' | 'vakeel'
-  const [activeRole, setActiveRole] = useState<'donor' | 'mahal' | 'vakeel'>('donor');
+  const [activeRole, setActiveRole] = useState<'donor' | 'mahal' | 'vakeel'>(() => {
+    return (typeof window !== 'undefined' ? (localStorage.getItem('tazku_active_role') as any) : null) || 'donor';
+  });
+
+  const [hasExplicitlyLoggedOut, setHasExplicitlyLoggedOut] = useState<boolean>(false);
+  const [customEnteredName, setCustomEnteredName] = useState<string>(() => {
+    return (typeof window !== 'undefined' ? localStorage.getItem('tazku_entered_name') : '') || '';
+  });
 
   // Bottom Navigation & Tab State:
   // 5 tabs requested: Home, Tracker, Calculator, Articles/Docs, Profile
@@ -305,14 +318,73 @@ function TazkuApp() {
     }
   };
 
+  // 1. Restore persisted linked bank account strictly for the current authenticated user
+  useEffect(() => {
+    if (user?.uid) {
+      if (profile?.linkedBankAccount) {
+        setLinkedBankAccount(profile.linkedBankAccount);
+      } else {
+        const cached = typeof window !== 'undefined' ? localStorage.getItem(`tazku_linked_bank_${user.uid}`) : null;
+        if (cached) {
+          try {
+            setLinkedBankAccount(JSON.parse(cached));
+          } catch {
+            setLinkedBankAccount(null);
+          }
+        } else {
+          setLinkedBankAccount(null);
+        }
+      }
+    } else {
+      setLinkedBankAccount(null);
+    }
+  }, [profile, user]);
+
+  // 2. Initial boot session restoration: keep session active without auto logout, prompt bank link if needed
+  const [initialSessionRestored, setInitialSessionRestored] = useState(false);
+
+  useEffect(() => {
+    if (user && !hasExplicitlyLoggedOut && !initialSessionRestored) {
+      setInitialSessionRestored(true);
+      const savedRole = profile?.role || (typeof window !== 'undefined' ? (localStorage.getItem('tazku_active_role') as any) : null);
+      if (savedRole && (savedRole === 'donor' || savedRole === 'mahal' || savedRole === 'vakeel')) {
+        setActiveRole(savedRole);
+      }
+      // On boot restore: if mahal or vakeel, go directly to portal without bank prompt.
+      if (savedRole === 'mahal' || savedRole === 'vakeel') {
+        setMainScreen('main');
+      } else if (profile?.linkedBankAccount) {
+        setMainScreen('main');
+      } else {
+        setMainScreen('link_bank');
+      }
+    }
+  }, [user, profile, hasExplicitlyLoggedOut, initialSessionRestored]);
+
+  // 3. User-controlled unlinking (only unlinks when user explicitly clicks it)
+  const handleUnlinkBankAccount = async () => {
+    if (window.confirm("Are you sure you want to unlink this bank account? It will remain unlinked until you link a new one.")) {
+      setLinkedBankAccount(null);
+      if (user?.uid) {
+        try {
+          await unlinkUserBankAccount(user.uid);
+        } catch (e) {
+          console.error("Failed to unlink bank account in Firebase:", e);
+        }
+      }
+    }
+  };
+
   const unreadNotificationsCount = notifications.filter(n => n.unread).length;
-  const displayName = profile?.displayName || user?.displayName || 'Raheem Panoly';
-  const displayInitials = displayName
+  // Clean fallback: entered name, email name, or Community Member (NEVER Raheem Panoly)
+  const displayName = profile?.displayName || user?.displayName || customEnteredName || (user?.email ? user.email.split('@')[0] : 'Community Member');
+  const displayInitials = (displayName || 'CM')
     .split(' ')
+    .filter(Boolean)
     .map(w => w[0])
     .join('')
     .substring(0, 2)
-    .toUpperCase();
+    .toUpperCase() || 'CM';
 
   return (
     <div className="min-h-screen bg-[#F8FAF9] text-gray-900 font-sans flex justify-center">
@@ -328,17 +400,134 @@ function TazkuApp() {
       <div className="w-full max-w-md min-h-screen bg-white shadow-xl flex flex-col relative border-x border-[#E2ECE9]">
         
         {/* ========================================================================= */}
-        {/* SCREEN 1: GET STARTED / ONBOARDING SCREEN (Second Screen After Splash)     */}
+        {/* SCREEN 1: LOGIN PAGE WITH TWO LOGINS: MAHAL LOGIN & PERSONAL LOGIN        */}
         {/* ========================================================================= */}
-        {mainScreen === 'onboarding' ? (
-          <OnboardingScreen
-            onLogin={() => {
-              setAuthInitialView('login');
+        {mainScreen === 'role_select' ? (
+          <RoleSelectionScreen
+            onSelectRole={(role) => {
+              setSelectedRoleType(role);
+              setMainScreen('account_action');
+            }}
+            onOpenOverview={() => setMainScreen('onboarding')}
+          />
+        ) : mainScreen === 'account_action' ? (
+          /* ========================================================================= */
+          /* SCREEN 2: AFTER THE TWO LOGINS -> TWO OPTIONS: CREATE ACCOUNT & LOGIN     */
+          /* ========================================================================= */
+          <AccountActionScreen
+            role={selectedRoleType}
+            onBack={() => setMainScreen('role_select')}
+            onSelectAction={(action) => {
+              setAuthInitialView(action);
               setMainScreen('auth');
             }}
+          />
+        ) : mainScreen === 'auth' ? (
+          /* ========================================================================= */
+          /* SCREEN 3: AUTHENTICATION FORM (LOGIN OR CREATE ACCOUNT)                   */
+          /* ========================================================================= */
+          <AuthScreen
+            role={selectedRoleType}
+            initialView={authInitialView}
+            onBack={() => setMainScreen('account_action')}
+            onAuthSuccess={async (roleType, name) => {
+              if (name) {
+                setCustomEnteredName(name);
+                try {
+                  localStorage.setItem('tazku_entered_name', name);
+                } catch {}
+              }
+              setHasExplicitlyLoggedOut(false);
+              const targetRole = roleType === 'mahal' ? 'mahal' : 'donor';
+              setActiveRole(targetRole);
+              try {
+                localStorage.setItem('tazku_active_role', targetRole);
+              } catch {}
+
+              const currentUid = user?.uid || auth.currentUser?.uid;
+              if (currentUid) {
+                saveUserRole(currentUid, targetRole).catch(() => {});
+                try {
+                  const savedBank = await getUserBankAccount(currentUid);
+                  if (savedBank) {
+                    setLinkedBankAccount(savedBank);
+                  }
+                } catch {}
+              }
+
+              // After mahal login, directly open the Mahallu Portal (no link bank account screen)
+              if (targetRole === 'mahal') {
+                setMainScreen('main');
+                setActiveTab('home');
+              } else {
+                // Show link bank account page to personal donor logins
+                setMainScreen('link_bank');
+              }
+            }}
+          />
+        ) : mainScreen === 'link_bank' ? (
+          /* ========================================================================= */
+          /* SCREEN 4: LINK BANK ACCOUNT (SHOWN TO NEW LOGS & MANAGEABLE AT ANY TIME)  */
+          /* ========================================================================= */
+          <LinkBankAccountScreen
+            userName={displayName}
+            roleType={selectedRoleType}
+            existingBank={linkedBankAccount}
+            onSkip={() => {
+              const targetRole = selectedRoleType === 'mahal' ? 'mahal' : 'donor';
+              setActiveRole(targetRole);
+              try {
+                localStorage.setItem('tazku_active_role', targetRole);
+              } catch {}
+              const currentUid = user?.uid || auth.currentUser?.uid;
+              if (currentUid) {
+                saveUserRole(currentUid, targetRole).catch(() => {});
+              }
+              setMainScreen('main');
+              setActiveTab('home');
+            }}
+            onLinkSuccess={async (bankDetails) => {
+              const linkedData = {
+                bankName: bankDetails.bankName,
+                accountNumber: bankDetails.accountNumber,
+                ifsc: bankDetails.ifsc,
+              };
+              setLinkedBankAccount(linkedData);
+              const currentUid = user?.uid || auth.currentUser?.uid;
+              if (currentUid) {
+                try {
+                  await saveUserBankAccount(currentUid, linkedData);
+                  await refreshProfile();
+                } catch (e) {
+                  console.error("Failed to persist bank account to Firebase:", e);
+                }
+              } else {
+                try {
+                  localStorage.setItem('tazku_linked_bank_pending', JSON.stringify(linkedData));
+                } catch {}
+              }
+              const targetRole = selectedRoleType === 'mahal' ? 'mahal' : 'donor';
+              setActiveRole(targetRole);
+              try {
+                localStorage.setItem('tazku_active_role', targetRole);
+              } catch {}
+              if (currentUid) {
+                saveUserRole(currentUid, targetRole).catch(() => {});
+              }
+              setMainScreen('main');
+              setActiveTab('home');
+            }}
+          />
+        ) : mainScreen === 'onboarding' ? (
+          /* ========================================================================= */
+          /* ONBOARDING & FEATURES OVERVIEW SCREEN                                     */
+          /* ========================================================================= */
+          <OnboardingScreen
+            onLogin={() => {
+              setMainScreen('role_select');
+            }}
             onCreateAccount={() => {
-              setAuthInitialView('signup');
-              setMainScreen('auth');
+              setMainScreen('role_select');
             }}
             onOpenTracker={() => {
               setActiveRole('donor');
@@ -360,23 +549,11 @@ function TazkuApp() {
               setFaqSupportConfig({ isOpen: true, tab: 'support' });
             }}
             onSelectMahalLogin={() => {
-              setRoleLoginType('mahal');
+              setSelectedRoleType('mahal');
+              setMainScreen('account_action');
             }}
             onSelectVakeelLogin={() => {
               setRoleLoginType('vakeel');
-            }}
-          />
-        ) : mainScreen === 'auth' ? (
-          /* ========================================================================= */
-          /* SCREEN: AUTHENTICATION (LOGIN & SIGN UP)                                  */
-          /* ========================================================================= */
-          <AuthScreen
-            initialView={authInitialView}
-            onBackToOnboarding={() => setMainScreen('onboarding')}
-            onAuthSuccess={(donorName) => {
-              setActiveRole('donor');
-              setMainScreen('main');
-              setActiveTab('home');
             }}
           />
         ) : activeRole === 'mahal' ? (
@@ -386,11 +563,15 @@ function TazkuApp() {
           <MahalluPortalScreen
             onBackToHome={() => {
               setActiveRole('donor');
-              setMainScreen('onboarding');
+              setMainScreen('role_select');
             }}
             onSwitchRole={(newRole) => {
-              setActiveRole(newRole);
-              if (newRole === 'donor') setActiveTab('home');
+              if (newRole === 'vakeel') {
+                setActiveRole('vakeel');
+              } else {
+                setActiveRole('donor');
+                setActiveTab('home');
+              }
             }}
           />
         ) : activeRole === 'vakeel' ? (
@@ -400,7 +581,7 @@ function TazkuApp() {
           <VakeelPortalScreen
             onBackToHome={() => {
               setActiveRole('donor');
-              setMainScreen('onboarding');
+              setMainScreen('role_select');
             }}
             onSwitchRole={(newRole) => {
               setActiveRole(newRole);
@@ -442,52 +623,100 @@ function TazkuApp() {
                     </div>
 
                     <div className="flex items-center gap-2">
-                      {/* Return to Onboarding Screen Button */}
-                      <button
-                        type="button"
-                        onClick={() => setMainScreen('onboarding')}
-                        className="px-2.5 py-1 rounded-full bg-white/10 hover:bg-white/20 text-[10px] font-bold text-teal-100 transition"
-                        title="View Onboarding Screen"
-                      >
-                        Onboarding
-                      </button>
-
-                      {/* Notification Bell */}
+                      {/* Logout Button */}
                       <button 
                         type="button"
-                        onClick={() => setIsNotificationOpen(true)}
-                        className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 transition relative"
+                        onClick={async () => {
+                          setHasExplicitlyLoggedOut(true);
+                          try {
+                            await signOut();
+                          } catch (e) {
+                            console.error(e);
+                          }
+                          try {
+                            localStorage.removeItem('tazku_active_role');
+                            localStorage.removeItem('tazku_entered_name');
+                          } catch {}
+                          setActiveRole('donor');
+                          setMainScreen('role_select');
+                        }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition shadow-2xs cursor-pointer active:scale-95"
+                        title="Logout"
+                        aria-label="Logout"
                       >
-                        <Bell className="w-5 h-5 text-white" />
-                        {unreadNotificationsCount > 0 && (
-                          <span className="absolute top-1.5 right-1.5 w-2.5 h-2.5 bg-amber-400 rounded-full ring-2 ring-[#0D7C66]"></span>
-                        )}
+                        <LogOut className="w-3.5 h-3.5 text-white" />
+                        <span>Logout</span>
                       </button>
                     </div>
                   </div>
 
                   {/* Your Zakat Progress Card */}
-                  <div className="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 mt-2">
-                    <div className="flex justify-between items-center mb-2">
-                      <span className="text-xs text-teal-100 font-medium">Your Zakat Progress</span>
-                      <span className="text-xs font-bold text-teal-200">65% Disbursed</span>
+                  {/* Bank Account Status / Direct Aid Badge (Progress Card Removed) */}
+                  {linkedBankAccount ? (
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/20 mt-2 flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-white shrink-0">
+                          <CreditCard className="w-5 h-5" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-1.5">
+                            <span className="text-xs font-bold text-white">{linkedBankAccount.bankName}</span>
+                            <span className="text-[10px] bg-emerald-400 text-teal-950 px-2 py-0.5 rounded-full font-bold">
+                              Linked
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-teal-100 font-mono mt-0.5">
+                            A/C: •••• {linkedBankAccount.accountNumber.slice(-4)} • Direct Settlement
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => setMainScreen('link_bank')}
+                          className="text-[10px] bg-white/20 hover:bg-white/30 text-white font-semibold px-2 py-1 rounded-full transition cursor-pointer"
+                          title="Manage bank account"
+                        >
+                          Manage
+                        </button>
+                        <button
+                          type="button"
+                          onClick={handleUnlinkBankAccount}
+                          className="text-[10px] bg-white/15 hover:bg-white/25 text-rose-100 font-semibold px-2 py-1 rounded-full transition cursor-pointer"
+                          title="Unlink this bank account"
+                        >
+                          Unlink
+                        </button>
+                      </div>
                     </div>
-                    <div className="w-full bg-black/20 h-2.5 rounded-full overflow-hidden">
-                      <div className="bg-emerald-300 h-full rounded-full w-[65%]" />
+                  ) : (
+                    <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 mt-2 flex items-center justify-between">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
+                          <ShieldCheck className="w-4 h-4 text-emerald-300" />
+                        </div>
+                        <div>
+                          <span className="text-xs font-bold text-white">Direct Local Zakat Aid</span>
+                          <p className="text-[10px] text-teal-100">100% verified Mahallu families • 0% platform deductions</p>
+                        </div>
+                      </div>
+                      <button 
+                        type="button" 
+                        onClick={() => setMainScreen('link_bank')}
+                        className="text-[10px] bg-white text-[#0D7C66] font-bold px-2.5 py-1 rounded-full shadow-2xs hover:bg-teal-50 transition cursor-pointer"
+                      >
+                        Link Bank
+                      </button>
                     </div>
-                    <div className="flex justify-between items-center mt-3 text-xs text-teal-100">
-                      <span>Target: ₹40,000</span>
-                      <span className="font-bold text-white">Paid: ₹26,000</span>
-                    </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Quick Action Banner: Calculate Your Zakat */}
                 <div className="px-5 -mt-5">
                   <button 
-                    type="button"
+                    type="button" 
                     onClick={() => setActiveTab('calculator')}
-                    className="w-full bg-[#0D7C66] hover:bg-[#0A6654] text-white p-4 rounded-2xl shadow-lg flex items-center justify-between transition border-2 border-white"
+                    className="w-full bg-[#0D7C66] hover:bg-[#0A6654] text-white p-4 rounded-2xl shadow-lg flex items-center justify-between transition border-2 border-white cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 bg-white/15 rounded-xl">
@@ -502,29 +731,102 @@ function TazkuApp() {
                   </button>
                 </div>
 
-                {/* Quick Pill Actions: Donate & Apply */}
-                <div className="grid grid-cols-2 gap-3 px-5 mt-4">
-                  {/* "Donate" navigates directly to Screen 2: Claimants / Distribution Method Selection */}
+                {/* Donate Option (No Application Option on Personal Home Page) */}
+                <div className="px-5 mt-4">
                   <button 
                     type="button"
                     onClick={() => setActiveTab('claimants')}
-                    className="flex items-center justify-center gap-2 py-3 bg-[#E8F6F3] text-[#0D7C66] rounded-full font-bold text-sm hover:bg-[#d8efe9] transition shadow-xs"
+                    className="w-full flex items-center justify-center gap-2.5 py-3.5 bg-[#0D7C66] text-white rounded-2xl font-bold text-sm hover:bg-[#0A6654] transition shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
-                    Donate
+                    <span>Donate Zakat Directly</span>
                   </button>
+                </div>
 
-                  <button 
-                    type="button"
-                    onClick={() => {
-                      setApplicationSubView('form');
-                      setActiveTab('application');
-                    }}
-                    className="flex items-center justify-center gap-2 py-3 bg-[#E8F6F3] text-[#0D7C66] rounded-full font-bold text-sm hover:bg-[#d8efe9] transition shadow-xs"
-                  >
-                    <FileText className="w-4 h-4" />
-                    Application / Claim
-                  </button>
+                {/* ================================================================= */}
+                {/* CORE PLATFORM SERVICES & TOOLS (Elements after Login / Sign-up)  */}
+                {/* ================================================================= */}
+                <div className="px-5 mt-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <h2 className="text-sm font-bold text-gray-900">Services & Management</h2>
+                      <p className="text-[11px] text-gray-500">Essential calculation, tracking & support modules</p>
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    {/* 1. Zakat Tracker and Money Management */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('tracker')}
+                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
+                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                          <Calendar className="w-5 h-5 transition-transform duration-200" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                            Zakat Tracker and Money Management
+                          </h3>
+                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                            Income, expense ledger & Nisab balance tracking
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </button>
+
+                    {/* 2. Zakat Calculator */}
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('calculator')}
+                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
+                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                          <Calculator className="w-5 h-5 transition-transform duration-200" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                            Zakat Calculator
+                          </h3>
+                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                            Dynamic gold, silver, cash & asset valuation
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </button>
+
+                    {/* 4. FAQ */}
+                    <button
+                      type="button"
+                      onClick={() => setFaqSupportConfig({ isOpen: true, tab: 'faq' })}
+                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
+                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                          <MessageSquare className="w-5 h-5 transition-transform duration-200" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                            FAQ
+                          </h3>
+                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                            Common questions & instant community support
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Recent Activity Transaction Feed */}
@@ -570,7 +872,7 @@ function TazkuApp() {
                             id: `rec_${i}`,
                             caseId: `case_${i}`,
                             caseTitle: act.name,
-                            donorId: 'u_raheem',
+                            donorId: user ? user.uid : 'community_member',
                             donorName: displayName,
                             amount: parseInt(act.amount.replace(/[^0-9]/g, '')),
                             amountUSD: Math.round(parseInt(act.amount.replace(/[^0-9]/g, '')) / 86.5),
@@ -646,7 +948,7 @@ function TazkuApp() {
                           id: 'report_summary_01',
                           caseId: 'mahallu_consolidated',
                           caseTitle: 'Consolidated Mahallu Annual Zakat Audit Report',
-                          donorId: 'u_raheem',
+                          donorId: user ? user.uid : 'community_member',
                           donorName: displayName,
                           amount: 26000,
                           amountUSD: 300,
@@ -817,11 +1119,62 @@ function TazkuApp() {
                   <div className="text-[11px] text-[#0D7C66] font-semibold">Juma Masjid Central Ward #3 (Audited)</div>
                 </div>
 
+                {/* Linked Bank Account Card with Persistent Status and Unlink Option */}
+                {linkedBankAccount ? (
+                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <CreditCard className="w-4 h-4 text-[#0D7C66]" />
+                        <span className="text-xs font-bold text-gray-900">Linked Bank Account</span>
+                      </div>
+                      <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                        Active & Synced
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-600 bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                      <div className="font-bold text-gray-900">{linkedBankAccount.bankName}</div>
+                      <div className="text-[11px] text-gray-500 font-mono mt-0.5">
+                        A/C: •••• {linkedBankAccount.accountNumber.slice(-4)} • IFSC: {linkedBankAccount.ifsc}
+                      </div>
+                    </div>
+                    <div className="flex justify-end gap-2 pt-1">
+                      <button
+                        type="button"
+                        onClick={() => setMainScreen('link_bank')}
+                        className="text-xs text-[#0D7C66] hover:text-[#0A6654] font-bold px-3 py-1.5 rounded-xl hover:bg-teal-50 transition cursor-pointer border border-[#0D7C66]/20"
+                      >
+                        Update Details
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleUnlinkBankAccount}
+                        className="text-xs text-red-600 hover:text-red-700 font-bold px-3 py-1.5 rounded-xl hover:bg-red-50 transition cursor-pointer"
+                      >
+                        Unlink Account
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white p-4 rounded-2xl border border-dashed border-gray-200 shadow-xs flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-bold text-gray-900">No Bank Account Linked</div>
+                      <div className="text-[11px] text-gray-500">Link once to disburse Zakat directly</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setMainScreen('link_bank')}
+                      className="text-xs bg-[#0D7C66] text-white font-bold px-3 py-1.5 rounded-xl hover:bg-[#0A6654] transition"
+                    >
+                      Link Bank
+                    </button>
+                  </div>
+                )}
+
                 <div className="bg-[#E8F6F3] p-3 rounded-2xl border border-[#0D7C66]/20 space-y-2">
                   <span className="text-[10px] font-bold text-[#0D7C66] uppercase tracking-wider block">
                     Institutional Role Portals:
                   </span>
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-1 gap-2">
                     <button
                       type="button"
                       onClick={() => setActiveRole('mahal')}
@@ -829,14 +1182,6 @@ function TazkuApp() {
                     >
                       <Building2 className="w-3.5 h-3.5" />
                       <span>Mahal Portal</span>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveRole('vakeel')}
-                      className="py-2.5 px-2 bg-white hover:bg-gray-50 text-[#0D7C66] rounded-xl font-bold text-xs border border-[#0D7C66]/20 transition flex items-center justify-center gap-1.5 shadow-2xs"
-                    >
-                      <UserCheck className="w-3.5 h-3.5" />
-                      <span>Vakeel Portal</span>
                     </button>
                   </div>
                 </div>
@@ -1193,17 +1538,7 @@ function TazkuApp() {
                 <span>Calculator</span>
               </button>
 
-              {/* 4. Articles / Docs */}
-              <button 
-                type="button"
-                onClick={() => setActiveTab('articles')}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'articles' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                <FileText className="w-5 h-5" />
-                <span>Articles</span>
-              </button>
+
 
               {/* 5. Profile */}
               <button 
@@ -1268,7 +1603,7 @@ function TazkuApp() {
               id: 'rep_annual_01',
               caseId: 'case_summary',
               caseTitle: 'Official Community Mahallu Zakat & Audit Certificate',
-              donorId: 'u_raheem',
+              donorId: user ? user.uid : 'community_member',
               donorName: displayName,
               amount: 26000,
               amountUSD: 300,

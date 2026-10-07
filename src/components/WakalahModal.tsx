@@ -54,12 +54,14 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
 
     try {
       setIsProcessing(true);
-      const donorName = isAnonymous ? 'Anonymous Servant of Allah' : (profile?.displayName || user?.displayName || 'Raheem Panoly');
+      const donorName = isAnonymous 
+        ? 'Anonymous Servant of Allah' 
+        : (profile?.displayName || user?.displayName || (user?.email ? user.email.split('@')[0] : 'Community Donor'));
       
       const record = await recordDonation({
         caseId: `vakeel_${vakeel.id}`,
         caseTitle: `Entrusted to Vakeel: ${vakeel.name} (${vakeel.regNumber})`,
-        donorId: user ? user.uid : 'raheem_panoly',
+        donorId: user ? user.uid : 'community_donor',
         donorName,
         amount,
         amountUSD: Math.round(amount / 86.5),
