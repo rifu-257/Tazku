@@ -46,7 +46,7 @@ export const Header: React.FC<HeaderProps> = ({
       setIsSigningIn(true);
       await signInWithGoogle();
     } catch (err) {
-      console.error("Sign-in cancelled or failed", err);
+      console.warn("Sign-in cancelled or note:", err);
     } finally {
       setIsSigningIn(false);
     }

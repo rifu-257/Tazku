@@ -24,6 +24,8 @@ export interface LinkedBankAccount {
   bankName: string;
   accountNumber: string;
   ifsc: string;
+  accountHolderName?: string;
+  accountType?: string;
   linkedAt: string;
 }
 
@@ -32,6 +34,9 @@ export interface UserProfile {
   email: string;
   displayName: string;
   photoURL?: string;
+  phoneNumber?: string;
+  whatsappNumber?: string;
+  mahal?: string;
   createdAt: string;
   preferredCurrency: CurrencyCode;
   madhhab: Madhhab;
@@ -104,7 +109,7 @@ export interface DonationRecord {
   amount: number;
   amountUSD: number;
   currency: CurrencyCode;
-  zakatType: 'Zakat al-Mal' | 'Zakat al-Fitr' | 'Sadaqah Nafilah';
+  zakatType: 'Zakat al-Mal' | 'Zakat al-Fitr' | 'Sadaqah Nafilah' | 'Interest Purification / Takhallus';
   createdAt: string;
   receiptNumber: string;
   isAnonymous: boolean;
@@ -163,4 +168,52 @@ export interface NotificationItem {
   time: string;
   unread: boolean;
   type: 'disbursement' | 'approval' | 'announcement';
+}
+
+export interface FamilyMember {
+  id: string;
+  name: string;
+  relation: 'Self (Head)' | 'Spouse' | 'Son' | 'Daughter' | 'Mother' | 'Father' | 'Elderly Dependent' | 'Other';
+  age: number;
+  gender: 'Male' | 'Female';
+  maritalStatus: 'Married' | 'Unmarried' | 'Widowed' | 'Divorced';
+  occupation: string;
+  education?: string;
+}
+
+export interface HistoricalAidEntry {
+  id: string;
+  date: string;
+  category: string;
+  amount: number;
+  signatory: string;
+  receiptNumber: string;
+  purpose: string;
+}
+
+export interface MahalResident {
+  id: string; // e.g. MHL-084
+  householdId: string; // e.g. HH-301
+  fullName: string;
+  age: number;
+  gender: 'M' | 'F';
+  isHeadOfHousehold: boolean;
+  houseName: string;
+  houseNumber: string;
+  ward: string; // "Ward 1" | "Ward 2" | "Ward 3"
+  phone: string;
+  whatsapp: string;
+  address: string;
+  occupation: string;
+  education: string;
+  dateOfBirth?: string;
+  zakatClassification: 'Eligible for Zakat' | 'Active Contributor / Donor' | 'General Resident';
+  quranicCategory?: 'Al-Fuqara' | 'Al-Masakin' | 'Al-Gharimin' | 'General';
+  incomeBracket: string;
+  specialConsiderations?: string[];
+  familyMembers: FamilyMember[];
+  aidHistory: HistoricalAidEntry[];
+  verificationStatus: 'Verified by Trustee' | 'Pending Field Verification' | 'Annual Census Updated';
+  lastCensusDate: string;
+  notes?: string;
 }

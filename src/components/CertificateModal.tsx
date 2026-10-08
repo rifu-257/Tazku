@@ -88,7 +88,9 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               TAZKU COMMUNITY FOUNDATION • 100% DIRECT DISBURSEMENT
             </div>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-[#0F5132] tracking-tight">
-              Official Zakat Certificate & Tax Receipt
+              {record.zakatType === 'Interest Purification / Takhallus'
+                ? 'Official Interest Purification (Takhallus) Receipt'
+                : 'Official Zakat Certificate & Tax Receipt'}
             </h2>
             <div className="text-xs text-slate-500 font-medium">
               Receipt No: <span className="font-mono font-bold text-slate-800">{record.receiptNumber}</span>
@@ -113,11 +115,23 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
             </div>
 
             <p className="text-xs text-slate-600 max-w-md mx-auto leading-relaxed">
-              has faithfully fulfilled an obligation of{' '}
-              <strong className="text-emerald-900 font-bold underline decoration-amber-400">
-                {record.zakatType}
-              </strong>{' '}
-              in accordance with Islamic jurisprudence (Fiqh) standards.
+              {record.zakatType === 'Interest Purification / Takhallus' ? (
+                <>
+                  has completed the wealth purification of{' '}
+                  <strong className="text-amber-800 font-bold underline decoration-amber-400">
+                    Interest Purification / Takhallus
+                  </strong>{' '}
+                  disposing of non-permissible bank interest into public community welfare in accordance with Islamic jurisprudence (Fiqh) standards.
+                </>
+              ) : (
+                <>
+                  has faithfully fulfilled an obligation of{' '}
+                  <strong className="text-emerald-900 font-bold underline decoration-amber-400">
+                    {record.zakatType}
+                  </strong>{' '}
+                  in accordance with Islamic jurisprudence (Fiqh) standards.
+                </>
+              )}
             </p>
 
             {/* Big Amount Card */}
@@ -138,6 +152,12 @@ export const CertificateModal: React.FC<CertificateModalProps> = ({
               <span className="text-slate-500">Beneficiary Allocation: </span>
               <strong className="font-bold text-slate-900">{record.caseTitle}</strong>
             </div>
+
+            {record.notes && (
+              <div className="pt-1 text-[11px] text-slate-500 italic max-w-md mx-auto">
+                {record.notes}
+              </div>
+            )}
           </div>
 
           {/* Bottom Seal & Verification Details */}

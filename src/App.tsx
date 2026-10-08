@@ -28,9 +28,13 @@ import {
   Coins,
   Building2,
   UserCheck,
-  CreditCard
+  CreditCard,
+  Landmark,
+  Edit3,
+  Phone
 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { EditProfileModal } from './components/EditProfileModal';
 import { SplashScreen } from './components/SplashScreen';
 import { OnboardingScreen } from './components/OnboardingScreen';
 import { RoleSelectionScreen } from './components/RoleSelectionScreen';
@@ -52,13 +56,17 @@ import { AuthScreen } from './components/AuthScreen';
 import { AccountActionScreen } from './components/AccountActionScreen';
 import { FAQSupportModal } from './components/FAQSupportModal';
 import { WakalahModal } from './components/WakalahModal';
+import { InterestPurificationModule } from './components/InterestPurificationModule';
+import { InterestScreen } from './components/InterestScreen';
+import { UnlinkedBankAccountModal } from './components/UnlinkedBankAccountModal';
 import { 
   ClaimantItem, 
   DonationRecord, 
   MessageContact, 
-  NotificationItem 
+  NotificationItem,
+  LinkedBankAccount
 } from './types';
-import { db, auth, submitAidApplication, saveUserBankAccount, unlinkUserBankAccount, saveUserRole, getUserBankAccount } from './lib/firebase';
+import { db, auth, submitAidApplication, saveUserBankAccount, unlinkUserBankAccount, saveUserRole, getUserBankAccount, recordDonation } from './lib/firebase';
 
 function TazkuApp() {
   const { user, profile, signInWithGoogle, signOut, refreshProfile, loading } = useAuth();
@@ -70,7 +78,7 @@ function TazkuApp() {
   const [mainScreen, setMainScreen] = useState<'role_select' | 'account_action' | 'auth' | 'link_bank' | 'main' | 'onboarding'>('role_select');
   const [selectedRoleType, setSelectedRoleType] = useState<'personal' | 'mahal'>('personal');
   const [authInitialView, setAuthInitialView] = useState<'login' | 'signup'>('login');
-  const [linkedBankAccount, setLinkedBankAccount] = useState<{ bankName: string; accountNumber: string; ifsc: string } | null>(null);
+  const [linkedBankAccount, setLinkedBankAccount] = useState<LinkedBankAccount | null>(null);
 
   // Active Role State: 'donor' | 'mahal' | 'vakeel'
   const [activeRole, setActiveRole] = useState<'donor' | 'mahal' | 'vakeel'>(() => {
@@ -85,7 +93,7 @@ function TazkuApp() {
   // Bottom Navigation & Tab State:
   // 5 tabs requested: Home, Tracker, Calculator, Articles/Docs, Profile
   // Plus special view: 'claimants' (Screen 2) and 'application'
-  const [activeTab, setActiveTab] = useState<'home' | 'tracker' | 'calculator' | 'articles' | 'profile' | 'claimants' | 'application' | 'messages'>('home');
+  const [activeTab, setActiveTab] = useState<'home' | 'tracker' | 'calculator' | 'interest' | 'articles' | 'profile' | 'claimants' | 'application' | 'messages'>('home');
   const [applicationSubView, setApplicationSubView] = useState<'form' | 'status'>('form');
 
   // Modals & Overlays State
@@ -94,7 +102,145 @@ function TazkuApp() {
   const [isStatsOpen, setIsStatsOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [isUnlinkedBankModalOpen, setIsUnlinkedBankModalOpen] = useState(false);
   const [selectedReceipt, setSelectedReceipt] = useState<DonationRecord | null>(null);
+
+  // Recent Activity Feed State (supports standard donations and Interest Purification / Takhallus)
+  const [recentActivities, setRecentActivities] = useState<Array<{
+    id?: string;
+    caseId?: string;
+    name: string;
+    amount: string;
+    date: string;
+    status: string;
+    receiptNumber: string;
+    zakatType?: 'Zakat al-Mal' | 'Zakat al-Fitr' | 'Sadaqah Nafilah' | 'Interest Purification / Takhallus';
+    createdAt?: string;
+    notes?: string;
+  }>>(() => {
+    const saved = typeof window !== 'undefined' ? localStorage.getItem('tazku_recent_activities') : null;
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {}
+    }
+    return [
+      { 
+        name: 'Education Aid - Ward 4', 
+        amount: '₹5,000', 
+        date: 'Yesterday', 
+        status: 'Completed',
+        receiptNumber: 'TZK-2026-918230',
+        zakatType: 'Zakat al-Mal',
+      },
+      { 
+        name: 'Debt Relief - Case #84', 
+        amount: '₹12,000', 
+        date: '3 days ago', 
+        status: 'Verified',
+        receiptNumber: 'TZK-2026-831490',
+        zakatType: 'Zakat al-Mal',
+      },
+      { 
+        name: 'Emergency Food - Bilal Masjid', 
+        amount: '₹9,000', 
+        date: 'Oct 02', 
+        status: 'Completed',
+        receiptNumber: 'TZK-2026-728190',
+        zakatType: 'Zakat al-Mal',
+      }
+    ];
+  });
+
+  // Handle Interest Purification disbursement
+  const handleDisburseInterest = async (purificationData: {
+    amount: number;
+    destinationName: string;
+    destinationCategory: string;
+    receiptNumber: string;
+    banksPurified: string[];
+  }) => {
+    const newActivity = {
+      id: `pur_${Date.now()}`,
+      caseId: 'public_welfare_takhallus',
+      name: 'Interest Purification / Takhallus',
+      amount: `₹${purificationData.amount.toLocaleString('en-IN')}`,
+      date: 'Today',
+      status: 'Completed',
+      receiptNumber: purificationData.receiptNumber,
+      zakatType: 'Interest Purification / Takhallus' as const,
+      createdAt: new Date().toISOString(),
+      notes: `Purified non-permissible interest from ${purificationData.banksPurified.join(', ')} allocated to ${purificationData.destinationName} via Takhallus without expectation of spiritual reward.`
+    };
+
+    setRecentActivities(prev => {
+      const filtered = prev.filter(a => a.receiptNumber !== purificationData.receiptNumber);
+      const updated = [newActivity, ...filtered];
+      try {
+        localStorage.setItem('tazku_recent_activities', JSON.stringify(updated));
+      } catch {}
+      return updated;
+    });
+
+    if (user?.uid) {
+      try {
+        await recordDonation({
+          caseId: 'public_welfare_takhallus',
+          caseTitle: `Interest Purification - ${purificationData.destinationName}`,
+          donorId: user.uid,
+          donorName: displayName,
+          amount: purificationData.amount,
+          amountUSD: Math.round(purificationData.amount / 86.5),
+          currency: 'INR',
+          zakatType: 'Interest Purification / Takhallus',
+          isAnonymous: false,
+          notes: newActivity.notes
+        });
+      } catch (e) {
+        console.error("Failed to record interest purification to Firestore:", e);
+      }
+    }
+  };
+
+  const handleViewPurificationReceipt = (receiptNumber: string) => {
+    const found = recentActivities.find(a => a.receiptNumber === receiptNumber);
+    if (found) {
+      setSelectedReceipt({
+        id: found.id || `rec_pur_${Date.now()}`,
+        caseId: found.caseId || 'public_welfare_takhallus',
+        caseTitle: found.name,
+        donorId: user ? user.uid : 'community_member',
+        donorName: displayName,
+        amount: parseInt(found.amount.replace(/[^0-9]/g, '')) || 1855,
+        amountUSD: Math.round((parseInt(found.amount.replace(/[^0-9]/g, '')) || 1855) / 86.5),
+        currency: 'INR',
+        zakatType: 'Interest Purification / Takhallus',
+        createdAt: found.createdAt || new Date().toISOString(),
+        receiptNumber: found.receiptNumber,
+        isAnonymous: false,
+        notes: found.notes || 'Purified non-permissible interest via Takhallus into non-Zakat community welfare.'
+      });
+      setIsCertificateOpen(true);
+    } else {
+      setSelectedReceipt({
+        id: `rec_pur_${Date.now()}`,
+        caseId: 'public_welfare_takhallus',
+        caseTitle: 'Interest Purification / Takhallus',
+        donorId: user ? user.uid : 'community_member',
+        donorName: displayName,
+        amount: 1855,
+        amountUSD: 21,
+        currency: 'INR',
+        zakatType: 'Interest Purification / Takhallus',
+        createdAt: new Date().toISOString(),
+        receiptNumber: receiptNumber,
+        isAnonymous: false,
+        notes: 'Purified non-permissible interest via Takhallus into non-Zakat community welfare.'
+      });
+      setIsCertificateOpen(true);
+    }
+  };
   const [activeChatContact, setActiveChatContact] = useState<MessageContact | null>(null);
   const [roleLoginType, setRoleLoginType] = useState<'mahal' | 'vakeel' | null>(null);
   const [faqSupportConfig, setFaqSupportConfig] = useState<{ isOpen: boolean; tab: 'faq' | 'support' }>({ isOpen: false, tab: 'faq' });
@@ -318,6 +464,15 @@ function TazkuApp() {
     }
   };
 
+  // Handler for opening Interest option - prompts user if bank account is not linked
+  const handleOpenInterest = () => {
+    if (!linkedBankAccount || !linkedBankAccount.accountNumber) {
+      setIsUnlinkedBankModalOpen(true);
+    } else {
+      setActiveTab('interest');
+    }
+  };
+
   // 1. Restore persisted linked bank account strictly for the current authenticated user
   useEffect(() => {
     if (user?.uid) {
@@ -353,10 +508,31 @@ function TazkuApp() {
       // On boot restore: if mahal or vakeel, go directly to portal without bank prompt.
       if (savedRole === 'mahal' || savedRole === 'vakeel') {
         setMainScreen('main');
-      } else if (profile?.linkedBankAccount) {
+      } else if (profile?.linkedBankAccount?.accountNumber) {
         setMainScreen('main');
       } else {
-        setMainScreen('link_bank');
+        const cached = typeof window !== 'undefined' ? localStorage.getItem(`tazku_linked_bank_${user.uid}`) : null;
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            if (parsed?.accountNumber) {
+              setLinkedBankAccount(parsed);
+              setMainScreen('main');
+              return;
+            }
+          } catch {}
+        }
+
+        getUserBankAccount(user.uid).then((savedBank) => {
+          if (savedBank?.accountNumber) {
+            setLinkedBankAccount(savedBank);
+            setMainScreen('main');
+          } else {
+            setMainScreen('link_bank');
+          }
+        }).catch(() => {
+          setMainScreen('link_bank');
+        });
       }
     }
   }, [user, profile, hasExplicitlyLoggedOut, initialSessionRestored]);
@@ -373,6 +549,23 @@ function TazkuApp() {
         }
       }
     }
+  };
+
+  // Centralized Sign Out handler: transition immediately to the Get Started Screen (onboarding)
+  const handleSignOut = async () => {
+    setHasExplicitlyLoggedOut(true);
+    try {
+      await signOut();
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      localStorage.removeItem('tazku_active_role');
+      localStorage.removeItem('tazku_entered_name');
+    } catch {}
+    setActiveRole('donor');
+    setMainScreen('onboarding');
+    setActiveTab('home');
   };
 
   const unreadNotificationsCount = notifications.filter(n => n.unread).length;
@@ -445,22 +638,46 @@ function TazkuApp() {
               } catch {}
 
               const currentUid = user?.uid || auth.currentUser?.uid;
+              let hasLinkedAccount = false;
               if (currentUid) {
                 saveUserRole(currentUid, targetRole).catch(() => {});
                 try {
                   const savedBank = await getUserBankAccount(currentUid);
-                  if (savedBank) {
+                  if (savedBank && savedBank.accountNumber) {
                     setLinkedBankAccount(savedBank);
+                    hasLinkedAccount = true;
                   }
                 } catch {}
+
+                if (!hasLinkedAccount) {
+                  const cached = typeof window !== 'undefined' ? localStorage.getItem(`tazku_linked_bank_${currentUid}`) : null;
+                  if (cached) {
+                    try {
+                      const parsed = JSON.parse(cached);
+                      if (parsed?.accountNumber) {
+                        setLinkedBankAccount(parsed);
+                        hasLinkedAccount = true;
+                      }
+                    } catch {}
+                  }
+                }
+              }
+
+              if (!hasLinkedAccount && profile?.linkedBankAccount?.accountNumber) {
+                setLinkedBankAccount(profile.linkedBankAccount);
+                hasLinkedAccount = true;
               }
 
               // After mahal login, directly open the Mahallu Portal (no link bank account screen)
+              // If the user has ALREADY linked the account, DO NOT show the link your bank account page!
               if (targetRole === 'mahal') {
                 setMainScreen('main');
                 setActiveTab('home');
+              } else if (hasLinkedAccount) {
+                setMainScreen('main');
+                setActiveTab('home');
               } else {
-                // Show link bank account page to personal donor logins
+                // Show link bank account page only if user has no account linked
                 setMainScreen('link_bank');
               }
             }}
@@ -487,10 +704,13 @@ function TazkuApp() {
               setActiveTab('home');
             }}
             onLinkSuccess={async (bankDetails) => {
-              const linkedData = {
+              const linkedData: LinkedBankAccount = {
                 bankName: bankDetails.bankName,
                 accountNumber: bankDetails.accountNumber,
                 ifsc: bankDetails.ifsc,
+                accountHolderName: bankDetails.accountHolderName || displayName,
+                accountType: bankDetails.accountType || 'Savings Account',
+                linkedAt: new Date().toISOString(),
               };
               setLinkedBankAccount(linkedData);
               const currentUid = user?.uid || auth.currentUser?.uid;
@@ -562,8 +782,7 @@ function TazkuApp() {
           /* ========================================================================= */
           <MahalluPortalScreen
             onBackToHome={() => {
-              setActiveRole('donor');
-              setMainScreen('role_select');
+              handleSignOut();
             }}
             onSwitchRole={(newRole) => {
               if (newRole === 'vakeel') {
@@ -580,8 +799,7 @@ function TazkuApp() {
           /* ========================================================================= */
           <VakeelPortalScreen
             onBackToHome={() => {
-              setActiveRole('donor');
-              setMainScreen('role_select');
+              handleSignOut();
             }}
             onSwitchRole={(newRole) => {
               setActiveRole(newRole);
@@ -612,9 +830,7 @@ function TazkuApp() {
                         )}
                       </div>
                       <div>
-                        <span className="text-xs text-teal-100 uppercase tracking-wider block">
-                          As-salamu Alaykum
-                        </span>
+                       
                         <h1 className="text-lg font-bold flex items-center gap-1.5">
                           <span>{displayName}</span>
                           <ChevronRight className="w-4 h-4 text-teal-200" />
@@ -626,20 +842,7 @@ function TazkuApp() {
                       {/* Logout Button */}
                       <button 
                         type="button"
-                        onClick={async () => {
-                          setHasExplicitlyLoggedOut(true);
-                          try {
-                            await signOut();
-                          } catch (e) {
-                            console.error(e);
-                          }
-                          try {
-                            localStorage.removeItem('tazku_active_role');
-                            localStorage.removeItem('tazku_entered_name');
-                          } catch {}
-                          setActiveRole('donor');
-                          setMainScreen('role_select');
-                        }}
+                        onClick={handleSignOut}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition shadow-2xs cursor-pointer active:scale-95"
                         title="Logout"
                         aria-label="Logout"
@@ -803,6 +1006,37 @@ function TazkuApp() {
                       </div>
                     </button>
 
+                    {/* 3. Interest (Riba) Purification */}
+                    <button
+                      type="button"
+                      onClick={handleOpenInterest}
+                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                    >
+                      <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
+                        <div className="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-600 text-amber-700 group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                          <Landmark className="w-5 h-5 transition-transform duration-200" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                              Interest (Riba) Purification
+                            </h3>
+                            {!linkedBankAccount && (
+                              <span className="text-[9px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded-full border border-amber-200 shrink-0">
+                                Link Bank
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                            Takhallus ledger & statement interest isolation
+                          </p>
+                        </div>
+                      </div>
+                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                        <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+                      </div>
+                    </button>
+
                     {/* 4. FAQ */}
                     <button
                       type="button"
@@ -842,89 +1076,75 @@ function TazkuApp() {
                     </button>
                   </div>
                   <div className="space-y-2.5">
-                    {[
-                      { 
-                        name: 'Education Aid - Ward 4', 
-                        amount: '₹5,000', 
-                        date: 'Yesterday', 
-                        status: 'Completed',
-                        receiptNumber: 'TZK-2026-918230'
-                      },
-                      { 
-                        name: 'Debt Relief - Case #84', 
-                        amount: '₹12,000', 
-                        date: '3 days ago', 
-                        status: 'Verified',
-                        receiptNumber: 'TZK-2026-831490'
-                      },
-                      { 
-                        name: 'Emergency Food - Bilal Masjid', 
-                        amount: '₹9,000', 
-                        date: 'Oct 02', 
-                        status: 'Completed',
-                        receiptNumber: 'TZK-2026-728190'
-                      }
-                    ].map((act, i) => (
-                      <div 
-                        key={i} 
-                        onClick={() => {
-                          setSelectedReceipt({
-                            id: `rec_${i}`,
-                            caseId: `case_${i}`,
-                            caseTitle: act.name,
-                            donorId: user ? user.uid : 'community_member',
-                            donorName: displayName,
-                            amount: parseInt(act.amount.replace(/[^0-9]/g, '')),
-                            amountUSD: Math.round(parseInt(act.amount.replace(/[^0-9]/g, '')) / 86.5),
-                            currency: 'INR',
-                            zakatType: 'Zakat al-Mal',
-                            createdAt: new Date().toISOString(),
-                            receiptNumber: act.receiptNumber,
-                            isAnonymous: false
-                          });
-                          setIsCertificateOpen(true);
-                        }}
-                        className="flex items-center justify-between p-3.5 bg-white rounded-2xl border border-gray-100 shadow-xs hover:border-[#0D7C66]/30 cursor-pointer transition"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-[#E8F6F3] flex items-center justify-center text-[#0D7C66]">
-                            <CheckCircle2 className="w-5 h-5" />
+                    {recentActivities.map((act, i) => {
+                      const isPurification = act.zakatType === 'Interest Purification / Takhallus' || act.name.includes('Purification');
+                      const parsedAmount = parseInt(act.amount.replace(/[^0-9]/g, '')) || 0;
+                      return (
+                        <div 
+                          key={act.receiptNumber || i} 
+                          onClick={() => {
+                            setSelectedReceipt({
+                              id: act.id || `rec_${i}`,
+                              caseId: act.caseId || `case_${i}`,
+                              caseTitle: act.name,
+                              donorId: user ? user.uid : 'community_member',
+                              donorName: displayName,
+                              amount: parsedAmount,
+                              amountUSD: Math.round(parsedAmount / 86.5),
+                              currency: 'INR',
+                              zakatType: act.zakatType || 'Zakat al-Mal',
+                              createdAt: act.createdAt || new Date().toISOString(),
+                              receiptNumber: act.receiptNumber,
+                              isAnonymous: false,
+                              notes: act.notes
+                            });
+                            setIsCertificateOpen(true);
+                          }}
+                          className={`flex items-center justify-between p-3.5 bg-white rounded-2xl border shadow-xs hover:border-[#0D7C66]/30 cursor-pointer transition ${
+                            isPurification 
+                              ? 'border-amber-200/90 bg-linear-to-r from-white to-amber-50/40 hover:border-amber-400' 
+                              : 'border-gray-100'
+                          }`}
+                        >
+                          <div className="flex items-center gap-3 min-w-0">
+                            <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                              isPurification ? 'bg-amber-100 text-amber-700' : 'bg-[#E8F6F3] text-[#0D7C66]'
+                            }`}>
+                              {isPurification ? (
+                                <Sparkles className="w-5 h-5 text-amber-600" />
+                              ) : (
+                                <CheckCircle2 className="w-5 h-5" />
+                              )}
+                            </div>
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <span className="text-xs font-bold text-gray-900 truncate">{act.name}</span>
+                                {isPurification && (
+                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-amber-100 text-amber-800 shrink-0">
+                                    Takhallus
+                                  </span>
+                                )}
+                              </div>
+                              <div className="text-[10px] text-gray-400 truncate">
+                                {act.date} • {act.status}
+                              </div>
+                            </div>
                           </div>
-                          <div>
-                            <div className="text-xs font-bold text-gray-900">{act.name}</div>
-                            <div className="text-[10px] text-gray-400">{act.date} • {act.status}</div>
+                          <div className="text-right shrink-0">
+                            <span className={`font-mono font-bold text-xs block ${
+                              isPurification ? 'text-amber-700' : 'text-[#0D7C66]'
+                            }`}>
+                              {act.amount}
+                            </span>
+                            <span className="text-[9px] text-gray-400">View Receipt</span>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <span className="font-mono font-bold text-xs text-[#0D7C66] block">{act.amount}</span>
-                          <span className="text-[9px] text-gray-400">View Receipt</span>
-                        </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
-                {/* Educational Blog Card */}
-                <div className="px-5 mt-6">
-                  <div className="bg-[#E8F6F3] rounded-2xl p-4 border border-[#0D7C66]/20 shadow-xs">
-                    <span className="text-[10px] bg-[#0D7C66] text-white px-2 py-0.5 rounded-full font-bold uppercase">
-                      Guide
-                    </span>
-                    <h3 className="text-sm font-bold text-gray-900 mt-2">
-                      Understanding Zakat: A Comprehensive Guide
-                    </h3>
-                    <p className="text-xs text-gray-600 mt-1 line-clamp-2">
-                      Learn about Nisab thresholds, Hawl timelines, and the eight Quranic recipient categories.
-                    </p>
-                    <button 
-                      type="button"
-                      onClick={() => setIsGuideOpen(true)}
-                      className="text-xs font-bold text-[#0D7C66] mt-3 inline-flex items-center gap-1 hover:underline"
-                    >
-                      Read Guide <ChevronRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
-                </div>
+                
 
                 {/* Quick Links Section */}
                 <div className="px-5 mt-6 mb-4">
@@ -987,7 +1207,7 @@ function TazkuApp() {
                       className="w-full py-2.5 px-4 rounded-full bg-[#E8F6F3] hover:bg-[#d8efe9] text-[#0D7C66] border border-[#0D7C66]/20 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs"
                     >
                       <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      <span>Replay Tazku. Cinematic Splash Screen</span>
+                      <span>Replay Tazku Screen</span>
                     </button>
                   </div>
                 </div>
@@ -1097,26 +1317,95 @@ function TazkuApp() {
                   </p>
                 </div>
 
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center gap-3">
-                  <div className="w-14 h-14 rounded-full bg-[#E8F6F3] text-[#0D7C66] font-bold text-xl flex items-center justify-center border border-[#0D7C66]/20">
-                    {user?.photoURL ? (
-                      <img src={user.photoURL} alt={displayName} className="w-full h-full rounded-full object-cover" />
-                    ) : (
-                      <span>{displayInitials}</span>
-                    )}
+                {/* Profile Header Card with Quick Edit */}
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-14 h-14 rounded-full bg-[#E8F6F3] text-[#0D7C66] font-bold text-xl flex items-center justify-center border border-[#0D7C66]/20 shrink-0">
+                      {profile?.photoURL || user?.photoURL ? (
+                        <img 
+                          src={profile?.photoURL || user?.photoURL || ''} 
+                          alt={displayName} 
+                          className="w-full h-full rounded-full object-cover" 
+                        />
+                      ) : (
+                        <span>{displayInitials}</span>
+                      )}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-base text-gray-900 leading-snug">{displayName}</h3>
+                      <span className="text-xs text-gray-500">{user?.email || 'Contributor ID: #TK-88190'}</span>
+                      <span className="text-[10px] bg-emerald-50 text-[#0D7C66] font-bold px-2 py-0.5 rounded-full border border-emerald-200 block w-fit mt-1">
+                        Verified Mahallu Member
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-base text-gray-900">{displayName}</h3>
-                    <span className="text-xs text-gray-500">{user?.email || 'Contributor ID: #TK-88190'}</span>
-                    <span className="text-[10px] bg-emerald-50 text-[#0D7C66] font-bold px-2 py-0.5 rounded-full border border-emerald-200 block w-fit mt-1">
-                      Verified Mahallu Member
-                    </span>
-                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsEditProfileOpen(true)}
+                    className="flex items-center gap-1.5 px-3 py-2 bg-[#E8F6F3] hover:bg-[#d3ede5] text-[#0D7C66] rounded-xl font-bold text-xs transition border border-[#0D7C66]/20 cursor-pointer shrink-0"
+                    title="Edit Profile Details"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    <span>Edit</span>
+                  </button>
                 </div>
 
-                <div className="bg-[#F8FAF9] p-3.5 rounded-2xl border border-gray-200 text-xs text-gray-700 space-y-1">
-                  <div className="font-bold text-gray-900">Registered Mahallu:</div>
-                  <div className="text-[11px] text-[#0D7C66] font-semibold">Juma Masjid Central Ward #3 (Audited)</div>
+                {/* Personal Information & Census Card */}
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
+                      <User className="w-4 h-4 text-[#0D7C66]" />
+                      Personal Information & Census
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setIsEditProfileOpen(true)}
+                      className="text-[11px] font-bold text-[#0D7C66] hover:underline flex items-center gap-1 cursor-pointer"
+                    >
+                      <Edit3 className="w-3 h-3" />
+                      <span>Edit Details</span>
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 text-xs pt-1">
+                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                      <span className="text-[10px] text-gray-400 block font-semibold">Registered Mahallu</span>
+                      <span className="text-xs font-bold text-gray-900 block truncate">
+                        {profile?.mahal || 'Juma Masjid Central Ward #3 (Audited)'}
+                      </span>
+                    </div>
+
+                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                      <span className="text-[10px] text-gray-400 block font-semibold">Fiqh Madhhab</span>
+                      <span className="text-xs font-bold text-[#0D7C66] block">
+                        {profile?.madhhab ? `${profile.madhhab} School` : 'Shafii School'}
+                      </span>
+                    </div>
+
+                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                      <span className="text-[10px] text-gray-400 block font-semibold">Phone / WhatsApp</span>
+                      <span className="text-xs font-bold text-gray-800 block truncate">
+                        {profile?.phoneNumber || profile?.whatsappNumber || '+91 98471 •••••'}
+                      </span>
+                    </div>
+
+                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                      <span className="text-[10px] text-gray-400 block font-semibold">Preferred Currency</span>
+                      <span className="text-xs font-bold text-gray-800 block">
+                        {profile?.preferredCurrency || 'INR'} (₹)
+                      </span>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsEditProfileOpen(true)}
+                    className="w-full mt-1 py-2 text-xs font-bold text-[#0D7C66] bg-[#E8F6F3] hover:bg-[#d8efe9] rounded-xl border border-[#0D7C66]/20 flex items-center justify-center gap-1.5 transition cursor-pointer"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    <span>Edit Profile Details</span>
+                  </button>
                 </div>
 
                 {/* Linked Bank Account Card with Persistent Status and Unlink Option */}
@@ -1170,21 +1459,7 @@ function TazkuApp() {
                   </div>
                 )}
 
-                <div className="bg-[#E8F6F3] p-3 rounded-2xl border border-[#0D7C66]/20 space-y-2">
-                  <span className="text-[10px] font-bold text-[#0D7C66] uppercase tracking-wider block">
-                    Institutional Role Portals:
-                  </span>
-                  <div className="grid grid-cols-1 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setActiveRole('mahal')}
-                      className="py-2.5 px-2 bg-white hover:bg-gray-50 text-[#0D7C66] rounded-xl font-bold text-xs border border-[#0D7C66]/20 transition flex items-center justify-center gap-1.5 shadow-2xs"
-                    >
-                      <Building2 className="w-3.5 h-3.5" />
-                      <span>Mahal Portal</span>
-                    </button>
-                  </div>
-                </div>
+                
 
                 <div className="space-y-2 pt-2">
                   <button
@@ -1210,7 +1485,7 @@ function TazkuApp() {
                         try {
                           await signInWithGoogle();
                         } catch (e) {
-                          console.error(e);
+                          console.warn("Google sign in note:", e);
                         }
                       }}
                       className="w-full py-3 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition"
@@ -1220,10 +1495,8 @@ function TazkuApp() {
                   ) : (
                     <button
                       type="button"
-                      onClick={async () => {
-                        await signOut();
-                      }}
-                      className="w-full py-2.5 bg-red-50 hover:bg-red-100 text-red-700 rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5"
+                      onClick={handleSignOut}
+                      className="w-full py-2.5 bg-red-50 hover:bg-red-100 text-red-700 rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       <span>Sign Out</span>
@@ -1498,8 +1771,20 @@ function TazkuApp() {
               </div>
             )}
 
+            {/* ===================== VIEW 8: INTEREST (RIBA) PURIFICATION ===================== */}
+            {activeTab === 'interest' && (
+              <InterestScreen
+                linkedBank={linkedBankAccount}
+                onDisburseInterest={handleDisburseInterest}
+                onViewReceipt={handleViewPurificationReceipt}
+                recentActivities={recentActivities}
+                onBackToHome={() => setActiveTab('home')}
+                onLinkBank={() => setMainScreen('link_bank')}
+              />
+            )}
+
             {/* ========================================================================= */}
-            {/* 5. STICKY BOTTOM NAVIGATION BAR (Home, Tracker, Calculator, Articles, Profile) */}
+            {/* 5. STICKY BOTTOM NAVIGATION BAR (Home, Tracker, Calculator, Interest, Profile) */}
             {/* ========================================================================= */}
             <nav className="fixed bottom-0 max-w-md w-full h-16 bg-white border-t border-[#E2ECE9] flex items-center justify-around px-2 z-40 shadow-lg">
               {/* 1. Home */}
@@ -1538,7 +1823,17 @@ function TazkuApp() {
                 <span>Calculator</span>
               </button>
 
-
+              {/* 4. Interest */}
+              <button 
+                type="button"
+                onClick={handleOpenInterest}
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
+                  activeTab === 'interest' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                }`}
+              >
+                <Landmark className="w-5 h-5" />
+                <span>Interest</span>
+              </button>
 
               {/* 5. Profile */}
               <button 
@@ -1659,6 +1954,31 @@ function TazkuApp() {
             setSelectedVakeelForWakalah(null);
             setSelectedReceipt(receipt);
             setIsCertificateOpen(true);
+          }}
+        />
+
+        {/* Edit Profile Details Modal */}
+        <EditProfileModal
+          isOpen={isEditProfileOpen}
+          onClose={() => setIsEditProfileOpen(false)}
+          onSaveSuccess={(newName) => {
+            if (newName) {
+              setCustomEnteredName(newName);
+            }
+          }}
+        />
+
+        {/* Unlinked Bank Account Notification Modal */}
+        <UnlinkedBankAccountModal
+          isOpen={isUnlinkedBankModalOpen}
+          onClose={() => setIsUnlinkedBankModalOpen(false)}
+          onLinkBank={() => {
+            setIsUnlinkedBankModalOpen(false);
+            setMainScreen('link_bank');
+          }}
+          onContinueToInterest={() => {
+            setIsUnlinkedBankModalOpen(false);
+            setActiveTab('interest');
           }}
         />
 

@@ -71,14 +71,7 @@ export const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({
                 <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   For Mahallu Committee Trustees, Mosque Imams & Ward Administrators.
                 </p>
-                <div className="mt-3 flex items-center gap-3 text-[11px] text-gray-600 font-semibold flex-wrap">
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0D7C66]" /> Zakat Applications
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0D7C66]" /> Donors & Claimants
-                  </span>
-                </div>
+                
               </div>
               <div className="self-center">
                 <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-[#0D7C66] group-hover:text-white group-hover:border-[#0D7C66] transition">
@@ -110,14 +103,7 @@ export const RoleSelectionScreen: React.FC<RoleSelectionScreenProps> = ({
                 <p className="text-xs text-gray-500 mt-1 leading-relaxed">
                   For Individual Donors, Wealth Trackers & Community Zakat Payers.
                 </p>
-                <div className="mt-3 flex items-center gap-3 text-[11px] text-gray-600 font-semibold flex-wrap">
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0D7C66]" /> Donate Directly
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-[#0D7C66]" /> Link Bank Account
-                  </span>
-                </div>
+                
               </div>
               <div className="self-center">
                 <div className="w-8 h-8 rounded-full bg-white border border-gray-200 flex items-center justify-center text-gray-400 group-hover:bg-[#0D7C66] group-hover:text-white group-hover:border-[#0D7C66] transition">

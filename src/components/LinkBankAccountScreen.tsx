@@ -12,10 +12,22 @@ import {
 
 interface LinkBankAccountScreenProps {
   onSkip: () => void;
-  onLinkSuccess: (bankDetails: { bankName: string; accountNumber: string; ifsc: string }) => void;
+  onLinkSuccess: (bankDetails: { 
+    bankName: string; 
+    accountNumber: string; 
+    ifsc: string;
+    accountHolderName?: string;
+    accountType?: string;
+  }) => void;
   userName?: string;
   roleType?: 'personal' | 'mahal';
-  existingBank?: { bankName: string; accountNumber: string; ifsc: string } | null;
+  existingBank?: { 
+    bankName: string; 
+    accountNumber: string; 
+    ifsc: string;
+    accountHolderName?: string;
+    accountType?: string;
+  } | null;
 }
 
 const POPULAR_BANKS = [
@@ -47,6 +59,8 @@ export const LinkBankAccountScreen: React.FC<LinkBankAccountScreenProps> = ({
     if (!existingBank) return '';
     return POPULAR_BANKS.includes(existingBank.bankName) ? '' : existingBank.bankName;
   });
+  const [accountHolderName, setAccountHolderName] = useState(existingBank?.accountHolderName || userName);
+  const [accountType, setAccountType] = useState(existingBank?.accountType || 'Savings Account');
   const [accountNumber, setAccountNumber] = useState(existingBank?.accountNumber || '');
   const [confirmAccountNumber, setConfirmAccountNumber] = useState(existingBank?.accountNumber || '');
   const [ifscCode, setIfscCode] = useState(existingBank?.ifsc || '');
@@ -62,11 +76,13 @@ export const LinkBankAccountScreen: React.FC<LinkBankAccountScreenProps> = ({
         setSelectedBank('Other Bank');
         setCustomBankName(existingBank.bankName);
       }
+      setAccountHolderName(existingBank.accountHolderName || userName);
+      setAccountType(existingBank.accountType || 'Savings Account');
       setAccountNumber(existingBank.accountNumber || '');
       setConfirmAccountNumber(existingBank.accountNumber || '');
       setIfscCode(existingBank.ifsc || '');
     }
-  }, [existingBank]);
+  }, [existingBank, userName]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,6 +110,8 @@ export const LinkBankAccountScreen: React.FC<LinkBankAccountScreenProps> = ({
         bankName: activeBankName,
         accountNumber: accountNumber.trim(),
         ifsc: ifscCode.trim().toUpperCase() || 'SBIN0001234',
+        accountHolderName: accountHolderName.trim() || userName,
+        accountType: accountType,
       });
     }, 700);
   };
@@ -212,7 +230,52 @@ export const LinkBankAccountScreen: React.FC<LinkBankAccountScreenProps> = ({
             </div>
           )}
 
-          {/* 2. Account Number */}
+          {/* 2. Account Holder Name */}
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1">
+              Account Holder Name
+            </label>
+            <input
+              type="text"
+              value={accountHolderName}
+              onChange={(e) => setAccountHolderName(e.target.value)}
+              placeholder="e.g. Asma Binte Rashid"
+              className="w-full px-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-semibold text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+            />
+          </div>
+
+          {/* 3. Account Type */}
+          <div>
+            <label className="block text-xs font-bold text-gray-700 mb-1">
+              Account Type
+            </label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setAccountType('Savings Account')}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition border cursor-pointer ${
+                  accountType === 'Savings Account'
+                    ? 'bg-[#E8F6F3] text-[#0D7C66] border-[#0D7C66]'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                Savings Account
+              </button>
+              <button
+                type="button"
+                onClick={() => setAccountType('Current Account')}
+                className={`py-2.5 px-3 rounded-xl text-xs font-bold transition border cursor-pointer ${
+                  accountType === 'Current Account'
+                    ? 'bg-[#E8F6F3] text-[#0D7C66] border-[#0D7C66]'
+                    : 'bg-white text-gray-600 border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                Current Account
+              </button>
+            </div>
+          </div>
+
+          {/* 4. Account Number */}
           <div>
             <label className="block text-xs font-bold text-gray-700 mb-1">
               Account Number
@@ -256,11 +319,7 @@ export const LinkBankAccountScreen: React.FC<LinkBankAccountScreenProps> = ({
             />
           </div>
 
-          {/* Security Assurance */}
-          <div className="p-3 bg-[#F8FAF9] rounded-2xl border border-gray-100 flex items-center gap-2.5 text-[11px] text-gray-600">
-            <Lock className="w-4 h-4 text-[#0D7C66] shrink-0" />
-            <span>256-bit bank-grade encryption. Your funds are never moved without your explicit confirmation.</span>
-          </div>
+      
 
           {/* Submit Button */}
           <button

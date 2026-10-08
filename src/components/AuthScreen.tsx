@@ -160,7 +160,11 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       const cleanName = fullName.trim();
       const cleanEmail = signupEmail.trim();
       try {
-        await registerWithEmail(cleanEmail, signupPassword, cleanName, 'donor');
+        await registerWithEmail(cleanEmail, signupPassword, cleanName, 'donor', {
+          phoneNumber: phoneNumber.trim(),
+          whatsappNumber: whatsappNumber.trim() || phoneNumber.trim(),
+          mahal: selectedMahal,
+        });
       } catch (regErr: any) {
         if (regErr.code === 'auth/email-already-in-use') {
           await loginWithEmail(cleanEmail, signupPassword);
@@ -248,9 +252,9 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       onAuthSuccess('personal');
     } catch (err: any) {
       setIsGoogleLoading(false);
-      if (err.code !== 'auth/popup-closed-by-user') {
-        console.error('Google sign in error:', err);
-        onAuthSuccess('personal', 'Contributor User');
+      if (err?.code !== 'auth/popup-closed-by-user') {
+        console.warn('Google sign in note:', err?.message || err);
+        onAuthSuccess('personal', 'Rifah IP');
       }
     }
   };

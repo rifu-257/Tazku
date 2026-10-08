@@ -112,6 +112,7 @@ export async function syncUserProfile(user: FirebaseUser, partial?: Partial<User
       const bankToKeep = existing.linkedBankAccount || cachedBank;
 
       const updates: any = {
+        id: user.uid,
         ...partial,
         updatedAt: serverTimestamp(),
       };
@@ -156,14 +157,23 @@ export async function syncUserProfile(user: FirebaseUser, partial?: Partial<User
 // Persist linked bank account in Firestore
 export async function saveUserBankAccount(
   userId: string, 
-  bankDetails: { bankName: string; accountNumber: string; ifsc: string }
+  bankDetails: { 
+    bankName: string; 
+    accountNumber: string; 
+    ifsc: string;
+    accountHolderName?: string;
+    accountType?: string;
+    linkedAt?: string;
+  }
 ): Promise<LinkedBankAccount> {
   const userRef = doc(db, 'users', userId);
   const linkedData: LinkedBankAccount = {
     bankName: bankDetails.bankName,
     accountNumber: bankDetails.accountNumber,
     ifsc: bankDetails.ifsc,
-    linkedAt: new Date().toISOString(),
+    accountHolderName: bankDetails.accountHolderName || 'Primary Account Holder',
+    accountType: bankDetails.accountType || 'Savings Account',
+    linkedAt: bankDetails.linkedAt || new Date().toISOString(),
   };
 
   try {
@@ -249,14 +259,23 @@ export async function signUpWithEmail(
   email: string, 
   pass: string, 
   displayName: string,
-  role: 'donor' | 'mahal' | 'vakeel' = 'donor'
+  role: 'donor' | 'mahal' | 'vakeel' = 'donor',
+  extraProfileData?: {
+    phoneNumber?: string;
+    whatsappNumber?: string;
+    mahal?: string;
+  }
 ): Promise<FirebaseUser> {
   const cred = await createUserWithEmailAndPassword(auth, email.trim(), pass);
   const cleanName = displayName.trim() || email.split('@')[0] || 'Community Member';
   try {
     await updateProfile(cred.user, { displayName: cleanName });
   } catch {}
-  await syncUserProfile(cred.user, { displayName: cleanName, role });
+  await syncUserProfile(cred.user, { 
+    displayName: cleanName, 
+    role,
+    ...extraProfileData 
+  });
   return cred.user;
 }
 

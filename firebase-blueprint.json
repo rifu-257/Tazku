@@ -13,6 +13,9 @@
         "preferredCurrency": { "type": "string", "description": "Selected fiat currency" },
         "madhhab": { "type": "string", "description": "School of jurisprudence for calculation" },
         "role": { "type": "string", "description": "Active user portal role" },
+        "phoneNumber": { "type": "string", "description": "Mobile contact number" },
+        "whatsappNumber": { "type": "string", "description": "WhatsApp contact number" },
+        "mahal": { "type": "string", "description": "Registered local Mahallu community" },
         "linkedBankAccount": {
           "type": "object",
           "description": "User linked bank account details",
@@ -20,6 +23,8 @@
             "bankName": { "type": "string" },
             "accountNumber": { "type": "string" },
             "ifsc": { "type": "string" },
+            "accountHolderName": { "type": "string" },
+            "accountType": { "type": "string" },
             "linkedAt": { "type": "string", "format": "date-time" }
           }
         }

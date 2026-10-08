@@ -171,6 +171,9 @@ export const ZakkuCalculatorModal: React.FC<ZakkuCalculatorModalProps> = ({
               className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-semibold text-gray-900 focus:bg-white focus:border-[#0D7C66] focus:outline-hidden"
               placeholder="0"
             />
+            <span className="text-[10px] text-gray-400 mt-0.5 block">
+              Only halal principal balances. Non-permissible bank interest (Riba) is excluded & purified separately.
+            </span>
           </div>
 
           <div className="grid grid-cols-2 gap-2.5">
