@@ -260,28 +260,28 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col justify-between bg-white px-6 py-6 min-h-screen font-sans">
+    <div className="flex-1 flex flex-col justify-between bg-[#FBFBF9] px-6 py-6 min-h-screen font-sans">
       <div>
         {/* Top Header */}
         <div className="flex items-center justify-between pt-2">
           <button
             type="button"
             onClick={onBack}
-            className="w-10 h-10 rounded-full bg-[#E8F6F3] text-[#0D7C66] hover:bg-[#d8efe9] flex items-center justify-center transition shadow-2xs"
+            className="w-10 h-10 rounded-full bg-[#F3EFE6] text-[#1B4332] hover:bg-[#EBE5D8] border border-[#EBE5D8] flex items-center justify-center transition shadow-2xs cursor-pointer"
             title="Back"
             aria-label="Back"
           >
-            <ArrowLeft className="w-5 h-5 text-[#0D7C66]" />
+            <ArrowLeft className="w-5 h-5 text-[#1B4332]" />
           </button>
 
           {/* Role Indicator Badge */}
-          <div className="flex items-center gap-2 bg-[#E8F6F3] px-3 py-1 rounded-full border border-[#0D7C66]/20">
+          <div className="flex items-center gap-2 bg-[#E9F3ED] px-3.5 py-1 rounded-full border border-[#40916C]/20">
             {role === 'mahal' ? (
-              <Building2 className="w-3.5 h-3.5 text-[#0D7C66]" />
+              <Building2 className="w-3.5 h-3.5 text-[#1B4332]" />
             ) : (
-              <User className="w-3.5 h-3.5 text-[#0D7C66]" />
+              <User className="w-3.5 h-3.5 text-[#1B4332]" />
             )}
-            <span className="text-xs font-extrabold text-[#0D7C66]">
+            <span className="text-xs font-extrabold text-[#1B4332]">
               {role === 'mahal' ? 'Mahal Committee' : 'Personal Account'}
             </span>
           </div>
@@ -290,7 +290,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <button
               type="button"
               onClick={onSwitchRole}
-              className="text-[11px] font-bold text-gray-400 hover:text-[#0D7C66] transition underline"
+              className="text-[11px] font-bold text-[#526059] hover:text-[#1B4332] transition underline"
             >
               Switch
             </button>
@@ -301,10 +301,10 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
 
         {/* Brand Header */}
         <div className="text-center pt-3 pb-4">
-          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#0D7C66]">
-            Tazku<span className="text-[#0D7C66]">.</span>
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1B4332]">
+            Tazku<span className="text-[#40916C]">.</span>
           </h1>
-          <p className="text-sm font-semibold text-[#374151] mt-1">
+          <p className="text-sm font-semibold text-[#526059] mt-1">
             {role === 'mahal' ? 'Mahallu Administration Portal' : 'Get Started Now'}
           </p>
         </div>
@@ -312,17 +312,17 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* ========================================================================= */}
         {/* THE TWO OPTIONS TAB SWITCHER: "Login" & "Create account"                  */}
         {/* ========================================================================= */}
-        <div className="bg-[#F8FAF9] p-1.5 rounded-2xl flex gap-1 border border-gray-200 mb-5 max-w-sm mx-auto">
+        <div className="bg-[#F3EFE6] p-1.5 rounded-2xl flex gap-1 border border-[#EBE5D8] mb-5 max-w-sm mx-auto">
           <button
             type="button"
             onClick={() => {
               setErrorMessage(null);
               setView('login');
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition text-center ${
+            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition text-center cursor-pointer ${
               view === 'login'
-                ? 'bg-[#0D7C66] text-white shadow-xs'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'text-[#526059] hover:text-[#112A20]'
             }`}
           >
             Login
@@ -334,10 +334,10 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               setErrorMessage(null);
               setView('signup');
             }}
-            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition text-center ${
+            className={`flex-1 py-2.5 text-xs font-bold rounded-xl transition text-center cursor-pointer ${
               view === 'signup'
-                ? 'bg-[#0D7C66] text-white shadow-xs'
-                : 'text-gray-600 hover:text-gray-900'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'text-[#526059] hover:text-[#112A20]'
             }`}
           >
             Create account
@@ -353,7 +353,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         )}
 
         {/* Instruction Label */}
-        <p className="text-center text-xs text-gray-500 mb-4">
+        <p className="text-center text-xs text-[#526059] mb-4">
           {view === 'login' ? 'Fill the form below to login' : 'Fill the form below to Signup'}
         </p>
 
@@ -373,7 +373,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={loginEmail}
                 onChange={(e) => setLoginEmail(e.target.value)}
                 placeholder="Email"
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -386,7 +386,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={loginPassword}
                 onChange={(e) => setLoginPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full pl-12 pr-11 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-11 py-3.5 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
               <button
                 type="button"
@@ -401,18 +401,18 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 mt-2 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-4 mt-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <span>{isSubmitting ? 'Logging in...' : 'Login'}</span>
             </button>
 
             {/* Social Divider */}
             <div className="my-5 relative flex items-center justify-center">
-              <div className="border-t border-gray-200 w-full" />
-              <span className="bg-white px-3 text-xs text-gray-500 whitespace-nowrap">
+              <div className="border-t border-[#EBE5D8] w-full" />
+              <span className="bg-[#FBFBF9] px-3 text-xs text-[#526059] whitespace-nowrap">
                 or continue with
               </span>
-              <div className="border-t border-gray-200 w-full" />
+              <div className="border-t border-[#EBE5D8] w-full" />
             </div>
 
             {/* Google Sign-in */}
@@ -420,7 +420,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               type="button"
               onClick={handleGoogleSignIn}
               disabled={isGoogleLoading}
-              className="w-full py-3.5 bg-white border border-gray-200 text-gray-700 rounded-full font-semibold text-sm hover:bg-gray-50 flex items-center justify-center gap-3 transition shadow-xs"
+              className="w-full py-3.5 bg-white border border-[#EBE5D8] text-[#112A20] rounded-full font-semibold text-sm hover:bg-[#F3EFE6]/50 flex items-center justify-center gap-3 transition shadow-xs cursor-pointer"
             >
               <svg className="w-5 h-5" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -446,7 +446,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
                 placeholder="Full Name"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -460,7 +460,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={signupEmail}
                 onChange={(e) => setSignupEmail(e.target.value)}
                 placeholder="Email Address"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -474,7 +474,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
                 placeholder="Phone number"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -488,7 +488,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={whatsappNumber}
                 onChange={(e) => setWhatsappNumber(e.target.value)}
                 placeholder="Whatsapp number"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -497,8 +497,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               <select
                 value={selectedMahal}
                 onChange={(e) => setSelectedMahal(e.target.value)}
-                className={`w-full pl-4 pr-12 py-3 bg-white border border-gray-200 rounded-2xl text-sm appearance-none focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs cursor-pointer ${
-                  selectedMahal ? 'text-gray-900 font-medium' : 'text-gray-400'
+                className={`w-full pl-4 pr-12 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm appearance-none focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs cursor-pointer ${
+                  selectedMahal ? 'text-[#112A20] font-medium' : 'text-gray-400'
                 }`}
               >
                 <option value="" disabled>Select Mahal</option>
@@ -524,7 +524,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={signupPassword}
                 onChange={(e) => setSignupPassword(e.target.value)}
                 placeholder="Password"
-                className="w-full pl-12 pr-11 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-11 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
               <button
                 type="button"
@@ -545,7 +545,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 placeholder="Confirm Password"
-                className="w-full pl-12 pr-11 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-11 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
               <button
                 type="button"
@@ -559,7 +559,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 mt-2 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-3.5 mt-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <span>{isSubmitting ? 'Creating Account...' : 'Signup'}</span>
             </button>
@@ -569,8 +569,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* SCENARIO C: MAHAL LOGIN */}
         {role === 'mahal' && view === 'login' && (
           <form onSubmit={handleMahalLogin} className="space-y-4 animate-in fade-in">
-            <div className="p-3 bg-[#E8F6F3] rounded-2xl text-xs text-gray-700 flex items-start gap-2.5">
-              <ShieldCheck className="w-4 h-4 text-[#0D7C66] shrink-0 mt-0.5" />
+            <div className="p-3 bg-[#E9F3ED] border border-[#40916C]/20 rounded-2xl text-xs text-[#112A20] flex items-start gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-[#1B4332] shrink-0 mt-0.5" />
               <span>Enter your official Mosque Council or Mahallu Registration Code to access executive controls.</span>
             </div>
 
@@ -584,7 +584,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalCode}
                 onChange={(e) => setMahalCode(e.target.value)}
                 placeholder="Mahallu Code (e.g. JMH-WARD-03)"
-                className="w-full pl-12 pr-4 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-bold text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3.5 bg-white border border-[#EBE5D8] rounded-2xl text-sm font-bold text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -598,7 +598,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalPin}
                 onChange={(e) => setMahalPin(e.target.value)}
                 placeholder="Executive Security PIN / Password"
-                className="w-full pl-12 pr-11 py-3.5 bg-white border border-gray-200 rounded-2xl text-sm font-bold text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-11 py-3.5 bg-white border border-[#EBE5D8] rounded-2xl text-sm font-bold text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
               <button
                 type="button"
@@ -612,7 +612,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-4 mt-2 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-4 mt-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <span>{isSubmitting ? 'Authenticating Council...' : 'Login to Mahal Portal'}</span>
             </button>
@@ -622,8 +622,8 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
         {/* SCENARIO D: MAHAL SIGNUP (CREATE MAHAL ACCOUNT) */}
         {role === 'mahal' && view === 'signup' && (
           <form onSubmit={handleMahalSignup} className="space-y-3.5 animate-in fade-in">
-            <div className="p-3 bg-[#E8F6F3] rounded-2xl text-xs text-gray-700 flex items-start gap-2.5">
-              <Building2 className="w-4 h-4 text-[#0D7C66] shrink-0 mt-0.5" />
+            <div className="p-3 bg-[#E9F3ED] border border-[#40916C]/20 rounded-2xl text-xs text-[#112A20] flex items-start gap-2.5">
+              <Building2 className="w-4 h-4 text-[#1B4332] shrink-0 mt-0.5" />
               <span>Register a new Mosque or Mahallu Welfare Committee into the verified Tazku community network.</span>
             </div>
 
@@ -637,7 +637,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalName}
                 onChange={(e) => setMahalName(e.target.value)}
                 placeholder="Mahallu Committee / Mosque Name"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -651,7 +651,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalWard}
                 onChange={(e) => setMahalWard(e.target.value)}
                 placeholder="Ward Jurisdiction (e.g. Ward 3, Central District)"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -665,7 +665,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={trusteeName}
                 onChange={(e) => setTrusteeName(e.target.value)}
                 placeholder="Lead Trustee / Secretary Name"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -679,7 +679,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={officialContact}
                 onChange={(e) => setOfficialContact(e.target.value)}
                 placeholder="Official Phone Number / Email"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -693,7 +693,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalSignupPassword}
                 onChange={(e) => setMahalSignupPassword(e.target.value)}
                 placeholder="Create Security PIN / Password"
-                className="w-full pl-12 pr-11 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-11 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
               <button
                 type="button"
@@ -714,14 +714,14 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
                 value={mahalConfirmPassword}
                 onChange={(e) => setMahalConfirmPassword(e.target.value)}
                 placeholder="Confirm Security PIN"
-                className="w-full pl-12 pr-4 py-3 bg-white border border-gray-200 rounded-2xl text-sm text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs"
+                className="w-full pl-12 pr-4 py-3 bg-white border border-[#EBE5D8] rounded-2xl text-sm text-[#112A20] placeholder:text-gray-400 focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full py-3.5 mt-2 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60"
+              className="w-full py-3.5 mt-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-sm shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 disabled:opacity-60 cursor-pointer"
             >
               <span>{isSubmitting ? 'Registering Committee...' : 'Register Mahallu Committee'}</span>
             </button>
@@ -739,7 +739,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
               setErrorMessage(null);
               setView(view === 'login' ? 'signup' : 'login');
             }}
-            className="font-bold text-[#0D7C66] hover:underline"
+            className="font-bold text-[#1B4332] hover:text-[#2D6A4F] hover:underline cursor-pointer"
           >
             {view === 'login' ? 'Create account' : 'Login'}
           </button>

@@ -31,7 +31,8 @@ import {
   CreditCard,
   Landmark,
   Edit3,
-  Phone
+  Phone,
+  ClipboardList
 } from 'lucide-react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { EditProfileModal } from './components/EditProfileModal';
@@ -48,6 +49,7 @@ import { ZakkuChatDrawer } from './components/ZakkuChatDrawer';
 import { ZakkuNotificationDrawer } from './components/ZakkuNotificationDrawer';
 import { ZakkuStatsModal } from './components/ZakkuStatsModal';
 import { CertificateModal } from './components/CertificateModal';
+import { ZakatRecordsScreen } from './components/ZakatRecordsScreen';
 import { ZakatTrackerScreen } from './components/ZakatTrackerScreen';
 import { RoleLoginModal } from './components/RoleLoginModals';
 import { MahalluPortalScreen } from './components/MahalluPortalScreen';
@@ -319,6 +321,28 @@ function TazkuApp() {
       urgency: 'Standard',
       description: 'Widowed mother seeking industrial sewing machine to start home tailoring micro-income.'
     },
+    { 
+      id: '106', 
+      name: 'Khadija Beevi & Grandchildren', 
+      mahal: 'Juma Masjid Mahallu, Ward 3', 
+      category: 'Widow Support', 
+      amount: 12000, 
+      funded: 4500, 
+      status: 'Approved',
+      urgency: 'Urgent',
+      description: 'Ward 3 resident elderly widow caring for 2 school-going orphans. Essential nutrition & textbook allowance.'
+    },
+    { 
+      id: '107', 
+      name: 'Muhammad Basheer K.', 
+      mahal: 'Juma Masjid Mahallu, Ward 3', 
+      category: 'Al-Gharimin', 
+      amount: 20000, 
+      funded: 14000, 
+      status: 'Approved',
+      urgency: 'Standard',
+      description: 'Darul Aman House, Ward 3 stall owner facing monsoon inventory losses. Rehabilitation of family livelihood.'
+    },
   ]);
 
   // Messages State
@@ -580,7 +604,7 @@ function TazkuApp() {
     .toUpperCase() || 'CM';
 
   return (
-    <div className="min-h-screen bg-[#F8FAF9] text-gray-900 font-sans flex justify-center">
+    <div className="min-h-screen bg-[#FBFBF9] text-[#112A20] font-sans flex justify-center">
       {/* Cinematic Splash Screen (0.0s - 2.2s) */}
       {showSplash && (
         <SplashScreen
@@ -590,7 +614,7 @@ function TazkuApp() {
       )}
 
       {/* Mobile-Frame Canvas */}
-      <div className="w-full max-w-md min-h-screen bg-white shadow-xl flex flex-col relative border-x border-[#E2ECE9]">
+      <div className="w-full max-w-md min-h-screen bg-[#FBFBF9] shadow-xl flex flex-col relative border-x border-[#EBE5D8]">
         
         {/* ========================================================================= */}
         {/* SCREEN 1: LOGIN PAGE WITH TWO LOGINS: MAHAL LOGIN & PERSONAL LOGIN        */}
@@ -816,7 +840,7 @@ function TazkuApp() {
             {activeTab === 'home' && (
               <div className="flex-1 flex flex-col animate-in fade-in duration-150">
                 {/* Top Greeting Header */}
-                <div className="bg-[#0D7C66] text-white p-6 rounded-b-[2.5rem] shadow-sm">
+                <div className="bg-[#1B4332] text-white p-6 rounded-b-[2.5rem] shadow-sm">
                   <div className="flex items-center justify-between mb-4">
                     <div 
                       onClick={() => setActiveTab('profile')}
@@ -830,10 +854,9 @@ function TazkuApp() {
                         )}
                       </div>
                       <div>
-                       
                         <h1 className="text-lg font-bold flex items-center gap-1.5">
                           <span>{displayName}</span>
-                          <ChevronRight className="w-4 h-4 text-teal-200" />
+                          <ChevronRight className="w-4 h-4 text-[#EBE5D8]" />
                         </h1>
                       </div>
                     </div>
@@ -841,7 +864,7 @@ function TazkuApp() {
                     <div className="flex items-center gap-2">
                       {/* Logout Button */}
                       <button 
-                        type="button"
+                        type="button" 
                         onClick={handleSignOut}
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition shadow-2xs cursor-pointer active:scale-95"
                         title="Logout"
@@ -853,8 +876,7 @@ function TazkuApp() {
                     </div>
                   </div>
 
-                  {/* Your Zakat Progress Card */}
-                  {/* Bank Account Status / Direct Aid Badge (Progress Card Removed) */}
+                  {/* Bank Account Status / Direct Aid Badge */}
                   {linkedBankAccount ? (
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3.5 border border-white/20 mt-2 flex items-center justify-between">
                       <div className="flex items-center gap-3">
@@ -864,11 +886,11 @@ function TazkuApp() {
                         <div>
                           <div className="flex items-center gap-1.5">
                             <span className="text-xs font-bold text-white">{linkedBankAccount.bankName}</span>
-                            <span className="text-[10px] bg-emerald-400 text-teal-950 px-2 py-0.5 rounded-full font-bold">
+                            <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-full font-bold">
                               Linked
                             </span>
                           </div>
-                          <p className="text-[11px] text-teal-100 font-mono mt-0.5">
+                          <p className="text-[11px] text-[#F3EFE6] font-mono mt-0.5">
                             A/C: •••• {linkedBankAccount.accountNumber.slice(-4)} • Direct Settlement
                           </p>
                         </div>
@@ -896,17 +918,17 @@ function TazkuApp() {
                     <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/20 mt-2 flex items-center justify-between">
                       <div className="flex items-center gap-2.5">
                         <div className="w-8 h-8 rounded-lg bg-white/20 flex items-center justify-center text-white shrink-0">
-                          <ShieldCheck className="w-4 h-4 text-emerald-300" />
+                          <ShieldCheck className="w-4 h-4 text-[#E9F3ED]" />
                         </div>
                         <div>
                           <span className="text-xs font-bold text-white">Direct Local Zakat Aid</span>
-                          <p className="text-[10px] text-teal-100">100% verified Mahallu families • 0% platform deductions</p>
+                          <p className="text-[10px] text-[#F3EFE6]">100% verified Mahallu families • 0% platform deductions</p>
                         </div>
                       </div>
                       <button 
                         type="button" 
                         onClick={() => setMainScreen('link_bank')}
-                        className="text-[10px] bg-white text-[#0D7C66] font-bold px-2.5 py-1 rounded-full shadow-2xs hover:bg-teal-50 transition cursor-pointer"
+                        className="text-[10px] bg-[#F3EFE6] text-[#1B4332] font-bold px-2.5 py-1 rounded-full shadow-2xs hover:bg-white transition cursor-pointer"
                       >
                         Link Bank
                       </button>
@@ -919,7 +941,7 @@ function TazkuApp() {
                   <button 
                     type="button" 
                     onClick={() => setActiveTab('calculator')}
-                    className="w-full bg-[#0D7C66] hover:bg-[#0A6654] text-white p-4 rounded-2xl shadow-lg flex items-center justify-between transition border-2 border-white cursor-pointer"
+                    className="w-full bg-[#1B4332] hover:bg-[#2D6A4F] text-white p-4 rounded-2xl shadow-lg flex items-center justify-between transition border-2 border-[#EBE5D8] cursor-pointer"
                   >
                     <div className="flex items-center gap-3">
                       <div className="p-2.5 bg-white/15 rounded-xl">
@@ -927,10 +949,10 @@ function TazkuApp() {
                       </div>
                       <div className="text-left">
                         <div className="font-bold text-base leading-tight">Calculate Your Zakat</div>
-                        <div className="text-xs text-teal-100">Live Nisab gold/silver calculation</div>
+                        <div className="text-xs text-[#F3EFE6]">Live Nisab gold/silver calculation</div>
                       </div>
                     </div>
-                    <ChevronRight className="w-5 h-5 text-teal-200" />
+                    <ChevronRight className="w-5 h-5 text-[#EBE5D8]" />
                   </button>
                 </div>
 
@@ -939,7 +961,7 @@ function TazkuApp() {
                   <button 
                     type="button"
                     onClick={() => setActiveTab('claimants')}
-                    className="w-full flex items-center justify-center gap-2.5 py-3.5 bg-[#0D7C66] text-white rounded-2xl font-bold text-sm hover:bg-[#0A6654] transition shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer"
+                    className="w-full flex items-center justify-center gap-2.5 py-3.5 bg-[#1B4332] text-white rounded-2xl font-bold text-sm hover:bg-[#2D6A4F] transition shadow-md hover:shadow-lg active:scale-[0.99] cursor-pointer"
                   >
                     <Send className="w-4 h-4" />
                     <span>Donate Zakat Directly</span>
@@ -958,26 +980,26 @@ function TazkuApp() {
                   </div>
 
                   <div className="space-y-3">
-                    {/* 1. Zakat Tracker and Money Management */}
+                    {/* 1. Zakat Records & Transactions */}
                     <button
                       type="button"
                       onClick={() => setActiveTab('tracker')}
-                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                      className="w-full bg-white hover:bg-[#F3EFE6]/40 border border-[#EBE5D8] hover:border-[#40916C]/60 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
-                          <Calendar className="w-5 h-5 transition-transform duration-200" />
+                        <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] group-hover:bg-[#1B4332] text-[#1B4332] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                          <ClipboardList className="w-5 h-5 transition-transform duration-200" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
-                            Zakat Tracker and Money Management
+                          <h3 className="text-xs sm:text-sm font-bold text-[#112A20] group-hover:text-[#1B4332] transition-colors leading-tight truncate">
+                            Zakat Records & Transactions
                           </h3>
-                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
-                            Income, expense ledger & Nisab balance tracking
+                          <p className="text-[11px] text-[#526059] group-hover:text-[#112A20] transition-colors line-clamp-1 leading-snug mt-0.5">
+                            Calculation history, Nisab audits & payment ledger
                           </p>
                         </div>
                       </div>
-                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center transition-colors text-[#526059] group-hover:text-[#1B4332] shrink-0">
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </button>
@@ -986,22 +1008,22 @@ function TazkuApp() {
                     <button
                       type="button"
                       onClick={() => setActiveTab('calculator')}
-                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                      className="w-full bg-white hover:bg-[#F3EFE6]/40 border border-[#EBE5D8] hover:border-[#40916C]/60 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                        <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] group-hover:bg-[#1B4332] text-[#1B4332] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
                           <Calculator className="w-5 h-5 transition-transform duration-200" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                          <h3 className="text-xs sm:text-sm font-bold text-[#112A20] group-hover:text-[#1B4332] transition-colors leading-tight truncate">
                             Zakat Calculator
                           </h3>
-                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                          <p className="text-[11px] text-[#526059] group-hover:text-[#112A20] transition-colors line-clamp-1 leading-snug mt-0.5">
                             Dynamic gold, silver, cash & asset valuation
                           </p>
                         </div>
                       </div>
-                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center transition-colors text-[#526059] group-hover:text-[#1B4332] shrink-0">
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </button>
@@ -1010,29 +1032,29 @@ function TazkuApp() {
                     <button
                       type="button"
                       onClick={handleOpenInterest}
-                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                      className="w-full bg-white hover:bg-[#F3EFE6]/40 border border-[#EBE5D8] hover:border-[#40916C]/60 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
-                        <div className="w-12 h-12 rounded-2xl bg-amber-50 group-hover:bg-amber-600 text-amber-700 group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                        <div className="w-12 h-12 rounded-2xl bg-[#FEF3C7] group-hover:bg-[#B45309] text-[#B45309] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
                           <Landmark className="w-5 h-5 transition-transform duration-200" />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-1.5">
-                            <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                            <h3 className="text-xs sm:text-sm font-bold text-[#112A20] group-hover:text-[#1B4332] transition-colors leading-tight truncate">
                               Interest (Riba) Purification
                             </h3>
                             {!linkedBankAccount && (
-                              <span className="text-[9px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.2 rounded-full border border-amber-200 shrink-0">
+                              <span className="text-[9px] font-bold bg-[#FEF3C7] text-[#B45309] px-1.5 py-0.2 rounded-full border border-[#D97706]/30 shrink-0">
                                 Link Bank
                               </span>
                             )}
                           </div>
-                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                          <p className="text-[11px] text-[#526059] group-hover:text-[#112A20] transition-colors line-clamp-1 leading-snug mt-0.5">
                             Takhallus ledger & statement interest isolation
                           </p>
                         </div>
                       </div>
-                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center transition-colors text-[#526059] group-hover:text-[#1B4332] shrink-0">
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </button>
@@ -1041,22 +1063,22 @@ function TazkuApp() {
                     <button
                       type="button"
                       onClick={() => setFaqSupportConfig({ isOpen: true, tab: 'faq' })}
-                      className="w-full bg-white hover:bg-[#F3FAF8] border border-[#E2ECE9] hover:border-[#0D7C66]/50 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
+                      className="w-full bg-white hover:bg-[#F3EFE6]/40 border border-[#EBE5D8] hover:border-[#40916C]/60 rounded-2xl p-4 flex items-center justify-between transition-all duration-200 group text-left shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 cursor-pointer"
                     >
                       <div className="flex items-center gap-3.5 flex-1 min-w-0 pr-2">
-                        <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
+                        <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] group-hover:bg-[#1B4332] text-[#1B4332] group-hover:text-white flex items-center justify-center shrink-0 transition-colors duration-200 shadow-2xs group-hover:scale-105">
                           <MessageSquare className="w-5 h-5 transition-transform duration-200" />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <h3 className="text-xs sm:text-sm font-bold text-gray-900 group-hover:text-[#0D7C66] transition-colors leading-tight truncate">
+                          <h3 className="text-xs sm:text-sm font-bold text-[#112A20] group-hover:text-[#1B4332] transition-colors leading-tight truncate">
                             FAQ
                           </h3>
-                          <p className="text-[11px] text-gray-500 group-hover:text-gray-700 transition-colors line-clamp-1 leading-snug mt-0.5">
+                          <p className="text-[11px] text-[#526059] group-hover:text-[#112A20] transition-colors line-clamp-1 leading-snug mt-0.5">
                             Common questions & instant community support
                           </p>
                         </div>
                       </div>
-                      <div className="w-8 h-8 rounded-full bg-[#F8FAF9] group-hover:bg-[#E8F6F3] flex items-center justify-center transition-colors text-gray-400 group-hover:text-[#0D7C66] shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center transition-colors text-[#526059] group-hover:text-[#1B4332] shrink-0">
                         <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
                       </div>
                     </button>
@@ -1066,11 +1088,11 @@ function TazkuApp() {
                 {/* Recent Activity Transaction Feed */}
                 <div className="px-5 mt-6">
                   <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-sm font-bold text-gray-800">Recent Activity</h2>
+                    <h2 className="text-sm font-bold text-[#112A20]">Recent Activity</h2>
                     <button 
                       type="button"
                       onClick={() => setIsStatsOpen(true)}
-                      className="text-xs text-[#0D7C66] font-semibold hover:underline"
+                      className="text-xs text-[#2D6A4F] hover:text-[#1B4332] font-semibold hover:underline cursor-pointer"
                     >
                       View All
                     </button>
@@ -1100,115 +1122,47 @@ function TazkuApp() {
                             });
                             setIsCertificateOpen(true);
                           }}
-                          className={`flex items-center justify-between p-3.5 bg-white rounded-2xl border shadow-xs hover:border-[#0D7C66]/30 cursor-pointer transition ${
+                          className={`flex items-center justify-between p-3.5 bg-white rounded-2xl border shadow-xs hover:border-[#40916C]/40 cursor-pointer transition ${
                             isPurification 
-                              ? 'border-amber-200/90 bg-linear-to-r from-white to-amber-50/40 hover:border-amber-400' 
-                              : 'border-gray-100'
+                              ? 'border-[#D97706]/30 bg-linear-to-r from-white to-[#FEF3C7]/20 hover:border-[#D97706]' 
+                              : 'border-[#EBE5D8]'
                           }`}
                         >
                           <div className="flex items-center gap-3 min-w-0">
                             <div className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
-                              isPurification ? 'bg-amber-100 text-amber-700' : 'bg-[#E8F6F3] text-[#0D7C66]'
+                              isPurification ? 'bg-[#FEF3C7] text-[#B45309]' : 'bg-[#E9F3ED] text-[#1B4332]'
                             }`}>
                               {isPurification ? (
-                                <Sparkles className="w-5 h-5 text-amber-600" />
+                                <Sparkles className="w-5 h-5 text-[#B45309]" />
                               ) : (
-                                <CheckCircle2 className="w-5 h-5" />
+                                <CheckCircle2 className="w-5 h-5 text-[#40916C]" />
                               )}
                             </div>
                             <div className="min-w-0">
                               <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-gray-900 truncate">{act.name}</span>
+                                <span className="text-xs font-bold text-[#112A20] truncate">{act.name}</span>
                                 {isPurification && (
-                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-amber-100 text-amber-800 shrink-0">
+                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-[#FEF3C7] text-[#B45309] border border-[#D97706]/30 shrink-0">
                                     Takhallus
                                   </span>
                                 )}
                               </div>
-                              <div className="text-[10px] text-gray-400 truncate">
+                              <div className="text-[10px] text-[#526059] truncate">
                                 {act.date} • {act.status}
                               </div>
                             </div>
                           </div>
                           <div className="text-right shrink-0">
                             <span className={`font-mono font-bold text-xs block ${
-                              isPurification ? 'text-amber-700' : 'text-[#0D7C66]'
+                              isPurification ? 'text-[#B45309]' : 'text-[#1B4332]'
                             }`}>
                               {act.amount}
                             </span>
-                            <span className="text-[9px] text-gray-400">View Receipt</span>
+                            <span className="text-[9px] text-[#526059]">View Receipt</span>
                           </div>
                         </div>
                       );
                     })}
-                  </div>
-                </div>
-
-                
-
-                {/* Quick Links Section */}
-                <div className="px-5 mt-6 mb-4">
-                  <h3 className="text-xs font-bold text-gray-700 uppercase tracking-wider mb-2">
-                    Quick Links
-                  </h3>
-                  <div className="grid grid-cols-3 gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setIsStatsOpen(true)}
-                      className="p-3 bg-white rounded-2xl border border-gray-100 shadow-xs hover:bg-[#E8F6F3] hover:text-[#0D7C66] transition text-center flex flex-col items-center gap-1"
-                    >
-                      <BarChart3 className="w-5 h-5 text-[#0D7C66]" />
-                      <span className="text-[11px] font-bold text-gray-800 leading-tight">View Statistics</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSelectedReceipt({
-                          id: 'report_summary_01',
-                          caseId: 'mahallu_consolidated',
-                          caseTitle: 'Consolidated Mahallu Annual Zakat Audit Report',
-                          donorId: user ? user.uid : 'community_member',
-                          donorName: displayName,
-                          amount: 26000,
-                          amountUSD: 300,
-                          currency: 'INR',
-                          zakatType: 'Zakat al-Mal',
-                          createdAt: new Date().toISOString(),
-                          receiptNumber: 'TZK-2026-AUDIT-48',
-                          isAnonymous: false
-                        });
-                        setIsCertificateOpen(true);
-                      }}
-                      className="p-3 bg-white rounded-2xl border border-gray-100 shadow-xs hover:bg-[#E8F6F3] hover:text-[#0D7C66] transition text-center flex flex-col items-center gap-1"
-                    >
-                      <Download className="w-5 h-5 text-[#0D7C66]" />
-                      <span className="text-[11px] font-bold text-gray-800 leading-tight">Download Reports</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setApplicationSubView('form');
-                        setActiveTab('application');
-                      }}
-                      className="p-3 bg-white rounded-2xl border border-gray-100 shadow-xs hover:bg-[#E8F6F3] hover:text-[#0D7C66] transition text-center flex flex-col items-center gap-1"
-                    >
-                      <FileText className="w-5 h-5 text-[#0D7C66]" />
-                      <span className="text-[11px] font-bold text-gray-800 leading-tight">Apply as Claimant</span>
-                    </button>
-                  </div>
-
-                  {/* Replay Cinematic Intro Animation */}
-                  <div className="mt-3 flex items-center justify-center">
-                    <button
-                      type="button"
-                      onClick={() => setShowSplash(true)}
-                      className="w-full py-2.5 px-4 rounded-full bg-[#E8F6F3] hover:bg-[#d8efe9] text-[#0D7C66] border border-[#0D7C66]/20 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-2xs"
-                    >
-                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                      <span>Replay Tazku Screen</span>
-                    </button>
                   </div>
                 </div>
               </div>
@@ -1227,12 +1181,16 @@ function TazkuApp() {
               />
             )}
 
-            {/* ===================== VIEW 3: TRACKER ===================== */}
+            {/* ===================== VIEW 3: RECORDS ===================== */}
             {activeTab === 'tracker' && (
-              <ZakatTrackerScreen
+              <ZakatRecordsScreen
                 onBack={() => setActiveTab('home')}
                 onOpenCalculator={() => setActiveTab('calculator')}
-                onGiveZakat={() => setActiveTab('claimants')}
+                onGiveZakat={(amt) => {
+                  if (amt) setPrefilledAmount(amt);
+                  setActiveTab('claimants');
+                }}
+                recentActivities={recentActivities}
               />
             )}
 
@@ -1244,6 +1202,7 @@ function TazkuApp() {
                   setPrefilledAmount(amt);
                   setActiveTab('claimants');
                 }}
+                onViewRecords={() => setActiveTab('tracker')}
               />
             )}
 
@@ -1289,16 +1248,16 @@ function TazkuApp() {
                     <div
                       key={idx}
                       onClick={() => setIsGuideOpen(true)}
-                      className="p-4 bg-white rounded-2xl border border-gray-100 shadow-xs hover:border-[#0D7C66]/30 cursor-pointer transition space-y-2"
+                      className="p-4 bg-white rounded-2xl border border-[#EBE5D8] shadow-xs hover:border-[#40916C]/50 cursor-pointer transition space-y-2"
                     >
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-full font-bold">
+                        <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-full font-bold">
                           {art.tag}
                         </span>
-                        <span className="text-[10px] text-gray-400">{art.time}</span>
+                        <span className="text-[10px] text-[#526059]">{art.time}</span>
                       </div>
-                      <h3 className="font-bold text-xs text-gray-900 leading-snug">{art.title}</h3>
-                      <p className="text-[11px] text-gray-500 leading-relaxed">{art.desc}</p>
+                      <h3 className="font-bold text-xs text-[#112A20] leading-snug">{art.title}</h3>
+                      <p className="text-[11px] text-[#526059] leading-relaxed">{art.desc}</p>
                     </div>
                   ))}
                 </div>
@@ -1309,18 +1268,18 @@ function TazkuApp() {
             {activeTab === 'profile' && (
               <div className="flex-1 flex flex-col p-5 space-y-4">
                 <div>
-                  <h1 className="text-xl font-bold text-gray-900 leading-tight">
+                  <h1 className="text-xl font-bold text-[#112A20] leading-tight">
                     Donor Account & Profile
                   </h1>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[#526059]">
                     Manage your credentials, certificates, and Mahallu association
                   </p>
                 </div>
 
                 {/* Profile Header Card with Quick Edit */}
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs flex items-center justify-between gap-3">
+                <div className="bg-white p-4 rounded-2xl border border-[#EBE5D8] shadow-xs flex items-center justify-between gap-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 rounded-full bg-[#E8F6F3] text-[#0D7C66] font-bold text-xl flex items-center justify-center border border-[#0D7C66]/20 shrink-0">
+                    <div className="w-14 h-14 rounded-full bg-[#E9F3ED] text-[#1B4332] font-bold text-xl flex items-center justify-center border border-[#40916C]/20 shrink-0">
                       {profile?.photoURL || user?.photoURL ? (
                         <img 
                           src={profile?.photoURL || user?.photoURL || ''} 
@@ -1332,9 +1291,9 @@ function TazkuApp() {
                       )}
                     </div>
                     <div>
-                      <h3 className="font-bold text-base text-gray-900 leading-snug">{displayName}</h3>
-                      <span className="text-xs text-gray-500">{user?.email || 'Contributor ID: #TK-88190'}</span>
-                      <span className="text-[10px] bg-emerald-50 text-[#0D7C66] font-bold px-2 py-0.5 rounded-full border border-emerald-200 block w-fit mt-1">
+                      <h3 className="font-bold text-base text-[#112A20] leading-snug">{displayName}</h3>
+                      <span className="text-xs text-[#526059]">{user?.email || 'Contributor ID: #TK-88190'}</span>
+                      <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] font-bold px-2 py-0.5 rounded-full border border-[#40916C]/20 block w-fit mt-1">
                         Verified Mahallu Member
                       </span>
                     </div>
@@ -1343,7 +1302,7 @@ function TazkuApp() {
                   <button
                     type="button"
                     onClick={() => setIsEditProfileOpen(true)}
-                    className="flex items-center gap-1.5 px-3 py-2 bg-[#E8F6F3] hover:bg-[#d3ede5] text-[#0D7C66] rounded-xl font-bold text-xs transition border border-[#0D7C66]/20 cursor-pointer shrink-0"
+                    className="flex items-center gap-1.5 px-3 py-2 bg-[#E9F3ED] hover:bg-[#d8ebe0] text-[#1B4332] rounded-xl font-bold text-xs transition border border-[#40916C]/20 cursor-pointer shrink-0"
                     title="Edit Profile Details"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
@@ -1351,23 +1310,21 @@ function TazkuApp() {
                   </button>
                 </div>
 
-              
-
                 {/* Linked Bank Account Card with Persistent Status and Unlink Option */}
                 {linkedBankAccount ? (
-                  <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs space-y-2">
+                  <div className="bg-white p-4 rounded-2xl border border-[#EBE5D8] shadow-xs space-y-2">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
-                        <CreditCard className="w-4 h-4 text-[#0D7C66]" />
-                        <span className="text-xs font-bold text-gray-900">Linked Bank Account</span>
+                        <CreditCard className="w-4 h-4 text-[#1B4332]" />
+                        <span className="text-xs font-bold text-[#112A20]">Linked Bank Account</span>
                       </div>
-                      <span className="text-[10px] bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                      <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] font-bold px-2 py-0.5 rounded-full border border-[#40916C]/20">
                         Active & Synced
                       </span>
                     </div>
-                    <div className="text-xs text-gray-600 bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
-                      <div className="font-bold text-gray-900">{linkedBankAccount.bankName}</div>
-                      <div className="text-[11px] text-gray-500 font-mono mt-0.5">
+                    <div className="text-xs text-[#526059] bg-[#FBFBF9] p-2.5 rounded-xl border border-[#EBE5D8]">
+                      <div className="font-bold text-[#112A20]">{linkedBankAccount.bankName}</div>
+                      <div className="text-[11px] text-[#526059] font-mono mt-0.5">
                         A/C: •••• {linkedBankAccount.accountNumber.slice(-4)} • IFSC: {linkedBankAccount.ifsc}
                       </div>
                     </div>
@@ -1375,44 +1332,40 @@ function TazkuApp() {
                       <button
                         type="button"
                         onClick={() => setMainScreen('link_bank')}
-                        className="text-xs text-[#0D7C66] hover:text-[#0A6654] font-bold px-3 py-1.5 rounded-xl hover:bg-teal-50 transition cursor-pointer border border-[#0D7C66]/20"
+                        className="text-xs text-[#2D6A4F] hover:text-[#1B4332] font-bold px-3 py-1.5 rounded-xl hover:bg-[#F3EFE6] transition cursor-pointer border border-[#EBE5D8]"
                       >
                         Update Details
                       </button>
                       <button
                         type="button"
                         onClick={handleUnlinkBankAccount}
-                        className="text-xs text-red-600 hover:text-red-700 font-bold px-3 py-1.5 rounded-xl hover:bg-red-50 transition cursor-pointer"
+                        className="text-xs text-rose-600 hover:text-rose-700 font-bold px-3 py-1.5 rounded-xl hover:bg-rose-50 transition cursor-pointer"
                       >
                         Unlink Account
                       </button>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-white p-4 rounded-2xl border border-dashed border-gray-200 shadow-xs flex items-center justify-between">
+                  <div className="bg-white p-4 rounded-2xl border border-dashed border-[#EBE5D8] shadow-xs flex items-center justify-between">
                     <div>
-                      <div className="text-xs font-bold text-gray-900">No Bank Account Linked</div>
-                      <div className="text-[11px] text-gray-500">Link once to disburse Zakat directly</div>
+                      <div className="text-xs font-bold text-[#112A20]">No Bank Account Linked</div>
+                      <div className="text-[11px] text-[#526059]">Link once to disburse Zakat directly</div>
                     </div>
                     <button
                       type="button"
                       onClick={() => setMainScreen('link_bank')}
-                      className="text-xs bg-[#0D7C66] text-white font-bold px-3 py-1.5 rounded-xl hover:bg-[#0A6654] transition"
+                      className="text-xs bg-[#1B4332] text-white font-bold px-3 py-1.5 rounded-xl hover:bg-[#2D6A4F] transition cursor-pointer shadow-xs"
                     >
                       Link Bank
                     </button>
                   </div>
                 )}
 
-                
-
                 <div className="space-y-2 pt-2">
-                 
-
                   <button
                     type="button"
                     onClick={() => setFaqSupportConfig({ isOpen: true, tab: 'support' })}
-                    className="w-full py-3 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-full font-bold text-xs transition"
+                    className="w-full py-3 bg-white border border-[#EBE5D8] text-[#112A20] hover:bg-[#F3EFE6] rounded-full font-bold text-xs transition cursor-pointer"
                   >
                     Help & Support Helpline
                   </button>
@@ -1427,7 +1380,7 @@ function TazkuApp() {
                           console.warn("Google sign in note:", e);
                         }
                       }}
-                      className="w-full py-3 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition"
+                      className="w-full py-3 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-md transition cursor-pointer"
                     >
                       Sign In with Google
                     </button>
@@ -1435,7 +1388,7 @@ function TazkuApp() {
                     <button
                       type="button"
                       onClick={handleSignOut}
-                      className="w-full py-2.5 bg-red-50 hover:bg-red-100 text-red-700 rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
+                      className="w-full py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       <span>Sign Out</span>
@@ -1450,15 +1403,15 @@ function TazkuApp() {
               <div className="flex-1 flex flex-col p-5 animate-in fade-in duration-150 overflow-y-auto">
                 <div className="flex items-center justify-between mb-3">
                   <div>
-                    <h1 className="text-xl font-bold text-gray-900 leading-tight">Zakat Application</h1>
-                    <p className="text-xs text-gray-500">Mahallu welfare claim portal</p>
+                    <h1 className="text-xl font-bold text-[#112A20] leading-tight">Zakat Application</h1>
+                    <p className="text-xs text-[#526059]">Mahallu welfare claim portal</p>
                   </div>
-                  <div className="bg-[#E8F6F3] p-1 rounded-full flex gap-1">
+                  <div className="bg-[#F3EFE6] p-1 rounded-full flex gap-1 border border-[#EBE5D8]">
                     <button
                       type="button"
                       onClick={() => setApplicationSubView('form')}
-                      className={`px-3 py-1 rounded-full text-[10px] font-bold transition ${
-                        applicationSubView === 'form' ? 'bg-[#0D7C66] text-white shadow-xs' : 'text-[#0D7C66]'
+                      className={`px-3 py-1 rounded-full text-[10px] font-bold transition cursor-pointer ${
+                        applicationSubView === 'form' ? 'bg-[#1B4332] text-white shadow-xs' : 'text-[#526059]'
                       }`}
                     >
                       New Form
@@ -1466,8 +1419,8 @@ function TazkuApp() {
                     <button
                       type="button"
                       onClick={() => setApplicationSubView('status')}
-                      className={`px-3 py-1 rounded-full text-[10px] font-bold transition ${
-                        applicationSubView === 'status' ? 'bg-[#0D7C66] text-white shadow-xs' : 'text-[#0D7C66]'
+                      className={`px-3 py-1 rounded-full text-[10px] font-bold transition cursor-pointer ${
+                        applicationSubView === 'status' ? 'bg-[#1B4332] text-white shadow-xs' : 'text-[#526059]'
                       }`}
                     >
                       Status & Timeline
@@ -1478,88 +1431,88 @@ function TazkuApp() {
                 {applicationSubView === 'form' ? (
                   <form onSubmit={handleApplicationSubmit} className="space-y-3.5">
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Full Name</label>
+                      <label className="block text-xs font-semibold text-[#112A20] mb-1">Full Name</label>
                       <input 
                         type="text" 
                         required
                         placeholder="Enter claimant name" 
                         value={formData.fullName}
                         onChange={(e) => setFormData({...formData, fullName: e.target.value})}
-                        className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden font-medium"
+                        className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden font-medium"
                       />
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Email Address</label>
+                        <label className="block text-xs font-semibold text-[#112A20] mb-1">Email Address</label>
                         <input 
                           type="email" 
                           required
                           placeholder="name@example.com" 
                           value={formData.email}
                           onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden font-medium"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden font-medium"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Phone Number</label>
+                        <label className="block text-xs font-semibold text-[#112A20] mb-1">Phone Number</label>
                         <input 
                           type="tel" 
                           required
                           placeholder="+91 XXXXX XXXXX" 
                           value={formData.phone}
                           onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                          className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden font-medium"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden font-medium"
                         />
                       </div>
                     </div>
 
                     <div className="grid grid-cols-2 gap-2">
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Mahallu / Ward</label>
+                        <label className="block text-xs font-semibold text-[#112A20] mb-1">Mahallu / Ward</label>
                         <input 
                           type="text" 
                           required
                           placeholder="e.g. Juma Masjid, Ward 3" 
                           value={formData.mahallu}
                           onChange={(e) => setFormData({...formData, mahallu: e.target.value})}
-                          className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden font-medium"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden font-medium"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-gray-700 mb-1">Requested (₹)</label>
+                        <label className="block text-xs font-semibold text-[#112A20] mb-1">Requested (₹)</label>
                         <input 
                           type="number" 
                           required
                           placeholder="e.g. 25000" 
                           value={formData.requestedAmount}
                           onChange={(e) => setFormData({...formData, requestedAmount: e.target.value})}
-                          className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden font-bold"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden font-bold"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Reason for Application</label>
+                      <label className="block text-xs font-semibold text-[#112A20] mb-1">Reason for Application</label>
                       <textarea 
                         rows={2}
                         required
                         placeholder="Explain your situation (debt, emergency, education, livelihood...)"
                         value={formData.reason}
                         onChange={(e) => setFormData({...formData, reason: e.target.value})}
-                        className="w-full px-3.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden leading-relaxed"
+                        className="w-full px-3.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:ring-1 focus:ring-[#40916C] focus:border-[#40916C] focus:outline-hidden leading-relaxed"
                       />
                     </div>
 
                     {/* Upload Documents Box */}
                     <div>
-                      <label className="block text-xs font-semibold text-gray-700 mb-1">Supporting Documents</label>
-                      <label className="border-2 border-dashed border-gray-200 hover:border-[#0D7C66] rounded-2xl p-4 text-center bg-[#F8FAF9] hover:bg-gray-50 cursor-pointer block transition">
-                        <Upload className="w-5 h-5 text-gray-400 mx-auto mb-1" />
-                        <span className="text-[11px] text-gray-500 block">Upload ID, ration card, or hospital bills</span>
-                        <span className="text-[10px] text-[#0D7C66] font-semibold">PDF, JPG up to 5MB</span>
+                      <label className="block text-xs font-semibold text-[#112A20] mb-1">Supporting Documents</label>
+                      <label className="border-2 border-dashed border-[#EBE5D8] hover:border-[#40916C] rounded-2xl p-4 text-center bg-[#FBFBF9] hover:bg-[#F3EFE6]/30 cursor-pointer block transition">
+                        <Upload className="w-5 h-5 text-[#526059] mx-auto mb-1" />
+                        <span className="text-[11px] text-[#526059] block">Upload ID, ration card, or hospital bills</span>
+                        <span className="text-[10px] text-[#2D6A4F] font-semibold">PDF, JPG up to 5MB</span>
                         <input 
                           type="file" 
                           multiple 
@@ -1576,7 +1529,7 @@ function TazkuApp() {
                       {uploadedFiles.length > 0 && (
                         <div className="mt-2 flex flex-wrap gap-1">
                           {uploadedFiles.map((fn, idx) => (
-                            <span key={idx} className="text-[10px] bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-full font-bold">
+                            <span key={idx} className="text-[10px] bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-full font-bold border border-[#40916C]/20">
                               ✓ {fn}
                             </span>
                           ))}
@@ -1587,89 +1540,89 @@ function TazkuApp() {
                     <button 
                       type="submit"
                       disabled={isSubmittingApp}
-                      className="w-full mt-3 py-3.5 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-sm shadow-md transition disabled:opacity-50"
+                      className="w-full mt-3 py-3.5 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-sm shadow-md transition disabled:opacity-50 cursor-pointer"
                     >
                       {isSubmittingApp ? 'Submitting Application...' : 'Submit Application'}
                     </button>
                   </form>
                 ) : (
                   <div className="space-y-4">
-                    <div className="bg-[#E8F6F3] p-4 rounded-2xl border border-[#0D7C66]/20">
+                    <div className="bg-[#F3EFE6] p-4 rounded-2xl border border-[#EBE5D8]">
                       <div className="flex justify-between items-center mb-3">
-                        <span className="text-[11px] font-bold text-[#0D7C66] uppercase tracking-wider">
+                        <span className="text-[11px] font-bold text-[#1B4332] uppercase tracking-wider">
                           Application ID: #APP-2026-884
                         </span>
-                        <span className="text-[10px] bg-[#0D7C66] text-white px-2.5 py-0.5 rounded-full font-bold">
+                        <span className="text-[10px] bg-[#1B4332] text-white px-2.5 py-0.5 rounded-full font-bold">
                           Under Review
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-3 gap-2 text-center pt-1 border-t border-[#0D7C66]/20">
+                      <div className="grid grid-cols-3 gap-2 text-center pt-1 border-t border-[#EBE5D8]">
                         <div>
-                          <span className="text-[10px] text-gray-500 block">Target Need</span>
-                          <span className="font-mono font-bold text-gray-900 text-xs">₹25,000</span>
+                          <span className="text-[10px] text-[#526059] block">Target Need</span>
+                          <span className="font-mono font-bold text-[#112A20] text-xs">₹25,000</span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-gray-500 block">Allotted</span>
-                          <span className="font-mono font-bold text-[#0D7C66] text-xs">₹18,500</span>
+                          <span className="text-[10px] text-[#526059] block">Allotted</span>
+                          <span className="font-mono font-bold text-[#1B4332] text-xs">₹18,500</span>
                         </div>
                         <div>
-                          <span className="text-[10px] text-gray-500 block">Timeline</span>
-                          <span className="font-mono font-bold text-amber-700 text-xs">8 Days Left</span>
+                          <span className="text-[10px] text-[#526059] block">Timeline</span>
+                          <span className="font-mono font-bold text-[#D97706] text-xs">8 Days Left</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs">
-                      <h3 className="text-xs font-bold text-gray-800 uppercase tracking-wider mb-4">
+                    <div className="bg-white p-4 rounded-2xl border border-[#EBE5D8] shadow-xs">
+                      <h3 className="text-xs font-bold text-[#112A20] uppercase tracking-wider mb-4">
                         Verification Milestones
                       </h3>
 
-                      <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#0D7C66]/30">
+                      <div className="relative pl-6 space-y-6 before:absolute before:left-2.5 before:top-2 before:bottom-2 before:w-0.5 before:bg-[#1B4332]/25">
                         <div className="relative">
-                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#0D7C66] text-white flex items-center justify-center text-[10px]">
+                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-[10px]">
                             ✓
                           </div>
-                          <div className="text-xs font-bold text-gray-900 leading-tight">
+                          <div className="text-xs font-bold text-[#112A20] leading-tight">
                             Application Submitted
                           </div>
-                          <div className="text-[11px] text-gray-500 mt-0.5">
+                          <div className="text-[11px] text-[#526059] mt-0.5">
                             Received by Central Ward Registry • Oct 04, 2026
                           </div>
                         </div>
 
                         <div className="relative">
-                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#0D7C66] text-white flex items-center justify-center text-[10px]">
+                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#1B4332] text-white flex items-center justify-center text-[10px]">
                             ✓
                           </div>
-                          <div className="text-xs font-bold text-gray-900 leading-tight">
+                          <div className="text-xs font-bold text-[#112A20] leading-tight">
                             Initial Review
                           </div>
-                          <div className="text-[11px] text-gray-500 mt-0.5">
+                          <div className="text-[11px] text-[#526059] mt-0.5">
                             Vetted by Mahallu Welfare Board • Oct 05, 2026
                           </div>
                         </div>
 
                         <div className="relative">
-                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-amber-400 text-gray-900 flex items-center justify-center text-[10px] font-bold">
+                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#D97706] text-white flex items-center justify-center text-[10px] font-bold">
                             ●
                           </div>
-                          <div className="text-xs font-bold text-gray-900 leading-tight">
+                          <div className="text-xs font-bold text-[#112A20] leading-tight">
                             Document Verification & Home Visit
                           </div>
-                          <div className="text-[11px] text-[#0D7C66] font-semibold mt-0.5">
+                          <div className="text-[11px] text-[#2D6A4F] font-semibold mt-0.5">
                             Field Auditor (Sirajudheen) visit in progress
                           </div>
                         </div>
 
                         <div className="relative">
-                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-gray-200 text-gray-400 flex items-center justify-center text-[10px]">
+                          <div className="absolute -left-6 top-0 w-5 h-5 rounded-full bg-[#EBE5D8] text-[#526059] flex items-center justify-center text-[10px]">
                             4
                           </div>
-                          <div className="text-xs font-bold text-gray-400 leading-tight">
+                          <div className="text-xs font-bold text-[#526059] leading-tight">
                             Disbursed to Beneficiary Account
                           </div>
-                          <div className="text-[11px] text-gray-400 mt-0.5">
+                          <div className="text-[11px] text-[#526059]/80 mt-0.5">
                             Direct bank / merchant settlement
                           </div>
                         </div>
@@ -1683,26 +1636,26 @@ function TazkuApp() {
             {/* ===================== VIEW 7: MESSAGES ===================== */}
             {activeTab === 'messages' && (
               <div className="flex-1 flex flex-col p-5 animate-in fade-in duration-150">
-                <h1 className="text-xl font-bold text-gray-900 mb-1">Mahal Communications</h1>
-                <p className="text-xs text-gray-500 mb-4">Direct contact with local collectors & verifiers</p>
+                <h1 className="text-xl font-bold text-[#112A20] mb-1">Mahal Communications</h1>
+                <p className="text-xs text-[#526059] mb-4">Direct contact with local collectors & verifiers</p>
 
                 <div className="space-y-2.5">
                   {contacts.map((msg) => (
                     <div 
                       key={msg.id} 
                       onClick={() => setActiveChatContact(msg)}
-                      className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-gray-100 shadow-xs cursor-pointer hover:bg-gray-50 transition"
+                      className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-[#EBE5D8] shadow-xs cursor-pointer hover:bg-[#F3EFE6]/40 transition"
                     >
-                      <div className="w-10 h-10 rounded-full bg-[#E8F6F3] text-[#0D7C66] font-bold flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-full bg-[#E9F3ED] text-[#1B4332] font-bold flex items-center justify-center shrink-0">
                         {msg.avatarText}
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline">
-                          <h4 className="text-xs font-bold text-gray-900 truncate">{msg.name}</h4>
-                          <span className="text-[10px] text-gray-400">{msg.time}</span>
+                          <h4 className="text-xs font-bold text-[#112A20] truncate">{msg.name}</h4>
+                          <span className="text-[10px] text-[#526059]">{msg.time}</span>
                         </div>
-                        <div className="text-[11px] text-[#0D7C66] font-medium">{msg.role}</div>
-                        <p className="text-[11px] text-gray-500 truncate">{msg.lastMsg}</p>
+                        <div className="text-[11px] text-[#2D6A4F] font-medium">{msg.role}</div>
+                        <p className="text-[11px] text-[#526059] truncate">{msg.lastMsg}</p>
                       </div>
                     </div>
                   ))}
@@ -1725,37 +1678,37 @@ function TazkuApp() {
             {/* ========================================================================= */}
             {/* 5. STICKY BOTTOM NAVIGATION BAR (Home, Tracker, Calculator, Interest, Profile) */}
             {/* ========================================================================= */}
-            <nav className="fixed bottom-0 max-w-md w-full h-16 bg-white border-t border-[#E2ECE9] flex items-center justify-around px-2 z-40 shadow-lg">
+            <nav className="fixed bottom-0 max-w-md w-full h-16 bg-white border-t border-[#EBE5D8] flex items-center justify-around px-2 z-40 shadow-lg">
               {/* 1. Home */}
               <button 
                 type="button"
                 onClick={() => setActiveTab('home')}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'home' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 cursor-pointer ${
+                  activeTab === 'home' ? 'text-[#1B4332]' : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <Home className="w-5 h-5" />
                 <span>Home</span>
               </button>
 
-              {/* 2. Tracker */}
+              {/* 2. Records */}
               <button 
                 type="button"
                 onClick={() => setActiveTab('tracker')}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'tracker' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 cursor-pointer ${
+                  activeTab === 'tracker' ? 'text-[#1B4332]' : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
-                <Calendar className="w-5 h-5" />
-                <span>Tracker</span>
+                <ClipboardList className="w-5 h-5" />
+                <span>Records</span>
               </button>
 
               {/* 3. Calculator */}
               <button 
                 type="button"
                 onClick={() => setActiveTab('calculator')}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'calculator' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 cursor-pointer ${
+                  activeTab === 'calculator' ? 'text-[#1B4332]' : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <Calculator className="w-5 h-5" />
@@ -1766,8 +1719,8 @@ function TazkuApp() {
               <button 
                 type="button"
                 onClick={handleOpenInterest}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'interest' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 cursor-pointer ${
+                  activeTab === 'interest' ? 'text-[#1B4332]' : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <Landmark className="w-5 h-5" />
@@ -1778,8 +1731,8 @@ function TazkuApp() {
               <button 
                 type="button"
                 onClick={() => setActiveTab('profile')}
-                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 ${
-                  activeTab === 'profile' ? 'text-[#0D7C66]' : 'text-gray-400 hover:text-gray-600'
+                className={`flex flex-col items-center gap-1 text-[10px] font-bold transition px-2 py-1 cursor-pointer ${
+                  activeTab === 'profile' ? 'text-[#1B4332]' : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <User className="w-5 h-5" />

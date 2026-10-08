@@ -558,21 +558,21 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
     <div className="space-y-4 animate-in fade-in duration-200">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#0D7C66] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 animate-in slide-in-from-top-2">
-          <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#1B4332] text-white text-xs font-bold px-4 py-2.5 rounded-full shadow-lg flex items-center gap-2 animate-in slide-in-from-top-2 border border-[#40916C]/40">
+          <CheckCircle2 className="w-4 h-4 text-[#E9F3ED]" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Top App Bar Header */}
-      <div className="bg-[#0D7C66] text-white p-4 rounded-3xl shadow-sm relative overflow-hidden">
+      {/* Top App Bar Header (Deep Forest Emerald #1B4332) */}
+      <div className="bg-[#1B4332] text-white p-4 rounded-3xl shadow-sm relative overflow-hidden">
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
             {onBack && (
               <button
                 type="button"
                 onClick={onBack}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition cursor-pointer"
                 title="Go Back"
               >
                 <ArrowLeft className="w-4 h-4 text-white" />
@@ -580,10 +580,10 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             )}
             <div>
               <h2 className="text-base font-bold leading-tight flex items-center gap-1.5">
-                <Users className="w-4 h-4 text-teal-200" />
+                <Users className="w-4 h-4 text-[#E9F3ED]" />
                 <span>Mahal Residents Census</span>
               </h2>
-              <span className="text-[11px] text-teal-100 block">
+              <span className="text-[11px] text-[#F3EFE6] block">
                 Ward 1, 2 & 3 Jurisdiction • Live Registry
               </span>
             </div>
@@ -593,16 +593,16 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             <button
               type="button"
               onClick={handleExportCSV}
-              className="flex items-center gap-1 text-[11px] font-bold bg-white/15 hover:bg-white/25 text-white px-2.5 py-1.5 rounded-xl transition border border-white/20 shadow-2xs"
+              className="flex items-center gap-1 text-[11px] font-bold bg-white/15 hover:bg-white/25 text-white px-2.5 py-1.5 rounded-xl transition border border-white/20 shadow-2xs cursor-pointer"
               title="Export Census CSV"
             >
-              <Download className="w-3.5 h-3.5 text-teal-200" />
+              <Download className="w-3.5 h-3.5 text-[#E9F3ED]" />
               <span className="hidden sm:inline">Export CSV</span>
             </button>
             <button
               type="button"
               onClick={handlePrint}
-              className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition border border-white/20"
+              className="w-8 h-8 rounded-xl bg-white/15 hover:bg-white/25 flex items-center justify-center text-white transition border border-white/20 cursor-pointer"
               title="Print Roster"
             >
               <Printer className="w-3.5 h-3.5" />
@@ -610,7 +610,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             <button
               type="button"
               onClick={() => setIsRegisterModalOpen(true)}
-              className="flex items-center gap-1 text-[11px] font-bold bg-white text-[#0D7C66] hover:bg-teal-50 px-2.5 py-1.5 rounded-xl transition shadow-sm"
+              className="flex items-center gap-1 text-[11px] font-bold bg-white text-[#1B4332] hover:bg-[#F3EFE6] px-2.5 py-1.5 rounded-xl transition shadow-sm cursor-pointer"
               title="Enroll Resident"
             >
               <PlusCircle className="w-3.5 h-3.5" />
@@ -622,46 +622,46 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
         {/* Aggregate Census Stats */}
         <div className="grid grid-cols-3 gap-2 pt-2 border-t border-white/15 text-center">
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Total Census</span>
-            <span className="text-xs font-extrabold text-white font-mono block">
+            <span className="text-[10px] text-[#F3EFE6] block">Total Census</span>
+            <span className="text-xs sm:text-sm font-extrabold text-white font-mono block">
               {totalResidentsCount.toLocaleString()} Res.
             </span>
-            <span className="text-[9px] text-teal-200">{totalHouseholdsCount} Households</span>
+            <span className="text-[9px] text-[#E9F3ED]">{totalHouseholdsCount} Households</span>
           </div>
 
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Zakat Eligible</span>
-            <span className="text-xs font-extrabold text-emerald-300 font-mono block">
+            <span className="text-[10px] text-[#F3EFE6] block">Zakat Eligible</span>
+            <span className="text-xs sm:text-sm font-extrabold text-[#E9F3ED] font-mono block">
               {zakatEligibleCount} Families
             </span>
-            <span className="text-[9px] text-emerald-200">Al-Fuqara / Masakin</span>
+            <span className="text-[9px] text-[#E9F3ED]">Al-Fuqara / Masakin</span>
           </div>
 
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Contributors</span>
-            <span className="text-xs font-extrabold text-teal-200 font-mono block">
+            <span className="text-[10px] text-[#F3EFE6] block">Contributors</span>
+            <span className="text-xs sm:text-sm font-extrabold text-white font-mono block">
               {activeDonorsCount} Donors
             </span>
-            <span className="text-[9px] text-teal-100">Annual Contributors</span>
+            <span className="text-[9px] text-[#F3EFE6]">Annual Contributors</span>
           </div>
         </div>
       </div>
 
       {/* Search Input */}
       <div className="relative">
-        <Search className="w-4 h-4 text-gray-400 absolute left-3.5 top-3" />
+        <Search className="w-4 h-4 text-[#526059] absolute left-3.5 top-3" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by resident name, house name, family ID, or phone..."
-          className="w-full pl-10 pr-9 py-2.5 bg-white border border-gray-200 rounded-2xl text-xs font-semibold text-gray-900 placeholder:text-gray-400 focus:outline-hidden focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] shadow-2xs transition"
+          className="w-full pl-10 pr-9 py-2.5 bg-white border border-[#EBE5D8] rounded-2xl text-xs font-semibold text-[#112A20] placeholder:text-[#526059] focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] shadow-2xs transition"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => setSearchQuery('')}
-            className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600 p-0.5"
+            className="absolute right-3 top-2.5 text-[#526059] hover:text-[#112A20] p-0.5 cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -677,8 +677,8 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             onClick={() => setActiveFilter(chip.id)}
             className={`py-1.5 px-3 rounded-full text-[11px] font-bold whitespace-nowrap transition cursor-pointer shrink-0 ${
               activeFilter === chip.id
-                ? 'bg-[#0D7C66] text-white shadow-xs'
-                : 'bg-white text-gray-600 border border-gray-200 hover:border-[#0D7C66]/40 hover:text-[#0D7C66]'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'bg-white text-[#526059] border border-[#EBE5D8] hover:border-[#40916C]/40 hover:text-[#1B4332]'
             }`}
           >
             {chip.label}
@@ -687,12 +687,12 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
       </div>
 
       {/* Result Count and Active Filter Summary */}
-      <div className="flex items-center justify-between px-1 text-[11px] text-gray-500 font-medium">
+      <div className="flex items-center justify-between px-1 text-[11px] text-[#526059] font-medium">
         <span>
           Showing <strong>{filteredResidents.length}</strong> resident records
           {activeFilter !== 'All' && <span> in <strong>{activeFilter}</strong></span>}
         </span>
-        <span className="text-[#0D7C66] font-bold">
+        <span className="text-[#1B4332] font-bold">
           Juma Masjid Mahallu Registry
         </span>
       </div>
@@ -700,16 +700,16 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
       {/* Resident List Cards */}
       <div className="space-y-3">
         {filteredResidents.length === 0 ? (
-          <div className="bg-white rounded-3xl p-8 border border-gray-100 text-center space-y-2 shadow-xs">
-            <Users className="w-8 h-8 text-gray-300 mx-auto" />
-            <h4 className="text-sm font-bold text-gray-800">No Residents Found</h4>
-            <p className="text-xs text-gray-500 max-w-xs mx-auto">
+          <div className="bg-white rounded-3xl p-8 border border-[#EBE5D8] text-center space-y-2 shadow-xs">
+            <Users className="w-8 h-8 text-[#526059]/40 mx-auto" />
+            <h4 className="text-sm font-bold text-[#112A20]">No Residents Found</h4>
+            <p className="text-xs text-[#526059] max-w-xs mx-auto">
               No matching records for "{searchQuery}". Try searching by another keyword or reset filters.
             </p>
             <button
               type="button"
               onClick={() => { setSearchQuery(''); setActiveFilter('All'); }}
-              className="mt-2 text-xs font-bold text-[#0D7C66] hover:underline"
+              className="mt-2 text-xs font-bold text-[#40916C] hover:underline cursor-pointer"
             >
               Reset Search & Filters
             </button>
@@ -723,59 +723,59 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
               <div
                 key={resident.id}
                 onClick={() => setSelectedResident(resident)}
-                className="bg-white p-4 rounded-3xl border border-gray-100 hover:border-[#0D7C66]/30 shadow-xs hover:shadow-md transition cursor-pointer space-y-3 group"
+                className="bg-white p-4 rounded-3xl border border-[#EBE5D8] hover:border-[#40916C]/40 shadow-xs hover:shadow-md transition cursor-pointer space-y-3 group"
               >
                 {/* Header Row: Name & Age & Tags */}
                 <div className="flex items-start justify-between gap-2">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-extrabold text-sm sm:text-base text-gray-900 group-hover:text-[#0D7C66] transition">
+                      <h3 className="font-extrabold text-sm sm:text-base text-[#112A20] group-hover:text-[#1B4332] transition">
                         {resident.fullName}
                       </h3>
-                      <span className="text-xs text-gray-500 font-semibold">
+                      <span className="text-xs text-[#526059] font-semibold">
                         ({resident.age} {resident.gender})
                       </span>
                       {resident.isHeadOfHousehold && (
-                        <span className="text-[10px] font-bold bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-full border border-[#0D7C66]/20">
+                        <span className="text-[10px] font-bold bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-full border border-[#40916C]/20">
                           Head of Household
                         </span>
                       )}
                     </div>
 
-                    <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                      <Home className="w-3.5 h-3.5 text-gray-400 shrink-0" />
-                      <span className="font-medium text-gray-800">{resident.houseName}</span>
-                      <span className="text-gray-400">•</span>
-                      <span className="text-gray-500">{resident.ward}</span>
-                      <span className="text-gray-400">•</span>
-                      <span className="font-mono text-[11px] text-gray-400">{resident.id}</span>
+                    <div className="flex items-center gap-1.5 text-xs text-[#526059]">
+                      <Home className="w-3.5 h-3.5 text-[#526059] shrink-0" />
+                      <span className="font-medium text-[#112A20]">{resident.houseName}</span>
+                      <span className="text-[#526059]">•</span>
+                      <span className="text-[#526059]">{resident.ward}</span>
+                      <span className="text-[#526059]">•</span>
+                      <span className="font-mono text-[11px] text-[#526059]">{resident.id}</span>
                     </div>
                   </div>
 
                   {/* Open Dossier Button */}
-                  <div className="w-8 h-8 rounded-full bg-gray-50 group-hover:bg-[#E8F6F3] flex items-center justify-center text-gray-400 group-hover:text-[#0D7C66] transition shrink-0">
+                  <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center text-[#526059] group-hover:text-[#1B4332] transition shrink-0">
                     <ChevronRight className="w-4 h-4" />
                   </div>
                 </div>
 
                 {/* Classification Badge & Dependents Count */}
-                <div className="flex items-center justify-between gap-2 pt-1 border-t border-gray-50">
+                <div className="flex items-center justify-between gap-2 pt-1 border-t border-[#EBE5D8]">
                   <div className="flex items-center gap-1.5 flex-wrap">
                     <span
                       className={`text-[10px] font-bold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 ${
                         isEligible
-                          ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                          ? 'bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/20'
                           : isDonor
-                          ? 'bg-[#E8F6F3] text-[#0D7C66] border border-[#0D7C66]/20'
-                          : 'bg-gray-100 text-gray-700'
+                          ? 'bg-[#F3EFE6] text-[#2D6A4F] border border-[#EBE5D8]'
+                          : 'bg-[#FBFBF9] text-[#526059] border border-[#EBE5D8]'
                       }`}
                     >
-                      {isEligible && <HeartHandshake className="w-3 h-3 text-emerald-600" />}
-                      {isDonor && <Coins className="w-3 h-3 text-[#0D7C66]" />}
+                      {isEligible && <HeartHandshake className="w-3 h-3 text-[#40916C]" />}
+                      {isDonor && <Coins className="w-3 h-3 text-[#1B4332]" />}
                       <span>{resident.zakatClassification}</span>
                     </span>
 
-                    <span className="text-[11px] text-gray-500">
+                    <span className="text-[11px] text-[#526059]">
                       {resident.familyMembers.length} Family Members
                     </span>
                   </div>
@@ -784,7 +784,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                   <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
                     <a
                       href={`tel:${resident.phone}`}
-                      className="w-7 h-7 rounded-full bg-gray-100 hover:bg-emerald-50 hover:text-[#0D7C66] flex items-center justify-center text-gray-600 transition"
+                      className="w-7 h-7 rounded-full bg-[#F3EFE6] hover:bg-[#E9F3ED] hover:text-[#1B4332] flex items-center justify-center text-[#526059] transition"
                       title={`Call ${resident.fullName}`}
                     >
                       <Phone className="w-3.5 h-3.5" />
@@ -793,7 +793,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                       href={`https://api.whatsapp.com/send?phone=${resident.whatsapp}&text=Assalamu%20Alaykum%20${encodeURIComponent(resident.fullName)},%20from%20Juma%20Masjid%20Mahallu%20Committee.`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-7 h-7 rounded-full bg-emerald-100 hover:bg-emerald-200 text-emerald-800 flex items-center justify-center transition"
+                      className="w-7 h-7 rounded-full bg-[#E9F3ED] hover:bg-[#d8ece0] text-[#1B4332] flex items-center justify-center transition"
                       title="WhatsApp Chat"
                     >
                       <MessageSquare className="w-3.5 h-3.5" />
@@ -803,9 +803,9 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
                 {/* Special Considerations or Past Aid Tag */}
                 {resident.specialConsiderations && resident.specialConsiderations.length > 0 && (
-                  <div className="bg-[#F8FAF9] p-2 rounded-xl text-[11px] text-gray-600 space-y-0.5">
-                    <span className="font-bold text-gray-700 block">Assessment Notes:</span>
-                    <p className="text-gray-500 line-clamp-1">
+                  <div className="bg-[#FBFBF9] p-2 rounded-xl text-[11px] text-[#526059] space-y-0.5 border border-[#EBE5D8]">
+                    <span className="font-bold text-[#112A20] block">Assessment Notes:</span>
+                    <p className="text-[#526059] line-clamp-1">
                       {resident.specialConsiderations.join(' • ')}
                     </p>
                   </div>
@@ -823,20 +823,20 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-3 sm:p-4 backdrop-blur-xs animate-in fade-in">
           <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95">
             {/* Modal Header */}
-            <div className="bg-[#0D7C66] text-white p-4 sm:p-5 flex items-start justify-between">
+            <div className="bg-[#1B4332] text-white p-4 sm:p-5 flex items-start justify-between">
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-mono bg-white/20 text-white px-2 py-0.5 rounded-md font-bold">
                     {selectedResident.id}
                   </span>
-                  <span className="text-xs text-teal-100">
+                  <span className="text-xs text-[#F3EFE6]">
                     {selectedResident.ward} • House #{selectedResident.houseNumber}
                   </span>
                 </div>
                 <h3 className="text-lg font-bold text-white mt-1">
                   {selectedResident.fullName}
                 </h3>
-                <p className="text-xs text-teal-100">
+                <p className="text-xs text-[#F3EFE6]">
                   {selectedResident.houseName} • {selectedResident.occupation}
                 </p>
               </div>
@@ -844,7 +844,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
               <button
                 type="button"
                 onClick={() => { setSelectedResident(null); setIsEditing(false); }}
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition"
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -854,16 +854,16 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             <div className="p-4 sm:p-5 overflow-y-auto space-y-4 flex-1 font-sans">
               
               {/* Classification & Status Bar */}
-              <div className="flex items-center justify-between p-3 bg-[#E8F6F3] rounded-2xl border border-[#0D7C66]/20">
+              <div className="flex items-center justify-between p-3 bg-[#E9F3ED] rounded-2xl border border-[#40916C]/20">
                 <div>
-                  <span className="text-[10px] text-[#0D7C66] uppercase font-bold tracking-wider block">
+                  <span className="text-[10px] text-[#1B4332] uppercase font-bold tracking-wider block">
                     Zakat & Economic Tag:
                   </span>
-                  <span className="text-xs font-extrabold text-[#0D7C66]">
+                  <span className="text-xs font-extrabold text-[#1B4332]">
                     {selectedResident.zakatClassification}
                   </span>
                   {selectedResident.quranicCategory && (
-                    <span className="text-[11px] text-gray-500 block">
+                    <span className="text-[11px] text-[#526059] block">
                       Category: {selectedResident.quranicCategory}
                     </span>
                   )}
@@ -872,7 +872,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                 <button
                   type="button"
                   onClick={() => handleToggleEligibility(selectedResident)}
-                  className="px-2.5 py-1 bg-white hover:bg-teal-50 border border-[#0D7C66]/30 text-[#0D7C66] rounded-xl text-xs font-bold transition shadow-2xs cursor-pointer"
+                  className="px-2.5 py-1 bg-white hover:bg-[#F3EFE6] border border-[#EBE5D8] text-[#1B4332] rounded-xl text-xs font-bold transition shadow-2xs cursor-pointer"
                   title="Toggle between Zakat Eligible, Donor, or General"
                 >
                   Change Status
@@ -881,48 +881,48 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
               {/* 1. Personal Information */}
               <div className="space-y-2">
-                <h4 className="text-xs font-extrabold text-gray-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <UserCheck className="w-4 h-4 text-[#0D7C66]" />
+                <h4 className="text-xs font-extrabold text-[#112A20] uppercase tracking-wider flex items-center gap-1.5">
+                  <UserCheck className="w-4 h-4 text-[#40916C]" />
                   <span>Personal & Contact Information</span>
                 </h4>
 
                 <div className="grid grid-cols-2 gap-2 text-xs">
-                  <div className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-100">
-                    <span className="text-[10px] text-gray-400 block">Phone & WhatsApp</span>
-                    <span className="font-bold text-gray-900 block mt-0.5">{selectedResident.phone}</span>
+                  <div className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8]">
+                    <span className="text-[10px] text-[#526059] block">Phone & WhatsApp</span>
+                    <span className="font-bold text-[#112A20] block mt-0.5">{selectedResident.phone}</span>
                   </div>
-                  <div className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-100">
-                    <span className="text-[10px] text-gray-400 block">Monthly Income</span>
-                    <span className="font-bold text-gray-900 block mt-0.5">{selectedResident.incomeBracket}</span>
+                  <div className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8]">
+                    <span className="text-[10px] text-[#526059] block">Monthly Income</span>
+                    <span className="font-bold text-[#112A20] block mt-0.5">{selectedResident.incomeBracket}</span>
                   </div>
-                  <div className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-100">
-                    <span className="text-[10px] text-gray-400 block">Education Background</span>
-                    <span className="font-bold text-gray-900 block mt-0.5">{selectedResident.education}</span>
+                  <div className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8]">
+                    <span className="text-[10px] text-[#526059] block">Education Background</span>
+                    <span className="font-bold text-[#112A20] block mt-0.5">{selectedResident.education}</span>
                   </div>
-                  <div className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-100">
-                    <span className="text-[10px] text-gray-400 block">Verification Status</span>
-                    <span className="font-bold text-emerald-700 block mt-0.5">{selectedResident.verificationStatus}</span>
+                  <div className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8]">
+                    <span className="text-[10px] text-[#526059] block">Verification Status</span>
+                    <span className="font-bold text-[#1B4332] block mt-0.5">{selectedResident.verificationStatus}</span>
                   </div>
                 </div>
 
-                <div className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-100 text-xs">
-                  <span className="text-[10px] text-gray-400 block">Verified Residential Address</span>
-                  <span className="font-medium text-gray-800 block mt-0.5">{selectedResident.address}</span>
+                <div className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8] text-xs">
+                  <span className="text-[10px] text-[#526059] block">Verified Residential Address</span>
+                  <span className="font-medium text-[#112A20] block mt-0.5">{selectedResident.address}</span>
                 </div>
               </div>
 
               {/* 2. Family Members Roster Table */}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-extrabold text-gray-800 uppercase tracking-wider flex items-center gap-1.5">
-                    <Users className="w-4 h-4 text-[#0D7C66]" />
+                  <h4 className="text-xs font-extrabold text-[#112A20] uppercase tracking-wider flex items-center gap-1.5">
+                    <Users className="w-4 h-4 text-[#40916C]" />
                     <span>Family Members Roster ({selectedResident.familyMembers.length})</span>
                   </h4>
                 </div>
 
-                <div className="overflow-x-auto rounded-2xl border border-gray-100 shadow-2xs">
+                <div className="overflow-x-auto rounded-2xl border border-[#EBE5D8] shadow-2xs">
                   <table className="w-full text-left text-xs">
-                    <thead className="bg-[#F8FAF9] text-gray-500 font-bold border-b border-gray-100">
+                    <thead className="bg-[#F3EFE6] text-[#526059] font-bold border-b border-[#EBE5D8]">
                       <tr>
                         <th className="p-2.5">Member Name</th>
                         <th className="p-2.5">Relation</th>
@@ -930,13 +930,13 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                         <th className="p-2.5">Occupation</th>
                       </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 text-gray-700">
+                    <tbody className="divide-y divide-[#EBE5D8] text-[#112A20]">
                       {selectedResident.familyMembers.map((member) => (
-                        <tr key={member.id} className="hover:bg-gray-50/60">
-                          <td className="p-2.5 font-bold text-gray-900">{member.name}</td>
-                          <td className="p-2.5 text-gray-600">{member.relation}</td>
+                        <tr key={member.id} className="hover:bg-[#F3EFE6]/50">
+                          <td className="p-2.5 font-bold text-[#112A20]">{member.name}</td>
+                          <td className="p-2.5 text-[#526059]">{member.relation}</td>
                           <td className="p-2.5">{member.age} ({member.gender[0]})</td>
-                          <td className="p-2.5 text-gray-600">{member.occupation}</td>
+                          <td className="p-2.5 text-[#526059]">{member.occupation}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -946,13 +946,13 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
               {/* 3. Mahal Financial Assessment & Historical Aid Ledger */}
               <div className="space-y-2">
-                <h4 className="text-xs font-extrabold text-gray-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <HeartHandshake className="w-4 h-4 text-[#0D7C66]" />
+                <h4 className="text-xs font-extrabold text-[#112A20] uppercase tracking-wider flex items-center gap-1.5">
+                  <HeartHandshake className="w-4 h-4 text-[#40916C]" />
                   <span>Past Mahal Aid History</span>
                 </h4>
 
                 {selectedResident.aidHistory.length === 0 ? (
-                  <div className="p-3 bg-gray-50 rounded-2xl text-center text-xs text-gray-500">
+                  <div className="p-3 bg-[#FBFBF9] border border-[#EBE5D8] rounded-2xl text-center text-xs text-[#526059]">
                     No recorded aid disbursement history for this household.
                   </div>
                 ) : (
@@ -960,20 +960,20 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                     {selectedResident.aidHistory.map((aid) => (
                       <div
                         key={aid.id}
-                        className="p-3 bg-white rounded-2xl border border-gray-100 shadow-2xs flex justify-between items-center text-xs"
+                        className="p-3 bg-white rounded-2xl border border-[#EBE5D8] shadow-2xs flex justify-between items-center text-xs"
                       >
                         <div>
-                          <span className="font-bold text-gray-900 block">{aid.category}</span>
-                          <span className="text-[11px] text-gray-500">{aid.purpose}</span>
-                          <span className="text-[10px] font-mono text-gray-400 block mt-0.5">
+                          <span className="font-bold text-[#112A20] block">{aid.category}</span>
+                          <span className="text-[11px] text-[#526059]">{aid.purpose}</span>
+                          <span className="text-[10px] font-mono text-[#526059] block mt-0.5">
                             Ref: {aid.receiptNumber} • Signed by {aid.signatory}
                           </span>
                         </div>
                         <div className="text-right">
-                          <span className="font-extrabold text-[#0D7C66] font-mono block">
+                          <span className="font-extrabold text-[#1B4332] font-mono block">
                             ₹ {aid.amount.toLocaleString()}
                           </span>
-                          <span className="text-[10px] text-gray-400">{aid.date}</span>
+                          <span className="text-[10px] text-[#526059]">{aid.date}</span>
                         </div>
                       </div>
                     ))}
@@ -996,57 +996,57 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
               {/* Inline Edit Form if Activated */}
               {isEditing && (
-                <form onSubmit={handleSaveEdit} className="p-4 bg-gray-50 rounded-2xl border border-gray-200 space-y-3 animate-in fade-in">
-                  <h4 className="text-xs font-bold text-gray-900 flex items-center gap-1">
-                    <Edit3 className="w-3.5 h-3.5 text-[#0D7C66]" />
+                <form onSubmit={handleSaveEdit} className="p-4 bg-[#FBFBF9] rounded-2xl border border-[#EBE5D8] space-y-3 animate-in fade-in">
+                  <h4 className="text-xs font-bold text-[#112A20] flex items-center gap-1">
+                    <Edit3 className="w-3.5 h-3.5 text-[#40916C]" />
                     <span>Edit Resident Information</span>
                   </h4>
 
                   <div className="grid grid-cols-2 gap-2 text-xs">
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-600 mb-0.5">Full Name</label>
+                      <label className="block text-[10px] font-bold text-[#526059] mb-0.5">Full Name</label>
                       <input
                         type="text"
                         value={editFormData.fullName || ''}
                         onChange={(e) => setEditFormData(prev => ({ ...prev, fullName: e.target.value }))}
-                        className="w-full p-2 bg-white border border-gray-200 rounded-xl text-xs"
+                        className="w-full p-2 bg-white border border-[#EBE5D8] rounded-xl text-xs"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-600 mb-0.5">Phone Number</label>
+                      <label className="block text-[10px] font-bold text-[#526059] mb-0.5">Phone Number</label>
                       <input
                         type="text"
                         value={editFormData.phone || ''}
                         onChange={(e) => setEditFormData(prev => ({ ...prev, phone: e.target.value }))}
-                        className="w-full p-2 bg-white border border-gray-200 rounded-xl text-xs"
+                        className="w-full p-2 bg-white border border-[#EBE5D8] rounded-xl text-xs"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-600 mb-0.5">House Name</label>
+                      <label className="block text-[10px] font-bold text-[#526059] mb-0.5">House Name</label>
                       <input
                         type="text"
                         value={editFormData.houseName || ''}
                         onChange={(e) => setEditFormData(prev => ({ ...prev, houseName: e.target.value }))}
-                        className="w-full p-2 bg-white border border-gray-200 rounded-xl text-xs"
+                        className="w-full p-2 bg-white border border-[#EBE5D8] rounded-xl text-xs"
                       />
                     </div>
                     <div>
-                      <label className="block text-[10px] font-bold text-gray-600 mb-0.5">Occupation</label>
+                      <label className="block text-[10px] font-bold text-[#526059] mb-0.5">Occupation</label>
                       <input
                         type="text"
                         value={editFormData.occupation || ''}
                         onChange={(e) => setEditFormData(prev => ({ ...prev, occupation: e.target.value }))}
-                        className="w-full p-2 bg-white border border-gray-200 rounded-xl text-xs"
+                        className="w-full p-2 bg-white border border-[#EBE5D8] rounded-xl text-xs"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-600 mb-0.5">Zakat Classification</label>
+                    <label className="block text-[10px] font-bold text-[#526059] mb-0.5">Zakat Classification</label>
                     <select
                       value={editFormData.zakatClassification}
                       onChange={(e) => setEditFormData(prev => ({ ...prev, zakatClassification: e.target.value as any }))}
-                      className="w-full p-2 bg-white border border-gray-200 rounded-xl text-xs"
+                      className="w-full p-2 bg-white border border-[#EBE5D8] rounded-xl text-xs"
                     >
                       <option value="Eligible for Zakat">Eligible for Zakat</option>
                       <option value="Active Contributor / Donor">Active Contributor / Donor</option>
@@ -1058,13 +1058,13 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                     <button
                       type="button"
                       onClick={() => setIsEditing(false)}
-                      className="flex-1 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-600"
+                      className="flex-1 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#526059] cursor-pointer"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 py-2 bg-[#0D7C66] text-white rounded-xl text-xs font-bold"
+                      className="flex-1 py-2 bg-[#1B4332] text-white rounded-xl text-xs font-bold cursor-pointer"
                     >
                       Save Changes
                     </button>
@@ -1074,13 +1074,13 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
             </div>
 
             {/* Modal Footer Actions */}
-            <div className="p-4 bg-gray-50 border-t border-gray-100 flex items-center gap-2">
+            <div className="p-4 bg-[#FBFBF9] border-t border-[#EBE5D8] flex items-center gap-2">
               <button
                 type="button"
                 onClick={() => handleStartEdit(selectedResident)}
-                className="flex-1 py-2.5 px-3 bg-white hover:bg-gray-100 text-gray-800 border border-gray-200 rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-2xs"
+                className="flex-1 py-2.5 px-3 bg-white hover:bg-[#F3EFE6] text-[#112A20] border border-[#EBE5D8] rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-2xs cursor-pointer"
               >
-                <Edit3 className="w-3.5 h-3.5 text-[#0D7C66]" />
+                <Edit3 className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>Edit Details</span>
               </button>
 
@@ -1094,7 +1094,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                     showToast(`Aid Case initiation started for ${selectedResident.fullName}`);
                   }
                 }}
-                className="flex-1 py-2.5 px-3 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm"
+                className="flex-1 py-2.5 px-3 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
               >
                 <PlusCircle className="w-3.5 h-3.5" />
                 <span>Assign Aid Case</span>
@@ -1109,18 +1109,18 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
       {/* ========================================================================= */}
       {isRegisterModalOpen && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl space-y-4 animate-in zoom-in-95">
-            <div className="flex items-center justify-between border-b pb-3">
+          <div className="bg-white w-full max-w-md rounded-3xl p-5 shadow-2xl space-y-4 animate-in zoom-in-95 border border-[#EBE5D8]">
+            <div className="flex items-center justify-between border-b border-[#EBE5D8] pb-3">
               <div>
-                <h3 className="text-sm sm:text-base font-bold text-gray-900">
+                <h3 className="text-sm sm:text-base font-bold text-[#112A20]">
                   Enroll Resident into Mahal Census
                 </h3>
-                <span className="text-[11px] text-gray-500">Official Mahallu Ward Registrar</span>
+                <span className="text-[11px] text-[#526059]">Official Mahallu Ward Registrar</span>
               </div>
               <button
                 type="button"
                 onClick={() => setIsRegisterModalOpen(false)}
-                className="w-7 h-7 rounded-full bg-gray-100 flex items-center justify-center text-gray-500"
+                className="w-7 h-7 rounded-full bg-[#F3EFE6] flex items-center justify-center text-[#526059] hover:text-[#112A20] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -1128,34 +1128,34 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
             <form onSubmit={handleRegisterSubmit} className="space-y-3 text-xs">
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Full Legal Name *</label>
+                <label className="block text-[11px] font-bold text-[#112A20] mb-1">Full Legal Name *</label>
                 <input
                   type="text"
                   required
                   value={newRegForm.fullName}
                   onChange={(e) => setNewRegForm(prev => ({ ...prev, fullName: e.target.value }))}
                   placeholder="e.g. Abdulla Rahman"
-                  className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                  className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Age</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">Age</label>
                   <input
                     type="number"
                     value={newRegForm.age}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, age: e.target.value }))}
                     placeholder="e.g. 45"
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Gender</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">Gender</label>
                   <select
                     value={newRegForm.gender}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, gender: e.target.value }))}
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   >
                     <option value="M">Male</option>
                     <option value="F">Female</option>
@@ -1165,22 +1165,22 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">House Name *</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">House Name *</label>
                   <input
                     type="text"
                     required
                     value={newRegForm.houseName}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, houseName: e.target.value }))}
                     placeholder="e.g. Madina Manzil"
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Ward Jurisdiction</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">Ward Jurisdiction</label>
                   <select
                     value={newRegForm.ward}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, ward: e.target.value }))}
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   >
                     <option value="Ward 1">Ward 1</option>
                     <option value="Ward 2">Ward 2</option>
@@ -1191,33 +1191,33 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Phone Number</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">Phone Number</label>
                   <input
                     type="tel"
                     value={newRegForm.phone}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, phone: e.target.value }))}
                     placeholder="+91 98..."
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-gray-700 mb-1">Occupation</label>
+                  <label className="block text-[11px] font-bold text-[#112A20] mb-1">Occupation</label>
                   <input
                     type="text"
                     value={newRegForm.occupation}
                     onChange={(e) => setNewRegForm(prev => ({ ...prev, occupation: e.target.value }))}
                     placeholder="e.g. Driver"
-                    className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Initial Classification</label>
+                <label className="block text-[11px] font-bold text-[#112A20] mb-1">Initial Classification</label>
                 <select
                   value={newRegForm.zakatClassification}
                   onChange={(e) => setNewRegForm(prev => ({ ...prev, zakatClassification: e.target.value as any }))}
-                  className="w-full p-2.5 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:border-[#0D7C66]"
+                  className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold focus:border-[#40916C] focus:outline-hidden"
                 >
                   <option value="General Resident">General Resident</option>
                   <option value="Eligible for Zakat">Eligible for Zakat (Al-Fuqara / Al-Masakin)</option>
@@ -1229,13 +1229,13 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                 <button
                   type="button"
                   onClick={() => setIsRegisterModalOpen(false)}
-                  className="flex-1 py-3 bg-gray-100 text-gray-700 rounded-full font-bold"
+                  className="flex-1 py-3 bg-[#F3EFE6] text-[#526059] hover:bg-[#EBE5D8] rounded-full font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-3 bg-[#0D7C66] text-white rounded-full font-bold shadow-md hover:bg-[#0A6654]"
+                  className="flex-1 py-3 bg-[#1B4332] text-white rounded-full font-bold shadow-md hover:bg-[#2D6A4F] cursor-pointer"
                 >
                   Enroll in Census
                 </button>

@@ -327,20 +327,18 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
   });
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F8FAF9] min-h-screen text-gray-900 font-sans pb-24">
-      {/* 1. Header: Mahallu Name & Verification Status Badge */}
-      <div className="bg-[#0D7C66] text-white pt-6 pb-6 px-4 rounded-b-[2.5rem] shadow-sm relative">
+    <div className="flex-1 flex flex-col bg-[#FBFBF9] min-h-screen text-[#112A20] font-sans pb-24">
+      {/* 1. Header: Mahallu Name & Verification Status Badge (Solid Deep Forest Emerald #1B4332) */}
+      <div className="bg-[#1B4332] text-white pt-6 pb-6 px-4 rounded-b-[2.5rem] shadow-sm relative">
         <div className="flex items-center justify-between mb-3">
           <button
             type="button"
             onClick={onBackToHome}
-            className="flex items-center gap-1.5 text-xs text-teal-100 hover:text-white transition bg-white/10 px-3 py-1.5 rounded-full"
+            className="flex items-center gap-1.5 text-xs text-[#F3EFE6] hover:text-white transition bg-white/10 px-3 py-1.5 rounded-full cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Switch Role / Logout</span>
           </button>
-
-         
         </div>
 
         <div className="flex items-start gap-3">
@@ -351,13 +349,13 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
             <h1 className="text-lg font-bold text-white leading-tight">
               Juma Masjid Mahallu Committee
             </h1>
-            <p className="text-xs text-teal-100 flex items-center gap-1 mt-0.5">
+            <p className="text-xs text-[#F3EFE6] flex items-center gap-1 mt-0.5">
               <MapPin className="w-3 h-3 shrink-0" />
               <span>Ward 3 Jurisdiction • Reg #MHL-676505</span>
             </p>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-400/20 text-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300/40">
-                <CheckCircle2 className="w-3 h-3 text-emerald-300" />
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#E9F3ED]/20 text-[#E9F3ED] px-2.5 py-0.5 rounded-full border border-[#E9F3ED]/30">
+                <CheckCircle2 className="w-3 h-3 text-[#E9F3ED]" />
                 Verified Mahallu Executive
               </span>
               <span className="text-[10px] bg-amber-400/20 text-amber-100 px-2 py-0.5 rounded-full font-bold">
@@ -370,19 +368,19 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
         {/* Financial Overview (Strictly Own Mahal) */}
         <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-white/15 text-center">
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Own Collections</span>
+            <span className="text-[10px] text-[#F3EFE6] block">Own Collections</span>
             <span className="text-xs sm:text-sm font-extrabold text-white font-mono">
               ₹ {totalOwnMahalFunds.toLocaleString()}
             </span>
           </div>
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Disbursed</span>
-            <span className="text-xs sm:text-sm font-extrabold text-emerald-300 font-mono">
+            <span className="text-[10px] text-[#F3EFE6] block">Disbursed</span>
+            <span className="text-xs sm:text-sm font-extrabold text-[#E9F3ED] font-mono">
               ₹ {totalDisbursed.toLocaleString()}
             </span>
           </div>
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Available</span>
+            <span className="text-[10px] text-[#F3EFE6] block">Available</span>
             <span className="text-xs sm:text-sm font-extrabold text-white font-mono">
               ₹ {availableBalance.toLocaleString()}
             </span>
@@ -392,7 +390,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
 
       {/* 2. Dedicated Tabs Navigation */}
       <div className="px-4 mt-3">
-        <div className="flex bg-[#E8F6F3] p-1 rounded-2xl gap-1 overflow-x-auto scrollbar-none">
+        <div className="flex bg-[#F3EFE6] p-1 rounded-2xl gap-1 overflow-x-auto scrollbar-none border border-[#EBE5D8]">
           {[
             { id: 'donors_claimants', label: 'Claimants & Donors' },
             { id: 'residents_census', label: 'Census Directory' },
@@ -405,8 +403,8 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
               onClick={() => setActiveTab(tab.id as any)}
               className={`flex-1 py-2 px-2 text-[11px] font-extrabold rounded-xl transition text-center whitespace-nowrap cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-[#0D7C66] text-white shadow-xs'
-                  : 'text-[#0D7C66] hover:bg-white/50'
+                  ? 'bg-[#1B4332] text-white shadow-xs'
+                  : 'text-[#526059] hover:text-[#112A20] hover:bg-white/60'
               }`}
             >
               {tab.label}
@@ -426,41 +424,41 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
             {/* Quick-Access Card: Mahal Residents Directory & Census */}
             <div 
               onClick={() => setActiveTab('residents_census')}
-              className="bg-white p-4 rounded-3xl border border-[#0D7C66]/20 hover:border-[#0D7C66] shadow-xs hover:shadow-md transition cursor-pointer flex items-center justify-between gap-3 group"
+              className="bg-white p-4 rounded-3xl border border-[#EBE5D8] hover:border-[#40916C] shadow-xs hover:shadow-md transition cursor-pointer flex items-center justify-between gap-3 group"
             >
               <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-2xl bg-[#E8F6F3] text-[#0D7C66] flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
+                <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] text-[#1B4332] flex items-center justify-center shrink-0 group-hover:scale-105 transition shadow-2xs">
                   <Users className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-sm text-gray-900 group-hover:text-[#0D7C66] transition">
+                  <h3 className="font-extrabold text-sm text-[#112A20] group-hover:text-[#1B4332] transition">
                     Mahal Residents Directory
                   </h3>
-                  <p className="text-[11px] text-gray-500 mt-0.5 leading-snug">
+                  <p className="text-[11px] text-[#526059] mt-0.5 leading-snug">
                     Census, family member rosters, economic tags & house numbers.
                   </p>
                   <div className="mt-1.5">
-                    <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#E8F6F3] text-[#0D7C66] px-2.5 py-0.5 rounded-full border border-[#0D7C66]/20">
+                    <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#F3EFE6] text-[#2D6A4F] px-2.5 py-0.5 rounded-full border border-[#EBE5D8]">
                       1,420 Registered Residents • 312 Households
                     </span>
                   </div>
                 </div>
               </div>
 
-              <div className="w-8 h-8 rounded-full bg-gray-50 group-hover:bg-[#E8F6F3] flex items-center justify-center text-gray-400 group-hover:text-[#0D7C66] transition shrink-0">
+              <div className="w-8 h-8 rounded-full bg-[#F3EFE6] group-hover:bg-[#E9F3ED] flex items-center justify-center text-[#526059] group-hover:text-[#1B4332] transition shrink-0">
                 <ChevronRight className="w-4 h-4" />
               </div>
             </div>
 
             {/* Sub-tabs toggle between Claimants and Donors */}
-            <div className="flex bg-white p-1 rounded-2xl border border-gray-200 shadow-2xs">
+            <div className="flex bg-white p-1 rounded-2xl border border-[#EBE5D8] shadow-2xs">
               <button
                 type="button"
                 onClick={() => setDirectorySubTab('claimants')}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
                   directorySubTab === 'claimants'
-                    ? 'bg-[#0D7C66] text-white shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-[#1B4332] text-white shadow-xs'
+                    : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <Users className="w-3.5 h-3.5" />
@@ -470,10 +468,10 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
               <button
                 type="button"
                 onClick={() => setDirectorySubTab('donors')}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 ${
+                className={`flex-1 py-2 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer ${
                   directorySubTab === 'donors'
-                    ? 'bg-[#0D7C66] text-white shadow-xs'
-                    : 'text-gray-600 hover:text-gray-900'
+                    ? 'bg-[#1B4332] text-white shadow-xs'
+                    : 'text-[#526059] hover:text-[#112A20]'
                 }`}
               >
                 <Coins className="w-3.5 h-3.5" />
@@ -483,13 +481,13 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
 
             {/* Search Input */}
             <div className="relative">
-              <Search className="w-4 h-4 text-gray-400 absolute left-3 top-2.5" />
+              <Search className="w-4 h-4 text-[#526059] absolute left-3 top-2.5" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={directorySubTab === 'claimants' ? "Search claimants by name or need..." : "Search donors by name..."}
-                className="w-full pl-9 pr-3 py-2 bg-white border border-gray-200 rounded-xl text-xs font-semibold focus:outline-hidden focus:border-[#0D7C66] shadow-2xs"
+                className="w-full pl-9 pr-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-semibold text-[#112A20] focus:outline-hidden focus:border-[#40916C] shadow-2xs"
               />
             </div>
 
@@ -497,13 +495,13 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
             {directorySubTab === 'claimants' && (
               <div className="space-y-3">
                 <div className="flex items-center justify-between px-1">
-                  <span className="text-xs text-gray-500 font-medium">
+                  <span className="text-xs text-[#526059] font-medium">
                     People who applied for Zakat in this Mahallu
                   </span>
                   <button
                     type="button"
                     onClick={() => setActiveTab('application')}
-                    className="text-xs font-bold text-[#0D7C66] hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-[#2D6A4F] hover:text-[#1B4332] hover:underline flex items-center gap-1 cursor-pointer"
                   >
                     <PlusCircle className="w-3.5 h-3.5" />
                     <span>New Application</span>
@@ -513,15 +511,15 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                 {filteredClaimants.map((item) => (
                   <div
                     key={item.id}
-                    className="bg-white p-4 rounded-3xl border border-gray-100 shadow-xs space-y-3"
+                    className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3"
                   >
                     <div className="flex justify-between items-start gap-2">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-sm text-gray-900">{item.name}</h3>
+                          <h3 className="font-bold text-sm text-[#112A20]">{item.name}</h3>
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                             item.status === 'Approved'
-                              ? 'bg-emerald-100 text-emerald-800'
+                              ? 'bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/20'
                               : item.status === 'Disbursed'
                               ? 'bg-blue-100 text-blue-800'
                               : item.status === 'More Info Needed'
@@ -532,39 +530,39 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                           </span>
                         </div>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[10px] font-bold bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-bold bg-[#F3EFE6] text-[#2D6A4F] px-2 py-0.5 rounded-md border border-[#EBE5D8]">
                             {item.category}
                           </span>
-                          <span className="text-[11px] text-gray-500">
+                          <span className="text-[11px] text-[#526059]">
                             {item.ward} • {item.familyMembers} Family Members
                           </span>
                         </div>
                       </div>
 
                       <div className="text-right">
-                        <span className="text-xs sm:text-sm font-extrabold text-[#0D7C66] font-mono block">
+                        <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
                           ₹ {item.amountRequested.toLocaleString()}
                         </span>
-                        <span className="text-[10px] text-gray-400 block">Requested</span>
+                        <span className="text-[10px] text-[#526059] block">Requested</span>
                       </div>
                     </div>
 
-                    <p className="text-xs text-gray-600 leading-relaxed bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
+                    <p className="text-xs text-[#526059] leading-relaxed bg-[#FBFBF9] p-2.5 rounded-xl border border-[#EBE5D8]">
                       {item.reason}
                     </p>
 
                     {item.reviewNote && (
-                      <div className="text-[11px] text-[#0D7C66] bg-[#E8F6F3] p-2 rounded-xl font-medium">
+                      <div className="text-[11px] text-[#1B4332] bg-[#E9F3ED] p-2 rounded-xl font-medium border border-[#40916C]/20">
                         <strong>Committee Audit Note:</strong> {item.reviewNote}
                       </div>
                     )}
 
                     {/* Committee Actions */}
-                    <div className="pt-2 border-t border-gray-100 flex items-center gap-2">
+                    <div className="pt-2 border-t border-[#EBE5D8] flex items-center gap-2">
                       <button
                         type="button"
                         onClick={() => handleUpdateStatus(item.id, 'Approved', 'Approved by Ward 3 Executive Board.')}
-                        className="flex-1 py-2 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1 shadow-xs"
+                        className="flex-1 py-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1 shadow-xs cursor-pointer"
                       >
                         <Check className="w-3.5 h-3.5" />
                         <span>Approve Aid</span>
@@ -573,7 +571,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                       <button
                         type="button"
                         onClick={() => handleUpdateStatus(item.id, 'Disbursed', 'Funds fully handed over.')}
-                        className="flex-1 py-2 bg-blue-50 text-blue-700 hover:bg-blue-100 rounded-full font-bold text-xs transition"
+                        className="flex-1 py-2 bg-[#F3EFE6] text-[#2D6A4F] hover:bg-[#EBE5D8] rounded-full font-bold text-xs transition cursor-pointer"
                       >
                         Mark Disbursed
                       </button>
@@ -586,28 +584,28 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
             {/* SUB-VIEW B: ALL DONORS (Who contributed to this Mahal) */}
             {directorySubTab === 'donors' && (
               <div className="space-y-3">
-                <span className="text-xs text-gray-500 font-medium px-1 block">
+                <span className="text-xs text-[#526059] font-medium px-1 block">
                   All local community donors who contributed Zakat to this Mahallu
                 </span>
 
                 {filteredDonors.map((donor) => (
                   <div
                     key={donor.id}
-                    className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center"
+                    className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
                   >
                     <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-gray-900">{donor.donorName}</h4>
-                      <p className="text-[11px] text-gray-500">{donor.wardAddress} • {donor.zakatType}</p>
-                      <span className="text-[10px] font-mono text-gray-400 block mt-0.5">
+                      <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{donor.donorName}</h4>
+                      <p className="text-[11px] text-[#526059]">{donor.wardAddress} • {donor.zakatType}</p>
+                      <span className="text-[10px] font-mono text-[#526059] block mt-0.5">
                         Receipt: {donor.receiptNumber}
                       </span>
                     </div>
 
                     <div className="text-right">
-                      <span className="text-xs sm:text-sm font-extrabold text-[#0D7C66] font-mono block">
+                      <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
                         ₹ {donor.amount.toLocaleString()}
                       </span>
-                      <span className="text-[10px] text-gray-400 block">{donor.date}</span>
+                      <span className="text-[10px] text-[#526059] block">{donor.date}</span>
                     </div>
                   </div>
                 ))}
@@ -639,27 +637,27 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
         {/* TAB 2: ZAKAT APPLICATION OPTION (Add/Register new aid applicant)         */}
         {/* ========================================================================= */}
         {activeTab === 'application' && (
-          <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-xs space-y-4">
+          <div className="bg-white p-5 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-4">
             <div>
               <div className="flex items-center gap-2">
-                <FileText className="w-5 h-5 text-[#0D7C66]" />
-                <h3 className="text-sm font-bold text-gray-900">Zakat Aid Application</h3>
+                <FileText className="w-5 h-5 text-[#1B4332]" />
+                <h3 className="text-sm font-bold text-[#112A20]">Zakat Aid Application</h3>
               </div>
-              <p className="text-xs text-gray-500 mt-0.5">
+              <p className="text-xs text-[#526059] mt-0.5">
                 Register individuals or families in Ward 3 who applied for Zakat relief assistance.
               </p>
             </div>
 
             {applicationSuccess && (
-              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs text-emerald-800 font-bold flex items-center gap-2 animate-in fade-in">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+              <div className="p-3 bg-[#E9F3ED] border border-[#40916C]/20 rounded-2xl text-xs text-[#1B4332] font-bold flex items-center gap-2 animate-in fade-in">
+                <CheckCircle2 className="w-4 h-4 text-[#40916C] shrink-0" />
                 <span>Application successfully registered and added to Mahallu claimants roster!</span>
               </div>
             )}
 
             <form onSubmit={handleApplicationSubmit} className="space-y-3.5">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                <label className="block text-xs font-semibold text-[#526059] mb-1">
                   Applicant Full Name / Head of Household
                 </label>
                 <input
@@ -668,44 +666,44 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   value={applicationForm.name}
                   onChange={(e) => setApplicationForm({ ...applicationForm, name: e.target.value })}
                   placeholder="e.g. Br. Usman & 4 Family Members"
-                  className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:bg-white focus:border-[#0D7C66] focus:outline-hidden"
+                  className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:bg-white focus:border-[#40916C] focus:outline-hidden focus:ring-1 focus:ring-[#40916C]"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#526059] mb-1">
                     Ward Jurisdiction
                   </label>
                   <input
                     type="text"
                     value={applicationForm.wardNumber}
                     onChange={(e) => setApplicationForm({ ...applicationForm, wardNumber: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden focus:border-[#40916C]"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#526059] mb-1">
                     Family Dependents
                   </label>
                   <input
                     type="number"
                     value={applicationForm.familySize}
                     onChange={(e) => setApplicationForm({ ...applicationForm, familySize: e.target.value })}
-                    className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden focus:border-[#40916C]"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#526059] mb-1">
                     Quranic Category
                   </label>
                   <select
                     value={applicationForm.category}
                     onChange={(e) => setApplicationForm({ ...applicationForm, category: e.target.value })}
-                    className="w-full px-2.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full px-2.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden focus:border-[#40916C]"
                   >
                     <option value="Al-Fuqara">Al-Fuqara (The Impoverished)</option>
                     <option value="Al-Masakin">Al-Masakin (The Destitute)</option>
@@ -716,7 +714,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#526059] mb-1">
                     Requested Amount (₹)
                   </label>
                   <input
@@ -725,13 +723,13 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                     value={applicationForm.requestedAmount}
                     onChange={(e) => setApplicationForm({ ...applicationForm, requestedAmount: e.target.value })}
                     placeholder="e.g. 25000"
-                    className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden focus:border-[#40916C]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">
+                <label className="block text-xs font-semibold text-[#526059] mb-1">
                   Reason for Application & Field Findings
                 </label>
                 <textarea
@@ -739,15 +737,15 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   value={applicationForm.notes}
                   onChange={(e) => setApplicationForm({ ...applicationForm, notes: e.target.value })}
                   placeholder="Detail the family circumstances, house verification, and required assistance..."
-                  className="w-full px-3.5 py-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs text-gray-900 focus:bg-white focus:border-[#0D7C66] focus:outline-hidden"
+                  className="w-full px-3.5 py-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs text-[#112A20] focus:bg-white focus:border-[#40916C] focus:outline-hidden focus:ring-1 focus:ring-[#40916C]"
                 />
               </div>
 
               <button
                 type="submit"
-                className="w-full py-3.5 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-2"
+                className="w-full py-3.5 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
               >
-                <ShieldCheck className="w-4 h-4 text-emerald-300" />
+                <ShieldCheck className="w-4 h-4 text-[#E9F3ED]" />
                 <span>Submit & Certify Application</span>
               </button>
             </form>
@@ -759,49 +757,48 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
         {/* ========================================================================= */}
         {activeTab === 'ledger' && (
           <div className="space-y-4">
-            <div className="bg-white p-4.5 rounded-3xl border border-gray-100 shadow-xs space-y-3">
+            <div className="bg-white p-4.5 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3">
               <div className="flex items-center justify-between">
-                <h3 className="text-xs font-extrabold text-gray-800 uppercase tracking-wider">
+                <h3 className="text-xs font-extrabold text-[#112A20] uppercase tracking-wider">
                   Own Mahallu Zakat Ledger
                 </h3>
-                <span className="text-[10px] bg-emerald-50 text-[#0D7C66] font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[10px] bg-[#F3EFE6] text-[#2D6A4F] font-bold px-2.5 py-0.5 rounded-full border border-[#EBE5D8]">
                   Ward 3 Retained (100%)
                 </span>
               </div>
 
-              <div className="p-4 bg-[#E8F6F3] rounded-2xl border border-[#0D7C66]/20">
-                <span className="text-xs font-bold text-[#0D7C66] block">
+              <div className="p-4 bg-[#F3EFE6] rounded-2xl border border-[#EBE5D8]">
+                <span className="text-xs font-bold text-[#1B4332] block">
                   Total Collections Received (Own Ward)
                 </span>
-                <span className="text-2xl font-extrabold text-[#0D7C66] font-mono mt-1 block">
+                <span className="text-2xl font-extrabold text-[#1B4332] font-mono mt-1 block">
                   ₹ {totalOwnMahalFunds.toLocaleString()}
                 </span>
-                
               </div>
             </div>
 
             {/* List of Incoming Contributions */}
             <div className="space-y-2.5">
-              <h3 className="text-xs font-bold text-gray-700 px-1">
+              <h3 className="text-xs font-bold text-[#526059] px-1">
                 Recent Direct Zakat Collections
               </h3>
 
               {donors.map((entry) => (
                 <div
                   key={entry.id}
-                  className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center"
+                  className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
                 >
                   <div className="space-y-0.5">
-                    <span className="text-xs font-bold text-gray-900 block">{entry.donorName}</span>
-                    <p className="text-[11px] text-gray-500">{entry.wardAddress} • {entry.zakatType}</p>
-                    <span className="text-[10px] font-mono text-gray-400 block">{entry.receiptNumber}</span>
+                    <span className="text-xs font-bold text-[#112A20] block">{entry.donorName}</span>
+                    <p className="text-[11px] text-[#526059]">{entry.wardAddress} • {entry.zakatType}</p>
+                    <span className="text-[10px] font-mono text-[#526059] block">{entry.receiptNumber}</span>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-xs sm:text-sm font-extrabold text-[#0D7C66] font-mono">
+                    <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono">
                       +₹ {entry.amount.toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-gray-400 block">{entry.date}</span>
+                    <span className="text-[10px] text-[#526059] block">{entry.date}</span>
                   </div>
                 </div>
               ))}
@@ -814,25 +811,25 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
       {/* Review Modal for "More Info Needed" */}
       {selectedReviewClaimant && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-5 space-y-4 shadow-2xl animate-in zoom-in-95">
-            <div className="flex justify-between items-center border-b pb-2">
-              <h3 className="font-bold text-sm text-gray-900">Request Further Clarification</h3>
+          <div className="bg-white w-full max-w-sm rounded-3xl p-5 space-y-4 shadow-2xl border border-[#EBE5D8] animate-in zoom-in-95">
+            <div className="flex justify-between items-center border-b border-[#EBE5D8] pb-2">
+              <h3 className="font-bold text-sm text-[#112A20]">Request Further Clarification</h3>
               <button
                 type="button"
                 onClick={() => setSelectedReviewClaimant(null)}
-                className="text-gray-400 hover:text-gray-600 text-sm font-bold"
+                className="w-7 h-7 rounded-full bg-[#F3EFE6] text-[#526059] hover:text-[#112A20] flex items-center justify-center text-xs font-bold"
               >
                 ✕
               </button>
             </div>
 
             <div>
-              <span className="text-xs text-gray-500">Applicant:</span>
-              <p className="text-xs font-bold text-gray-900">{selectedReviewClaimant.name}</p>
+              <span className="text-xs text-[#526059]">Applicant:</span>
+              <p className="text-xs font-bold text-[#112A20]">{selectedReviewClaimant.name}</p>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-gray-700 mb-1">
+              <label className="block text-xs font-semibold text-[#526059] mb-1">
                 Specific Documentation or Audit Questions Required:
               </label>
               <textarea
@@ -840,7 +837,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                 value={reviewNoteInput}
                 onChange={(e) => setReviewNoteInput(e.target.value)}
                 placeholder="e.g. Please provide recent electricity bill or hospital doctor receipt..."
-                className="w-full p-2.5 border border-gray-200 rounded-xl text-xs focus:outline-hidden focus:border-[#0D7C66]"
+                className="w-full p-2.5 border border-[#EBE5D8] rounded-xl text-xs text-[#112A20] focus:outline-hidden focus:border-[#40916C]"
               />
             </div>
 
@@ -848,14 +845,14 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
               <button
                 type="button"
                 onClick={() => setSelectedReviewClaimant(null)}
-                className="flex-1 py-2 bg-gray-100 text-gray-700 rounded-full text-xs font-bold"
+                className="flex-1 py-2 bg-[#F3EFE6] text-[#526059] hover:text-[#112A20] rounded-full text-xs font-bold cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={() => handleUpdateStatus(selectedReviewClaimant.id, 'More Info Needed', reviewNoteInput)}
-                className="flex-1 py-2 bg-[#0D7C66] text-white rounded-full text-xs font-bold"
+                className="flex-1 py-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full text-xs font-bold cursor-pointer"
               >
                 Save & Notify
               </button>

@@ -147,8 +147,10 @@ export const ZakatCalculator: React.FC<ZakatCalculatorProps> = ({
 
     try {
       setIsSaving(true);
-      await saveUserCalculation({
-        userId: user.uid,
+      const newCalc: any = {
+        id: `calc_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+        userId: user?.uid || 'community_member',
+        createdAt: new Date().toISOString(),
         cash: calculations.cashTotal,
         goldGrams: (inputs.goldGrams24k || 0) + (inputs.goldGrams22k || 0),
         silverGrams: inputs.silverGrams || 0,
@@ -160,8 +162,42 @@ export const ZakatCalculator: React.FC<ZakatCalculatorProps> = ({
         zakatDue: calculations.zakatDue,
         currency,
         status: 'calculated',
-      });
-      setSaveSuccessMsg("Calculation successfully saved to your profile!");
+      };
+
+      try {
+        const cached = localStorage.getItem('tazku_saved_calculations');
+        const parsed = cached ? JSON.parse(cached) : [];
+        localStorage.setItem('tazku_saved_calculations', JSON.stringify([newCalc, ...parsed]));
+      } catch (err) {
+        console.warn("Could not save to localStorage:", err);
+      }
+
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('tazku_calculation_saved', { detail: newCalc }));
+      }
+
+      if (user?.uid) {
+        try {
+          await saveUserCalculation({
+            userId: user.uid,
+            cash: calculations.cashTotal,
+            goldGrams: (inputs.goldGrams24k || 0) + (inputs.goldGrams22k || 0),
+            silverGrams: inputs.silverGrams || 0,
+            investments: calculations.stocksTotal,
+            businessAssets: calculations.businessTotal,
+            liabilities: calculations.totalLiabilities,
+            netZakatable: calculations.netZakatable,
+            nisabThreshold: activeNisabThreshold,
+            zakatDue: calculations.zakatDue,
+            currency,
+            status: 'calculated',
+          });
+        } catch (fbErr) {
+          console.warn("Firestore sync error:", fbErr);
+        }
+      }
+
+      setSaveSuccessMsg("Calculation successfully saved to your records!");
       setTimeout(() => setSaveSuccessMsg(null), 4000);
     } catch (err) {
       console.error("Save calculation failed:", err);

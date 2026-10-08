@@ -261,11 +261,11 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
 
   return (
     <div className="w-full">
-      {/* Container: Clean white elevated card (rounded-2xl with subtle #E2ECE9 border and soft shadow) */}
-      <div className="bg-white rounded-2xl border border-[#E2ECE9] shadow-sm hover:shadow-md transition-shadow overflow-hidden">
+      {/* Container: Clean white elevated card */}
+      <div className="bg-white rounded-2xl border border-[#EBE5D8] shadow-sm hover:shadow-md transition-shadow overflow-hidden">
         
         {/* Accent Bar at Top */}
-        <div className="h-1.5 w-full bg-linear-to-r from-amber-500 via-amber-400 to-teal-600" />
+        <div className="h-1.5 w-full bg-linear-to-r from-amber-500 via-amber-400 to-[#1B4332]" />
 
         {/* 2. Header & Fiqh Context Banner */}
         <div className="p-4 sm:p-5 pb-3.5 border-b border-[#F0F5F3]">
@@ -283,27 +283,27 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             </div>
 
             {/* Right Badge: Soft mint tag */}
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E8F6F3] text-[#0D7C66] text-[11px] font-bold border border-[#0D7C66]/20 shrink-0">
-              <Sparkles className="w-3 h-3 text-[#0D7C66]" />
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#E9F3ED] text-[#1B4332] text-[11px] font-bold border border-[#40916C]/20 shrink-0">
+              <Sparkles className="w-3 h-3 text-[#1B4332]" />
               <span>Auto-Detected via Linked Accounts</span>
             </div>
           </div>
         </div>
 
         {/* 3. Linked Bank Account & Live Balance Hero Card */}
-        <div className="p-4 sm:p-5 bg-linear-to-br from-[#F4FAF8] via-teal-50/40 to-white border-b border-[#E2ECE9]">
+        <div className="p-4 sm:p-5 bg-[#FBFBF9] border-b border-[#EBE5D8]">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3.5">
             <div className="flex items-center gap-3">
               <div className={`w-11 h-11 rounded-2xl text-white flex items-center justify-center shadow-xs shrink-0 ${
-                isAccountLinked ? 'bg-[#0D7C66]' : 'bg-amber-600'
+                isAccountLinked ? 'bg-[#1B4332]' : 'bg-[#D97706]'
               }`}>
                 <Landmark className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="font-extrabold text-sm text-gray-900">{activeBankName}</span>
+                  <span className="font-extrabold text-sm text-[#112A20]">{activeBankName}</span>
                   {isAccountLinked ? (
-                    <span className="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] font-bold px-2 py-0.5 rounded-full border border-[#40916C]/20">
                       Linked Account
                     </span>
                   ) : (
@@ -312,7 +312,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                     </span>
                   )}
                 </div>
-                <p className="text-[11px] text-gray-500 font-mono mt-0.5">
+                <p className="text-[11px] text-[#526059] font-mono mt-0.5">
                   {isAccountLinked 
                     ? `A/C: ${activeAccountNumber} • IFSC: ${activeIfsc} • ${activeAccountType}`
                     : 'Statement sync paused • Link your account to scan for Riba'}
@@ -322,17 +322,17 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             
             {/* Live Feed indicator or Link Action */}
             {isAccountLinked ? (
-              <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#0D7C66] bg-white px-3 py-1 rounded-full border border-teal-100 shadow-2xs self-start sm:self-auto">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <div className="inline-flex items-center gap-1.5 text-[11px] font-semibold text-[#1B4332] bg-white px-3 py-1 rounded-full border border-[#EBE5D8] shadow-2xs self-start sm:self-auto">
+                <span className="w-2 h-2 rounded-full bg-[#40916C] animate-pulse"></span>
                 <span>Live Net Banking Sync Active</span>
               </div>
             ) : onLinkBank ? (
               <button
                 type="button"
                 onClick={onLinkBank}
-                className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#0D7C66] hover:bg-[#0A6654] px-3.5 py-1.5 rounded-xl shadow-xs transition cursor-pointer self-start sm:self-auto active:scale-95"
+                className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[#1B4332] hover:bg-[#2D6A4F] px-3.5 py-1.5 rounded-xl shadow-xs transition cursor-pointer self-start sm:self-auto active:scale-95"
               >
-                <CreditCard className="w-3.5 h-3.5 text-teal-200" />
+                <CreditCard className="w-3.5 h-3.5 text-[#E9F3ED]" />
                 <span>Link Bank Account</span>
               </button>
             ) : (
@@ -346,26 +346,26 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
           {/* Account Balance & Total Interest Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
             {/* 1. Linked Bank Account Balance */}
-            <div className="bg-white rounded-2xl p-4 border border-[#E2ECE9] shadow-2xs">
+            <div className="bg-white rounded-2xl p-4 border border-[#EBE5D8] shadow-2xs">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-gray-500">
-                  <Wallet className="w-3.5 h-3.5 text-[#0D7C66]" />
+                <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-[#526059]">
+                  <Wallet className="w-3.5 h-3.5 text-[#1B4332]" />
                   <span>Total Bank Balance</span>
                 </div>
                 <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
                   isAccountLinked 
-                    ? 'text-teal-700 bg-teal-50 border-teal-100'
+                    ? 'text-[#1B4332] bg-[#E9F3ED] border-[#40916C]/20'
                     : 'text-amber-800 bg-amber-50 border-amber-200'
                 }`}>
                   {isAccountLinked ? 'Audited > ₹1,00,000' : 'Unlinked'}
                 </span>
               </div>
-              <div className="font-mono font-extrabold text-xl sm:text-2xl text-gray-900 mt-1.5">
+              <div className="font-mono font-extrabold text-xl sm:text-2xl text-[#112A20] mt-1.5">
                 {isAccountLinked 
                   ? `₹ ${bankBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}`
                   : '₹ 0.00'}
               </div>
-              <p className="text-[10px] text-gray-400 mt-0.5">
+              <p className="text-[10px] text-[#526059] mt-0.5">
                 {isAccountLinked 
                   ? 'Current ledger balance held in your linked bank account'
                   : 'Link your bank account to auto-fetch ledger balance'}
@@ -373,7 +373,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             </div>
 
             {/* 2. Total Interest Money in Bank Account */}
-            <div className="bg-linear-to-br from-amber-50 to-orange-50/60 rounded-2xl p-4 border border-amber-200/90 shadow-2xs">
+            <div className="bg-white rounded-2xl p-4 border border-amber-200/90 shadow-2xs">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-900">
                   <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
@@ -401,17 +401,17 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             <button
               type="button"
               onClick={() => setRecentMonthsModalOpen(true)}
-              className="w-full py-3 px-4 bg-white hover:bg-teal-50/60 border border-[#0D7C66]/40 hover:border-[#0D7C66] text-[#0D7C66] rounded-xl text-xs font-bold transition flex items-center justify-between shadow-2xs hover:shadow-xs cursor-pointer group active:scale-[0.99]"
+              className="w-full py-3 px-4 bg-white hover:bg-[#F3EFE6]/50 border border-[#EBE5D8] hover:border-[#40916C] text-[#112A20] rounded-xl text-xs font-bold transition flex items-center justify-between shadow-2xs hover:shadow-xs cursor-pointer group active:scale-[0.99]"
             >
               <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-lg bg-[#E8F6F3] group-hover:bg-[#0D7C66] text-[#0D7C66] group-hover:text-white flex items-center justify-center transition shadow-2xs">
+                <div className="w-7 h-7 rounded-lg bg-[#E9F3ED] group-hover:bg-[#1B4332] text-[#1B4332] group-hover:text-white flex items-center justify-center transition shadow-2xs">
                   <Calendar className="w-4 h-4" />
                 </div>
                 <div className="text-left">
-                  <span className="block font-extrabold text-xs text-gray-900 group-hover:text-[#0D7C66] transition">
+                  <span className="block font-extrabold text-xs text-[#112A20] group-hover:text-[#1B4332] transition">
                     View Interest Credited in Recent Months
                   </span>
-                  <span className="text-[10px] text-gray-400">
+                  <span className="text-[10px] text-[#526059]">
                     Month-by-month bank statement audit & credit dates
                   </span>
                 </div>
@@ -420,7 +420,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                 <span className="text-[10px] bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-200/60">
                   {bankRecords.length} Recent Credits • ₹ {totalAccumulatedInterest.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                 </span>
-                <ChevronRight className="w-4 h-4 text-[#0D7C66] group-hover:translate-x-0.5 transition-transform" />
+                <ChevronRight className="w-4 h-4 text-[#40916C] group-hover:translate-x-0.5 transition-transform" />
               </div>
             </button>
 
@@ -429,21 +429,21 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
               <button
                 type="button"
                 onClick={() => setIsAllocationSheetOpen(true)}
-                className="w-full bg-[#0D7C66] hover:bg-[#0A6654] text-white font-bold text-sm py-3.5 px-4 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
+                className="w-full bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-bold text-sm py-3.5 px-4 rounded-xl transition-all shadow-md hover:shadow-lg active:scale-[0.99] flex items-center justify-center gap-2 cursor-pointer"
               >
-                <HeartHandshake className="w-4 h-4 text-teal-200" />
+                <HeartHandshake className="w-4 h-4 text-[#E9F3ED]" />
                 <span>Donate / Purify Interest (₹ {totalAccumulatedInterest.toLocaleString('en-IN', { minimumFractionDigits: 2 })})</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             ) : (
-              <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-center justify-between">
+              <div className="bg-[#E9F3ED] border border-[#40916C]/20 rounded-xl p-3.5 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <CheckCircle2 className="w-5 h-5 text-[#0D7C66] shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-[#1B4332] shrink-0" />
                   <div>
-                    <span className="text-xs font-bold text-emerald-950">
+                    <span className="text-xs font-bold text-[#112A20]">
                       All Detected Interest Purified via Takhallus!
                     </span>
-                    <p className="text-[10px] text-emerald-700">
+                    <p className="text-[10px] text-[#2D6A4F]">
                       Receipt logged in Recent Activity. Zero illicit funds in your wealth pool.
                     </p>
                   </div>
@@ -453,7 +453,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                     <button
                       type="button"
                       onClick={() => onViewReceipt(lastPurifiedReceipt)}
-                      className="text-xs font-bold text-[#0D7C66] bg-white border border-emerald-300 px-2.5 py-1 rounded-lg hover:bg-emerald-50 transition cursor-pointer"
+                      className="text-xs font-bold text-[#1B4332] bg-white border border-[#EBE5D8] px-2.5 py-1 rounded-lg hover:bg-[#F3EFE6] transition cursor-pointer"
                     >
                       Receipt
                     </button>
@@ -481,7 +481,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
             
             {/* Modal Header */}
-            <div className="p-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-linear-to-r from-amber-50/70 to-teal-50/40">
+            <div className="p-5 pb-4 border-b border-[#EBE5D8] flex items-center justify-between bg-linear-to-r from-amber-50/70 to-[#E9F3ED]/60">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center shadow-xs">
                   <Landmark className="w-5 h-5" />
@@ -541,26 +541,26 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                         onClick={() => setSelectedDestination(dest.id)}
                         className={`p-3.5 rounded-2xl border transition-all cursor-pointer ${
                           isSelected 
-                            ? 'bg-[#E8F6F3]/60 border-[#0D7C66] shadow-xs ring-1 ring-[#0D7C66]' 
-                            : 'bg-white border-slate-200 hover:border-slate-300'
+                            ? 'bg-[#E9F3ED]/70 border-[#1B4332] shadow-xs ring-1 ring-[#1B4332]' 
+                            : 'bg-white border-[#EBE5D8] hover:border-[#40916C]/40'
                         }`}
                       >
                         <div className="flex items-start gap-3">
                           <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
-                            isSelected ? 'bg-[#0D7C66] text-white' : 'bg-slate-100 text-slate-600'
+                            isSelected ? 'bg-[#1B4332] text-white' : 'bg-[#F3EFE6] text-[#526059]'
                           }`}>
                             <IconComp className="w-4 h-4" />
                           </div>
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center justify-between gap-2">
-                              <span className="font-bold text-xs sm:text-sm text-gray-900">
+                              <span className="font-bold text-xs sm:text-sm text-[#112A20]">
                                 {dest.title}
                               </span>
                               <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200/60 shrink-0">
                                 {dest.tag}
                               </span>
                             </div>
-                            <p className="text-[11px] text-gray-500 mt-1 leading-snug">
+                            <p className="text-[11px] text-[#526059] mt-1 leading-snug">
                               {dest.description}
                             </p>
                           </div>
@@ -571,16 +571,14 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                 </div>
               </div>
 
-         
-
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
+            <div className="p-4 border-t border-[#EBE5D8] bg-[#FBFBF9] flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => setIsAllocationSheetOpen(false)}
-                className="px-4 py-2.5 text-xs font-bold text-gray-600 hover:text-gray-900 transition cursor-pointer"
+                className="px-4 py-2.5 text-xs font-bold text-[#526059] hover:text-[#112A20] transition cursor-pointer"
               >
                 Cancel
               </button>
@@ -589,13 +587,13 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                 type="button"
                 disabled={!hasAffirmedTakhallus || isProcessingDisposal}
                 onClick={handleConfirmDisposal}
-                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#0D7C66] hover:bg-[#0A6654] disabled:bg-slate-300 text-white font-bold text-xs sm:text-sm transition shadow-md hover:shadow-lg disabled:cursor-not-allowed cursor-pointer"
+                className="flex items-center gap-2 px-5 py-3 rounded-xl bg-[#1B4332] hover:bg-[#2D6A4F] disabled:bg-slate-300 text-white font-bold text-xs sm:text-sm transition shadow-md hover:shadow-lg disabled:cursor-not-allowed cursor-pointer"
               >
                 {isProcessingDisposal ? (
                   <span>Processing Transfer...</span>
                 ) : (
                   <>
-                    <CheckCircle2 className="w-4 h-4 text-teal-200" />
+                    <CheckCircle2 className="w-4 h-4 text-[#E9F3ED]" />
                     <span>Confirm Purification & Disburse ₹ {totalAccumulatedInterest.toLocaleString('en-IN', { minimumFractionDigits: 2 })}</span>
                   </>
                 )}
@@ -611,19 +609,19 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
       {/* ========================================================================= */}
       {isRecentMonthsModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden animate-in zoom-in-95 duration-200">
+          <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] flex flex-col shadow-2xl border border-[#EBE5D8] overflow-hidden animate-in zoom-in-95 duration-200">
             
             {/* Modal Header */}
-            <div className="p-5 pb-4 border-b border-slate-100 flex items-center justify-between bg-linear-to-r from-emerald-50 via-teal-50/50 to-amber-50/50">
+            <div className="p-5 pb-4 border-b border-[#EBE5D8] flex items-center justify-between bg-linear-to-r from-[#E9F3ED] via-white to-[#F3EFE6]">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-[#0D7C66] text-white flex items-center justify-center shadow-xs">
+                <div className="w-10 h-10 rounded-2xl bg-[#1B4332] text-white flex items-center justify-center shadow-xs">
                   <Calendar className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-extrabold text-base text-gray-900 leading-tight">
+                  <h3 className="font-extrabold text-base text-[#112A20] leading-tight">
                     Recent Months Interest Credits
                   </h3>
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-[#526059]">
                     Auto-detected statement credits from {activeBankName}
                   </p>
                 </div>
@@ -631,7 +629,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
               <button
                 type="button"
                 onClick={() => setRecentMonthsModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-white hover:bg-slate-100 flex items-center justify-center text-gray-400 hover:text-gray-700 transition cursor-pointer border border-slate-200"
+                className="w-8 h-8 rounded-full bg-white hover:bg-[#F3EFE6] flex items-center justify-center text-[#526059] hover:text-[#112A20] transition cursor-pointer border border-[#EBE5D8]"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -641,21 +639,21 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             <div className="p-5 overflow-y-auto space-y-4">
               
               {/* Account Overview & Balances Strip */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+              <div className="p-4 rounded-2xl bg-[#FBFBF9] border border-[#EBE5D8] space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#526059] block">
                       Linked Bank Account
                     </span>
-                    <span className="text-xs font-bold text-gray-900">
+                    <span className="text-xs font-bold text-[#112A20]">
                       {activeBankName} ({activeAccountNumber})
                     </span>
                   </div>
                   <div className="text-right">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#526059] block">
                       Total Ledger Balance
                     </span>
-                    <span className="font-mono font-extrabold text-sm text-[#0D7C66]">
+                    <span className="font-mono font-extrabold text-sm text-[#1B4332]">
                       ₹ {bankBalance.toLocaleString('en-IN', { minimumFractionDigits: 2 })}
                     </span>
                   </div>
@@ -680,7 +678,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                   <h4 className="text-xs font-bold text-gray-800">
                     Itemized Monthly Statement Credits ({bankRecords.length} Months):
                   </h4>
-                  <span className="text-[10px] text-teal-700 font-semibold">Live Audit</span>
+                  <span className="text-[10px] text-[#1B4332] font-semibold">Live Audit</span>
                 </div>
 
                 <div className="space-y-2.5">
@@ -741,11 +739,11 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between gap-3">
+            <div className="p-4 border-t border-[#EBE5D8] bg-[#FBFBF9] flex items-center justify-between gap-3">
               <button
                 type="button"
                 onClick={() => setRecentMonthsModalOpen(false)}
-                className="px-4 py-2.5 text-xs font-bold text-gray-600 hover:text-gray-900 transition cursor-pointer"
+                className="px-4 py-2.5 text-xs font-bold text-[#526059] hover:text-[#112A20] transition cursor-pointer"
               >
                 Close
               </button>
@@ -757,9 +755,9 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                     setRecentMonthsModalOpen(false);
                     setIsAllocationSheetOpen(true);
                   }}
-                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#0D7C66] hover:bg-[#0A6654] text-white font-bold text-xs transition shadow-md hover:shadow-lg cursor-pointer"
+                  className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-bold text-xs transition shadow-md hover:shadow-lg cursor-pointer"
                 >
-                  <HeartHandshake className="w-4 h-4 text-teal-200" />
+                  <HeartHandshake className="w-4 h-4 text-[#E9F3ED]" />
                   <span>Purify Interest (₹ {totalAccumulatedInterest.toLocaleString('en-IN', { minimumFractionDigits: 2 })})</span>
                 </button>
               )}

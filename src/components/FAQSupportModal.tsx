@@ -57,15 +57,15 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-xs">
-      <div className="bg-white w-full max-w-sm rounded-t-[2.5rem] sm:rounded-3xl p-6 max-h-[85vh] overflow-y-auto shadow-2xl border border-[#E2ECE9] animate-in slide-in-from-bottom-6 space-y-4">
+      <div className="bg-white w-full max-w-sm rounded-t-[2.5rem] sm:rounded-3xl p-6 max-h-[85vh] overflow-y-auto shadow-2xl border border-[#EBE5D8] animate-in slide-in-from-bottom-6 space-y-4">
         {/* Header with Tab switcher */}
-        <div className="flex items-center justify-between pb-2 border-b border-gray-100">
+        <div className="flex items-center justify-between pb-2 border-b border-[#EBE5D8]">
           <div className="flex gap-2">
             <button
               type="button"
               onClick={() => setActiveTab('faq')}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
-                activeTab === 'faq' ? 'bg-[#0D7C66] text-white shadow-xs' : 'text-gray-500 hover:bg-gray-100'
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
+                activeTab === 'faq' ? 'bg-[#1B4332] text-white shadow-xs' : 'text-[#526059] hover:bg-[#F3EFE6]'
               }`}
             >
               Frequently Asked Questions
@@ -73,8 +73,8 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('support')}
-              className={`px-3 py-1.5 rounded-full text-xs font-bold transition ${
-                activeTab === 'support' ? 'bg-[#0D7C66] text-white shadow-xs' : 'text-gray-500 hover:bg-gray-100'
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition cursor-pointer ${
+                activeTab === 'support' ? 'bg-[#1B4332] text-white shadow-xs' : 'text-[#526059] hover:bg-[#F3EFE6]'
               }`}
             >
               Help & Support
@@ -83,7 +83,7 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 flex items-center justify-center font-bold text-xs"
+            className="w-7 h-7 rounded-full bg-[#F3EFE6] text-[#526059] hover:text-[#112A20] flex items-center justify-center font-bold text-xs cursor-pointer"
           >
             ✕
           </button>
@@ -97,18 +97,18 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
               return (
                 <div
                   key={i}
-                  className="bg-[#F8FAF9] rounded-2xl border border-gray-100 overflow-hidden transition"
+                  className="bg-[#FBFBF9] rounded-2xl border border-[#EBE5D8] overflow-hidden transition"
                 >
                   <button
                     type="button"
                     onClick={() => setOpenFAQIndex(isOpen ? null : i)}
-                    className="w-full p-3.5 flex items-center justify-between text-left text-xs font-bold text-gray-900 gap-2"
+                    className="w-full p-3.5 flex items-center justify-between text-left text-xs font-bold text-[#112A20] gap-2 cursor-pointer"
                   >
                     <span>{f.q}</span>
-                    <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-4 h-4 text-[#526059] transition-transform ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
                   {isOpen && (
-                    <div className="px-3.5 pb-3.5 text-[11px] text-gray-600 leading-relaxed border-t border-gray-100 pt-2">
+                    <div className="px-3.5 pb-3.5 text-[11px] text-[#526059] leading-relaxed border-t border-[#EBE5D8] pt-2">
                       {f.a}
                     </div>
                   )}
@@ -121,9 +121,9 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
         {/* Tab 2: Help & Support */}
         {activeTab === 'support' && (
           <div className="space-y-4">
-            <div className="p-3 bg-[#E8F6F3] rounded-2xl text-xs text-gray-800 space-y-1">
-              <span className="font-bold text-[#0D7C66] block">Tazku Mahallu Assistance Desk</span>
-              <p className="text-[11px] text-gray-600">
+            <div className="p-3 bg-[#E9F3ED] rounded-2xl text-xs text-[#112A20] space-y-1 border border-[#40916C]/20">
+              <span className="font-bold text-[#1B4332] block">Tazku Mahallu Assistance Desk</span>
+              <p className="text-[11px] text-[#526059]">
                 Reach our Shariah advisory board or Mahallu technical support team.
               </p>
             </div>
@@ -132,16 +132,16 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
             <div className="grid grid-cols-2 gap-2 text-xs">
               <a
                 href="mailto:rifahip257@gmail.com"
-                className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-200 flex items-center gap-2 text-gray-700 hover:text-[#0D7C66]"
+                className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8] flex items-center gap-2 text-[#526059] hover:text-[#1B4332] transition"
               >
-                <Mail className="w-4 h-4 text-[#0D7C66]" />
+                <Mail className="w-4 h-4 text-[#40916C]" />
                 <span className="font-semibold text-[11px]">Email Support</span>
               </a>
               <a
                 href="tel:+919800012345"
-                className="p-2.5 bg-[#F8FAF9] rounded-xl border border-gray-200 flex items-center gap-2 text-gray-700 hover:text-[#0D7C66]"
+                className="p-2.5 bg-[#FBFBF9] rounded-xl border border-[#EBE5D8] flex items-center gap-2 text-[#526059] hover:text-[#1B4332] transition"
               >
-                <Phone className="w-4 h-4 text-[#0D7C66]" />
+                <Phone className="w-4 h-4 text-[#40916C]" />
                 <span className="font-semibold text-[11px]">Helpline</span>
               </a>
             </div>
@@ -149,38 +149,38 @@ export const FAQSupportModal: React.FC<FAQSupportModalProps> = ({
             {/* Send Support Ticket */}
             <form onSubmit={handleSendSupport} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">Subject</label>
+                <label className="block text-xs font-semibold text-[#112A20] mb-1">Subject</label>
                 <input
                   type="text"
                   required
                   value={supportSubject}
                   onChange={(e) => setSupportSubject(e.target.value)}
                   placeholder="e.g. Fiqh calculation inquiry, Ward registration"
-                  className="w-full px-3.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:bg-white focus:border-[#0D7C66] focus:outline-hidden"
+                  className="w-full px-3.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:bg-white focus:border-[#40916C] focus:outline-hidden"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-gray-700 mb-1">Your Message</label>
+                <label className="block text-xs font-semibold text-[#112A20] mb-1">Your Message</label>
                 <textarea
                   rows={3}
                   required
                   value={supportMessage}
                   onChange={(e) => setSupportMessage(e.target.value)}
                   placeholder="Describe your question or difficulty..."
-                  className="w-full px-3.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs focus:bg-white focus:border-[#0D7C66] focus:outline-hidden leading-relaxed"
+                  className="w-full px-3.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs focus:bg-white focus:border-[#40916C] focus:outline-hidden leading-relaxed"
                 />
               </div>
 
               {messageSent ? (
-                <div className="p-2.5 bg-emerald-50 text-emerald-800 text-xs font-bold rounded-xl text-center flex items-center justify-center gap-1.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-2.5 bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/30 text-xs font-bold rounded-xl text-center flex items-center justify-center gap-1.5">
+                  <CheckCircle2 className="w-4 h-4 text-[#40916C]" />
                   <span>Message sent to Mahallu Support! We will reply promptly.</span>
                 </div>
               ) : (
                 <button
                   type="submit"
-                  className="w-full py-3 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5"
+                  className="w-full py-3 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>Send Request to Support Team</span>

@@ -76,7 +76,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
           particleCount: 110,
           spread: 70,
           origin: { y: 0.6 },
-          colors: ['#0D7C66', '#E8F6F3', '#10B981', '#F59E0B'],
+          colors: ['#1B4332', '#40916C', '#E9F3ED', '#D97706'],
         });
       } catch (err) {
         // ignore
@@ -93,32 +93,32 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4 backdrop-blur-xs">
-      <div className="bg-white w-full max-w-sm rounded-t-[2.5rem] sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-8 duration-200 border border-[#E2ECE9] shadow-2xl space-y-4">
+      <div className="bg-white w-full max-w-sm rounded-t-[2.5rem] sm:rounded-3xl p-6 max-h-[90vh] overflow-y-auto animate-in slide-in-from-bottom-8 duration-200 border border-[#EBE5D8] shadow-2xl space-y-4">
         {/* Header */}
-        <div className="flex justify-between items-center border-b border-gray-100 pb-3">
+        <div className="flex justify-between items-center border-b border-[#EBE5D8] pb-3">
           <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-[#0D7C66]"></span>
-            <h2 className="font-bold text-sm text-gray-900">Wakalah Proxy Entrustment</h2>
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1B4332]"></span>
+            <h2 className="font-bold text-sm text-[#112A20]">Wakalah Proxy Entrustment</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="w-7 h-7 rounded-full bg-gray-100 text-gray-400 hover:text-gray-700 flex items-center justify-center font-bold text-xs"
+            className="w-7 h-7 rounded-full bg-[#F3EFE6] text-[#526059] hover:text-[#112A20] flex items-center justify-center font-bold text-xs cursor-pointer"
           >
             ✕
           </button>
         </div>
 
         {/* Vakeel Info */}
-        <div className="p-3.5 bg-[#E8F6F3] rounded-2xl border border-[#0D7C66]/20 space-y-1">
+        <div className="p-3.5 bg-[#E9F3ED] rounded-2xl border border-[#40916C]/20 space-y-1">
           <div className="flex items-center justify-between">
-            <h3 className="font-bold text-sm text-gray-900">{vakeel.name}</h3>
-            <span className="text-[10px] bg-[#0D7C66] text-white px-2 py-0.5 rounded-full font-bold">
+            <h3 className="font-bold text-sm text-[#112A20]">{vakeel.name}</h3>
+            <span className="text-[10px] bg-[#1B4332] text-white px-2 py-0.5 rounded-full font-bold">
               {vakeel.regNumber}
             </span>
           </div>
-          <p className="text-[11px] text-[#0D7C66] font-medium">{vakeel.title}</p>
-          <p className="text-[10px] text-gray-500">{vakeel.mahalluJurisdiction}</p>
+          <p className="text-[11px] text-[#1B4332] font-medium">{vakeel.title}</p>
+          <p className="text-[10px] text-[#526059]">{vakeel.mahalluJurisdiction}</p>
         </div>
 
         {/* Shariah Wakalah Declaration Text */}
@@ -135,7 +135,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-3.5">
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1.5">
+            <label className="block text-xs font-semibold text-[#112A20] mb-1.5">
               Entrusted Zakat Amount (₹)
             </label>
             <div className="grid grid-cols-3 gap-2 mb-2">
@@ -147,10 +147,10 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
                     setAmount(p);
                     setCustomStr(String(p));
                   }}
-                  className={`py-2 text-xs font-bold rounded-xl border transition ${
+                  className={`py-2 text-xs font-bold rounded-xl border transition cursor-pointer ${
                     amount === p
-                      ? 'bg-[#0D7C66] text-white border-[#0D7C66]'
-                      : 'bg-[#F8FAF9] text-gray-700 border-gray-200 hover:bg-gray-100'
+                      ? 'bg-[#1B4332] text-white border-[#1B4332]'
+                      : 'bg-[#FBFBF9] text-[#526059] border-[#EBE5D8] hover:bg-[#F3EFE6]'
                   }`}
                 >
                   ₹{p.toLocaleString('en-IN')}
@@ -159,7 +159,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
             </div>
 
             <div className="relative">
-              <span className="absolute left-3.5 top-2.5 text-xs font-bold text-gray-400">₹</span>
+              <span className="absolute left-3.5 top-2.5 text-xs font-bold text-[#526059]">₹</span>
               <input
                 type="number"
                 min="100"
@@ -168,7 +168,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
                   setCustomStr(e.target.value);
                   setAmount(parseFloat(e.target.value) || 0);
                 }}
-                className="w-full pl-8 pr-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:bg-white focus:border-[#0D7C66] focus:outline-hidden"
+                className="w-full pl-8 pr-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:bg-white focus:border-[#40916C] focus:outline-hidden"
                 placeholder="Custom Amount"
                 required
               />
@@ -176,7 +176,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-gray-700 mb-1">
+            <label className="block text-xs font-semibold text-[#112A20] mb-1">
               Intention (Niyyah)
             </label>
             <div className="grid grid-cols-3 gap-1.5">
@@ -185,10 +185,10 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
                   key={type}
                   type="button"
                   onClick={() => setZakatType(type)}
-                  className={`py-1.5 text-[10px] font-bold rounded-lg border text-center transition ${
+                  className={`py-1.5 text-[10px] font-bold rounded-lg border text-center transition cursor-pointer ${
                     zakatType === type
-                      ? 'bg-[#E8F6F3] border-[#0D7C66] text-[#0D7C66]'
-                      : 'bg-[#F8FAF9] text-gray-600 border-gray-200'
+                      ? 'bg-[#E9F3ED] border-[#40916C] text-[#1B4332]'
+                      : 'bg-[#FBFBF9] text-[#526059] border-[#EBE5D8]'
                   }`}
                 >
                   {type === 'Sadaqah Nafilah' ? 'Sadaqah' : type}
@@ -200,7 +200,7 @@ export const WakalahModal: React.FC<WakalahModalProps> = ({
           <button
             type="submit"
             disabled={isProcessing || amount <= 0}
-            className="w-full py-3 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition disabled:opacity-50 flex items-center justify-center gap-1.5"
+            className="w-full py-3 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-md transition disabled:opacity-50 flex items-center justify-center gap-1.5 cursor-pointer"
           >
             <Lock className="w-3.5 h-3.5" />
             <span>

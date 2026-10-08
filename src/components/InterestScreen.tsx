@@ -64,12 +64,12 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
     <div className="flex-1 flex flex-col pb-20 animate-in fade-in duration-200">
       
       {/* Top Header */}
-      <div className="bg-[#0D7C66] text-white p-5 sm:p-6 rounded-b-[2.5rem] shadow-sm">
+      <div className="bg-[#1B4332] text-white p-5 sm:p-6 rounded-b-[2.5rem] shadow-sm">
         <div className="flex items-center justify-between mb-4">
           <button
             type="button"
             onClick={onBackToHome}
-            className="flex items-center gap-1.5 text-xs font-semibold text-teal-100 hover:text-white transition cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-semibold text-[#F3EFE6] hover:text-white transition cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Home</span>
@@ -112,9 +112,9 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
                   <button
                     type="button"
                     onClick={onLinkBank}
-                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#0D7C66] hover:bg-[#0A6654] text-white font-bold text-xs transition shadow-xs cursor-pointer active:scale-95"
+                    className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-bold text-xs transition shadow-xs cursor-pointer active:scale-95"
                   >
-                    <CreditCard className="w-4 h-4 text-teal-200" />
+                    <CreditCard className="w-4 h-4 text-[#E9F3ED]" />
                     <span>Link Bank Account Now</span>
                   </button>
                 </div>
@@ -126,8 +126,8 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
         {/* Core Bank Interest Tracker & Disposal Module */}
         <div>
           <div className="mb-2">
-            <h2 className="text-sm font-bold text-gray-900">Live Bank Statement Tracker</h2>
-            <p className="text-[11px] text-gray-500">Auto-detected interest credits isolated from Zakatable wealth</p>
+            <h2 className="text-sm font-bold text-[#112A20]">Live Bank Statement Tracker</h2>
+            <p className="text-[11px] text-[#526059]">Auto-detected interest credits isolated from Zakatable wealth</p>
           </div>
 
           <InterestPurificationModule
@@ -143,15 +143,15 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
 
         {/* Purification History & Audited Receipts */}
         {purificationHistory.length > 0 && (
-          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#E2ECE9] shadow-xs">
+          <div className="bg-white rounded-2xl p-4 sm:p-5 border border-[#EBE5D8] shadow-xs">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-[#0D7C66]" />
-                <h3 className="text-xs sm:text-sm font-bold text-gray-900">
+                <CheckCircle2 className="w-4 h-4 text-[#40916C]" />
+                <h3 className="text-xs sm:text-sm font-bold text-[#112A20]">
                   Your Purification History
                 </h3>
               </div>
-              <span className="text-[10px] font-bold text-[#0D7C66] bg-teal-50 px-2 py-0.5 rounded-full border border-teal-100">
+              <span className="text-[10px] font-bold text-[#1B4332] bg-[#E9F3ED] px-2 py-0.5 rounded-full border border-[#40916C]/20">
                 Audited Ledger
               </span>
             </div>
@@ -164,12 +164,12 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
                 >
                   <div>
                     <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-gray-900">{item.name}</span>
+                      <span className="text-xs font-bold text-[#112A20]">{item.name}</span>
                       <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-sm bg-amber-100 text-amber-800">
                         Purified
                       </span>
                     </div>
-                    <p className="text-[10px] text-gray-400 mt-0.5">
+                    <p className="text-[10px] text-[#526059] mt-0.5">
                       {item.date} • Receipt: <span className="font-mono">{item.receiptNumber}</span>
                     </p>
                   </div>
@@ -178,7 +178,7 @@ export const InterestScreen: React.FC<InterestScreenProps> = ({
                     <button
                       type="button"
                       onClick={() => onViewReceipt(item.receiptNumber)}
-                      className="text-[10px] font-bold text-[#0D7C66] bg-white border border-teal-200 px-2 py-1 rounded-md hover:bg-teal-50 transition cursor-pointer"
+                      className="text-[10px] font-bold text-[#1B4332] bg-white border border-[#EBE5D8] px-2 py-1 rounded-md hover:bg-[#F3EFE6] transition cursor-pointer"
                     >
                       Certificate
                     </button>

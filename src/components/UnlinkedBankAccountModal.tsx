@@ -31,11 +31,11 @@ export const UnlinkedBankAccountModal: React.FC<UnlinkedBankAccountModalProps> =
       onClick={onClose}
     >
       <div 
-        className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-gray-100 animate-in zoom-in-95 duration-200"
+        className="bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-[#EBE5D8] animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header with Teal/Amber theme */}
-        <div className="bg-linear-to-br from-[#0D7C66] to-[#0A6654] p-6 text-white relative">
+        {/* Header with Deep Forest Emerald theme */}
+        <div className="bg-[#1B4332] p-6 text-white relative">
           <button
             type="button"
             onClick={onClose}
@@ -50,7 +50,7 @@ export const UnlinkedBankAccountModal: React.FC<UnlinkedBankAccountModalProps> =
               <Landmark className="w-6 h-6" />
             </div>
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-teal-200 bg-white/15 px-2 py-0.5 rounded-full border border-white/20 inline-block mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#F3EFE6] bg-white/15 px-2 py-0.5 rounded-full border border-white/20 inline-block mb-1">
                 Bank Connection Required
               </span>
               <h2 className="text-lg sm:text-xl font-extrabold text-white leading-tight">
@@ -79,20 +79,20 @@ export const UnlinkedBankAccountModal: React.FC<UnlinkedBankAccountModalProps> =
 
           {/* Key Advantages Checklist */}
           <div className="space-y-2.5">
-            <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider block">
+            <span className="text-[11px] font-bold text-[#526059] uppercase tracking-wider block">
               Why link your bank account?
             </span>
-            <div className="grid grid-cols-1 gap-2 text-xs text-gray-700">
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8FAF9] border border-gray-100">
-                <ShieldCheck className="w-4 h-4 text-[#0D7C66] shrink-0" />
+            <div className="grid grid-cols-1 gap-2 text-xs text-[#112A20]">
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
+                <ShieldCheck className="w-4 h-4 text-[#40916C]" shrink-0 />
                 <span>Automatic isolation of interest from Halal wealth</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8FAF9] border border-gray-100">
-                <Sparkles className="w-4 h-4 text-[#0D7C66] shrink-0" />
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
+                <Sparkles className="w-4 h-4 text-[#40916C]" shrink-0 />
                 <span>Live statement scan with 100% audited Takhallus ledger</span>
               </div>
-              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#F8FAF9] border border-gray-100">
-                <CreditCard className="w-4 h-4 text-[#0D7C66] shrink-0" />
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
+                <CreditCard className="w-4 h-4 text-[#40916C]" shrink-0 />
                 <span>Zero-fee direct bank-to-charity disbursement</span>
               </div>
             </div>
@@ -106,9 +106,9 @@ export const UnlinkedBankAccountModal: React.FC<UnlinkedBankAccountModalProps> =
                 onClose();
                 onLinkBank();
               }}
-              className="w-full py-3.5 px-4 rounded-2xl bg-[#0D7C66] hover:bg-[#0A6654] text-white font-extrabold text-sm transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
+              className="w-full py-3.5 px-4 rounded-2xl bg-[#1B4332] hover:bg-[#2D6A4F] text-white font-extrabold text-sm transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer active:scale-[0.99]"
             >
-              <CreditCard className="w-4 h-4 text-teal-200" />
+              <CreditCard className="w-4 h-4 text-[#E9F3ED]" />
               <span>Link Bank Account Now</span>
               <ArrowRight className="w-4 h-4" />
             </button>

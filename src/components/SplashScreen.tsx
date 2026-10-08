@@ -54,7 +54,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, onSkip }
             : { opacity: 1, scale: 1 }
         }
         transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-        className="fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-[#0D7C66] text-white overflow-hidden select-none"
+        className="fixed inset-0 z-50 min-h-screen flex items-center justify-center bg-[#1B4332] text-white overflow-hidden select-none"
       >
         {/* Subtle ambient radial glow behind the wordmark */}
         <motion.div
@@ -120,8 +120,8 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, onSkip }
             transition={{ delay: 0.4, duration: 0.5, ease: 'easeOut' }}
             className="mt-3 flex items-center gap-2"
           >
-            <span className="h-1.5 w-1.5 rounded-full bg-teal-200 animate-pulse"></span>
-            <span className="text-xs uppercase tracking-widest text-teal-100 font-semibold">
+            <span className="h-1.5 w-1.5 rounded-full bg-[#40916C] animate-pulse"></span>
+            <span className="text-xs uppercase tracking-widest text-[#D8F3DC] font-semibold">
               Community Zakat & Mahallu Platform
             </span>
           </motion.div>
@@ -132,7 +132,7 @@ export const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete, onSkip }
           <button
             type="button"
             onClick={onSkip}
-            className="absolute bottom-6 right-6 text-[11px] text-teal-200/60 hover:text-white px-3 py-1.5 rounded-full bg-black/10 hover:bg-black/20 transition-all font-medium tracking-wide"
+            className="absolute bottom-6 right-6 text-[11px] text-[#D8F3DC]/70 hover:text-white px-3 py-1.5 rounded-full bg-black/10 hover:bg-black/20 transition-all font-medium tracking-wide"
           >
             Skip Intro →
           </button>

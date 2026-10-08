@@ -89,26 +89,26 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs overflow-y-auto">
-      <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-slate-200 relative my-8 animate-in fade-in zoom-in-95 duration-200">
+      <div className="bg-white rounded-3xl max-w-3xl w-full p-6 sm:p-8 shadow-2xl border border-[#EBE5D8] relative my-8 animate-in fade-in zoom-in-95 duration-200">
         {/* Header */}
-        <div className="flex items-start justify-between pb-6 border-b border-slate-100">
+        <div className="flex items-start justify-between pb-6 border-b border-[#EBE5D8]">
           <div className="flex items-center space-x-3">
             {user.photoURL ? (
               <img
                 src={user.photoURL}
                 alt={user.displayName || 'User'}
-                className="w-12 h-12 rounded-full border-2 border-emerald-600"
+                className="w-12 h-12 rounded-full border-2 border-[#1B4332]"
               />
             ) : (
-              <div className="w-12 h-12 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-lg">
+              <div className="w-12 h-12 rounded-full bg-[#1B4332] text-white flex items-center justify-center font-bold text-lg">
                 {user.displayName?.charAt(0) || 'U'}
               </div>
             )}
             <div>
-              <h3 className="text-lg font-extrabold text-slate-900">
+              <h3 className="text-lg font-extrabold text-[#112A20]">
                 {user.displayName || 'Zakat Donor Profile'}
               </h3>
-              <p className="text-xs text-slate-500">{user.email}</p>
+              <p className="text-xs text-[#526059]">{user.email}</p>
             </div>
           </div>
 
@@ -119,7 +119,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
                 signOut();
                 onClose();
               }}
-              className="p-2 text-slate-400 hover:text-red-600 rounded-lg hover:bg-red-50 text-xs font-semibold flex items-center space-x-1"
+              className="p-2 text-[#526059] hover:text-red-600 rounded-lg hover:bg-red-50 text-xs font-semibold flex items-center space-x-1 cursor-pointer"
               title="Sign out"
             >
               <LogOut className="w-4 h-4" />
@@ -128,7 +128,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
             <button
               type="button"
               onClick={onClose}
-              className="p-2 text-slate-400 hover:text-slate-700 rounded-full hover:bg-slate-100"
+              className="p-2 text-[#526059] hover:text-[#112A20] rounded-full hover:bg-[#F3EFE6] cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -136,13 +136,13 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         </div>
 
         {/* Preferences settings pill */}
-        <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs">
+        <div className="mt-4 p-4 rounded-2xl bg-[#FBFBF9] border border-[#EBE5D8] flex flex-wrap items-center justify-between gap-4 text-xs">
           <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-700">Preferred Madhhab:</span>
+            <span className="font-semibold text-[#112A20]">Preferred Madhhab:</span>
             <select
               value={profile?.madhhab || 'Shafii'}
               onChange={(e) => updatePreferences(currency, e.target.value as Madhhab)}
-              className="px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800"
+              className="px-2.5 py-1 bg-white border border-[#EBE5D8] rounded-lg text-xs font-medium text-[#112A20] focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C]"
             >
               <option value="Shafii">Shafi'i (Jewelry Exempt)</option>
               <option value="Hanafi">Hanafi (All Jewelry Subject)</option>
@@ -152,7 +152,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="font-semibold text-slate-700">Default Currency:</span>
+            <span className="font-semibold text-[#112A20]">Default Currency:</span>
             <select
               value={currency}
               onChange={(e) => {
@@ -160,7 +160,7 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
                 setCurrency(newCurr);
                 updatePreferences(newCurr, profile?.madhhab || 'Shafii');
               }}
-              className="px-2.5 py-1 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800"
+              className="px-2.5 py-1 bg-white border border-[#EBE5D8] rounded-lg text-xs font-medium text-[#112A20] focus:outline-hidden focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C]"
             >
               <option value="USD">USD ($)</option>
               <option value="EUR">EUR (€)</option>
@@ -174,14 +174,14 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         </div>
 
         {/* Sub-Tabs */}
-        <div className="flex space-x-2 mt-6 border-b border-slate-100 pb-2 text-xs font-bold">
+        <div className="flex space-x-2 mt-6 border-b border-[#EBE5D8] pb-2 text-xs font-bold">
           <button
             type="button"
             onClick={() => setActiveTab('calculations')}
-            className={`px-4 py-2 rounded-xl transition-all ${
+            className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${
               activeTab === 'calculations'
-                ? 'bg-[#0F5132] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'text-[#526059] hover:bg-[#F3EFE6]'
             }`}
           >
             Saved Calculations ({calculations.length})
@@ -189,10 +189,10 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('disbursements')}
-            className={`px-4 py-2 rounded-xl transition-all ${
+            className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${
               activeTab === 'disbursements'
-                ? 'bg-[#0F5132] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'text-[#526059] hover:bg-[#F3EFE6]'
             }`}
           >
             My Disbursements & Receipts ({donations.length})
@@ -200,10 +200,10 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
           <button
             type="button"
             onClick={() => setActiveTab('applications')}
-            className={`px-4 py-2 rounded-xl transition-all ${
+            className={`px-4 py-2 rounded-xl transition-all cursor-pointer ${
               activeTab === 'applications'
-                ? 'bg-[#0F5132] text-white shadow-xs'
-                : 'text-slate-600 hover:bg-slate-100'
+                ? 'bg-[#1B4332] text-white shadow-xs'
+                : 'text-[#526059] hover:bg-[#F3EFE6]'
             }`}
           >
             Aid Applications ({applications.length})
@@ -213,31 +213,31 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
         {/* Tab Content */}
         <div className="mt-4 max-h-96 overflow-y-auto">
           {loading ? (
-            <div className="py-12 text-center text-slate-400 text-xs">
+            <div className="py-12 text-center text-[#526059] text-xs">
               Loading your records from Firestore...
             </div>
           ) : activeTab === 'calculations' ? (
             calculations.length === 0 ? (
-              <div className="py-12 text-center text-slate-400 text-xs">
+              <div className="py-12 text-center text-[#526059] text-xs">
                 No saved calculations yet. Use the Zakat Calculator to save your annual records.
               </div>
             ) : (
               <div className="space-y-3">
                 {calculations.map((c) => (
-                  <div key={c.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between text-xs">
+                  <div key={c.id} className="p-4 rounded-xl border border-[#EBE5D8] bg-[#FBFBF9] flex items-center justify-between text-xs">
                     <div>
-                      <div className="font-bold text-slate-900">
+                      <div className="font-bold text-[#112A20]">
                         Zakat Obligation: {formatCurrency(c.zakatDue, c.currency)}
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">
+                      <div className="text-[11px] text-[#526059] mt-0.5">
                         Net Wealth: {formatCurrency(c.netZakatable, c.currency)} • Nisab: {formatCurrency(c.nisabThreshold, c.currency)}
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-1 flex items-center space-x-1">
-                        <Calendar className="w-3 h-3" />
+                      <div className="text-[10px] text-[#526059]/80 mt-1 flex items-center space-x-1">
+                        <Calendar className="w-3 h-3 text-[#40916C]" />
                         <span>{new Date(c.createdAt).toLocaleDateString()}</span>
                       </div>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/20">
                       Calculated
                     </span>
                   </div>
@@ -246,28 +246,28 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
             )
           ) : activeTab === 'disbursements' ? (
             donations.length === 0 ? (
-              <div className="py-12 text-center text-slate-400 text-xs">
+              <div className="py-12 text-center text-[#526059] text-xs">
                 No disbursements recorded on this account yet.
               </div>
             ) : (
               <div className="space-y-3">
                 {donations.map((d) => (
-                  <div key={d.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between text-xs">
+                  <div key={d.id} className="p-4 rounded-xl border border-[#EBE5D8] bg-[#FBFBF9] flex items-center justify-between text-xs">
                     <div>
-                      <div className="font-mono font-bold text-emerald-800">
+                      <div className="font-mono font-bold text-[#1B4332]">
                         {d.receiptNumber}
                       </div>
-                      <div className="font-semibold text-slate-900 mt-0.5">
+                      <div className="font-semibold text-[#112A20] mt-0.5">
                         {d.caseTitle}
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">
+                      <div className="text-[11px] text-[#526059] mt-0.5">
                         {d.zakatType} • {formatCurrency(d.amount, d.currency)}
                       </div>
                     </div>
                     <button
                       type="button"
                       onClick={() => onViewCertificate(d)}
-                      className="px-3 py-1.5 rounded-lg font-bold text-xs bg-[#0F5132] text-white hover:bg-[#1B4332] transition-colors"
+                      className="px-3 py-1.5 rounded-lg font-bold text-xs bg-[#1B4332] text-white hover:bg-[#2D6A4F] transition-colors cursor-pointer shadow-xs"
                     >
                       View Certificate
                     </button>
@@ -277,25 +277,25 @@ export const UserDashboard: React.FC<UserDashboardProps> = ({
             )
           ) : (
             applications.length === 0 ? (
-              <div className="py-12 text-center text-slate-400 text-xs">
+              <div className="py-12 text-center text-[#526059] text-xs">
                 You have not submitted any aid applications yet.
               </div>
             ) : (
               <div className="space-y-3">
                 {applications.map((a) => (
-                  <div key={a.id} className="p-4 rounded-xl border border-slate-200 bg-slate-50/60 flex items-center justify-between text-xs">
+                  <div key={a.id} className="p-4 rounded-xl border border-[#EBE5D8] bg-[#FBFBF9] flex items-center justify-between text-xs">
                     <div>
-                      <div className="font-bold text-slate-900">
+                      <div className="font-bold text-[#112A20]">
                         {a.beneficiaryAlias} ({a.category})
                       </div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">
+                      <div className="text-[11px] text-[#526059] mt-0.5">
                         Requested: {formatCurrency(a.requestedAmount, a.currency)} • {a.location}
                       </div>
-                      <div className="text-[10px] text-slate-400 mt-1">
+                      <div className="text-[10px] text-[#526059]/80 mt-1">
                         Submitted: {new Date(a.createdAt).toLocaleDateString()}
                       </div>
                     </div>
-                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-100 text-amber-800">
+                    <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-[#FEF3C7] text-[#B45309] border border-[#D97706]/20">
                       Under Ward Review
                     </span>
                   </div>

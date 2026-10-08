@@ -21,6 +21,7 @@ import {
   updateDoc,
   collection, 
   query, 
+  where,
   getDocs, 
   orderBy, 
   limit, 
@@ -294,6 +295,21 @@ export async function saveUserCalculation(calc: Omit<SavedCalculation, 'id' | 'c
     return id;
   } catch (err) {
     handleFirestoreError(err, OperationType.CREATE, `calculations/${id}`);
+  }
+}
+
+export async function getUserCalculations(userId: string): Promise<SavedCalculation[]> {
+  try {
+    const q = query(
+      collection(db, 'calculations'),
+      where('userId', '==', userId),
+      orderBy('createdAt', 'desc')
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(d => d.data() as SavedCalculation);
+  } catch (err) {
+    console.warn("Could not fetch remote calculations:", err);
+    return [];
   }
 }
 

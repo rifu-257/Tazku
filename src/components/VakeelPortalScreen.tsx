@@ -318,14 +318,14 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-[#F8FAF9] min-h-screen text-gray-900 font-sans pb-24">
-      {/* 1. Header: Vakeel Profile & Certification ID */}
-      <div className="bg-[#0D7C66] text-white pt-6 pb-6 px-4 rounded-b-[2.5rem] shadow-sm relative">
+    <div className="flex-1 flex flex-col bg-[#FBFBF9] min-h-screen text-[#112A20] font-sans pb-24">
+      {/* 1. Header: Vakeel Profile & Certification ID (Deep Forest Emerald #1B4332) */}
+      <div className="bg-[#1B4332] text-white pt-6 pb-6 px-4 rounded-b-[2.5rem] shadow-sm relative">
         <div className="flex items-center justify-between mb-3">
           <button
             type="button"
             onClick={onBackToHome}
-            className="flex items-center gap-1.5 text-xs text-teal-100 hover:text-white transition bg-white/10 px-3 py-1.5 rounded-full"
+            className="flex items-center gap-1.5 text-xs text-[#F3EFE6] hover:text-white transition bg-white/10 px-3 py-1.5 rounded-full cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Tazku</span>
@@ -346,12 +346,12 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
             <h1 className="text-lg font-bold text-white leading-tight">
               Usthad Muhammad Musliyar
             </h1>
-            <p className="text-xs text-teal-100 mt-0.5">
+            <p className="text-xs text-[#F3EFE6] mt-0.5">
               Authorized Vakeel • ID: #VK-88 (Shariah Verified)
             </p>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-400/20 text-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300/40">
-                <ShieldCheck className="w-3 h-3 text-emerald-300" />
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#E9F3ED]/20 text-[#E9F3ED] px-2.5 py-0.5 rounded-full border border-[#E9F3ED]/30">
+                <ShieldCheck className="w-3 h-3 text-[#E9F3ED]" />
                 Wakil bil-Qabd Certified
               </span>
               <span className="text-[10px] bg-amber-400/20 text-amber-100 px-2 py-0.5 rounded-full font-bold">
@@ -364,19 +364,19 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
         {/* Financial Overview Cards */}
         <div className="grid grid-cols-3 gap-2 mt-4 pt-3 border-t border-white/15 text-center">
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Total Entrusted</span>
+            <span className="text-[10px] text-[#F3EFE6] block">Total Entrusted</span>
             <span className="text-xs sm:text-sm font-extrabold text-white font-mono">
               ₹ {totalEntrusted.toLocaleString()}
             </span>
           </div>
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Disbursed</span>
-            <span className="text-xs sm:text-sm font-extrabold text-emerald-300 font-mono">
+            <span className="text-[10px] text-[#F3EFE6] block">Disbursed</span>
+            <span className="text-xs sm:text-sm font-extrabold text-[#E9F3ED] font-mono">
               ₹ {totalExecuted.toLocaleString()}
             </span>
           </div>
           <div className="bg-white/10 rounded-xl p-2">
-            <span className="text-[10px] text-teal-100 block">Unallocated</span>
+            <span className="text-[10px] text-[#F3EFE6] block">Unallocated</span>
             <span className="text-xs sm:text-sm font-extrabold text-white font-mono">
               ₹ {totalRemaining.toLocaleString()}
             </span>
@@ -386,7 +386,7 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
 
       {/* 2. Navigation Tabs */}
       <div className="px-4 mt-3">
-        <div className="flex bg-[#E8F6F3] p-1 rounded-2xl gap-1">
+        <div className="flex bg-[#E9F3ED] p-1 rounded-2xl gap-1 border border-[#EBE5D8]">
           {[
             { id: 'assigned', label: 'Assigned Funds' },
             { id: 'niyyah', label: 'Niyyah Log' },
@@ -397,10 +397,10 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as any)}
-              className={`flex-1 py-2 text-[11px] font-extrabold rounded-xl transition text-center ${
+              className={`flex-1 py-2 text-[11px] font-extrabold rounded-xl transition text-center cursor-pointer ${
                 activeTab === tab.id
-                  ? 'bg-[#0D7C66] text-white shadow-xs'
-                  : 'text-[#0D7C66] hover:bg-white/50'
+                  ? 'bg-[#1B4332] text-white shadow-xs'
+                  : 'text-[#1B4332] hover:bg-white/50'
               }`}
             >
               {tab.label}
@@ -417,10 +417,10 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-gray-900">Entrusted Donor Portfolios</h3>
-                <p className="text-xs text-gray-500">Zakat capital received under Shariah Wakalah terms</p>
+                <h3 className="text-sm font-bold text-[#112A20]">Entrusted Donor Portfolios</h3>
+                <p className="text-xs text-[#526059]">Zakat capital received under Shariah Wakalah terms</p>
               </div>
-              <span className="text-xs font-bold text-[#0D7C66] bg-[#E8F6F3] px-2 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-[#1B4332] bg-[#E9F3ED] px-2 py-0.5 rounded-full border border-[#40916C]/20">
                 {assignedFunds.length} Donors
               </span>
             </div>
@@ -431,55 +431,55 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                 return (
                   <div
                     key={fund.id}
-                    className="bg-white p-4 rounded-3xl border border-gray-100 shadow-xs space-y-3"
+                    className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3"
                   >
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-bold text-xs sm:text-sm text-gray-900">{fund.donorName}</h4>
-                        <span className="text-[10px] font-bold text-[#0D7C66] bg-[#E8F6F3] px-2 py-0.5 rounded-md mt-1 inline-block">
+                        <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{fund.donorName}</h4>
+                        <span className="text-[10px] font-bold text-[#1B4332] bg-[#E9F3ED] px-2 py-0.5 rounded-md mt-1 inline-block border border-[#40916C]/20">
                           {fund.zakatType}
                         </span>
                       </div>
                       <div className="text-right">
-                        <span className="text-xs sm:text-sm font-extrabold text-gray-900 font-mono block">
+                        <span className="text-xs sm:text-sm font-extrabold text-[#112A20] font-mono block">
                           ₹ {fund.amount.toLocaleString()}
                         </span>
-                        <span className="text-[10px] font-mono text-gray-400">{fund.wakalahContractRef}</span>
+                        <span className="text-[10px] font-mono text-[#526059]">{fund.wakalahContractRef}</span>
                       </div>
                     </div>
 
                     {/* Progress Bar */}
                     <div className="space-y-1">
-                      <div className="flex justify-between text-[11px] text-gray-500">
+                      <div className="flex justify-between text-[11px] text-[#526059]">
                         <span>Disbursed: ₹ {(fund.amount - fund.remainingAmount).toLocaleString()} ({percentDisbursed}%)</span>
-                        <span className="font-bold text-[#0D7C66]">Remaining: ₹ {fund.remainingAmount.toLocaleString()}</span>
+                        <span className="font-bold text-[#1B4332]">Remaining: ₹ {fund.remainingAmount.toLocaleString()}</span>
                       </div>
-                      <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
+                      <div className="w-full bg-[#F3EFE6] h-2 rounded-full overflow-hidden">
                         <div
-                          className="bg-[#0D7C66] h-full rounded-full transition-all duration-300"
+                          className="bg-[#1B4332] h-full rounded-full transition-all duration-300"
                           style={{ width: `${percentDisbursed}%` }}
                         />
                       </div>
                     </div>
 
-                    <div className="p-2.5 bg-[#F8FAF9] rounded-xl text-xs space-y-1 border border-gray-100">
-                      <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">
+                    <div className="p-2.5 bg-[#FBFBF9] rounded-xl text-xs space-y-1 border border-[#EBE5D8]">
+                      <div className="text-[10px] font-bold text-[#526059] uppercase tracking-wider">
                         Donor Stipulation / Specific Intent:
                       </div>
-                      <p className="text-xs text-gray-700 italic">
+                      <p className="text-xs text-[#112A20] italic">
                         "{fund.stipulation}"
                       </p>
                     </div>
 
                     <div className="flex items-center justify-between pt-1">
-                      <span className="text-[10px] text-gray-400">Delegated: {fund.delegationDate}</span>
+                      <span className="text-[10px] text-[#526059]">Delegated: {fund.delegationDate}</span>
                       <button
                         type="button"
                         onClick={() => {
                           setSelectedAssignedFundId(fund.id);
                           setActiveTab('recipients');
                         }}
-                        className="text-xs text-[#0D7C66] font-bold hover:underline flex items-center gap-1"
+                        className="text-xs text-[#40916C] hover:text-[#1B4332] font-bold hover:underline flex items-center gap-1 cursor-pointer"
                       >
                         <span>Allocate to Recipients</span>
                         <Send className="w-3.5 h-3.5" />
@@ -496,43 +496,43 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
         {activeTab === 'niyyah' && (
           <div className="space-y-3">
             <div>
-              <h3 className="text-sm font-bold text-gray-900">Recorded Wakalah Authorizations</h3>
-              <p className="text-xs text-gray-500">Verifiable religious consent registry with digital hashes</p>
+              <h3 className="text-sm font-bold text-[#112A20]">Recorded Wakalah Authorizations</h3>
+              <p className="text-xs text-[#526059]">Verifiable religious consent registry with digital hashes</p>
             </div>
 
             <div className="space-y-3">
               {niyyahLogs.map((log) => (
                 <div
                   key={log.id}
-                  className="bg-white p-4 rounded-3xl border border-gray-100 shadow-xs space-y-2.5"
+                  className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-2.5"
                 >
                   <div className="flex justify-between items-start">
                     <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-gray-900">{log.donorName}</h4>
-                      <span className="text-[10px] text-gray-400 block">{log.donorPhoneMasked}</span>
+                      <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{log.donorName}</h4>
+                      <span className="text-[10px] text-[#526059] block">{log.donorPhoneMasked}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-xs sm:text-sm font-extrabold text-[#0D7C66] font-mono block">
+                      <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
                         ₹ {log.amount.toLocaleString()}
                       </span>
-                      <span className="text-[10px] bg-emerald-50 text-emerald-800 font-bold px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] font-bold px-2 py-0.5 rounded-full border border-[#40916C]/20">
                         {log.zakatType}
                       </span>
                     </div>
                   </div>
 
-                  <div className="bg-[#E8F6F3] p-3 rounded-2xl border border-[#0D7C66]/20 space-y-1">
-                    <span className="text-[10px] font-bold text-[#0D7C66] uppercase tracking-wider block">
+                  <div className="bg-[#E9F3ED] p-3 rounded-2xl border border-[#40916C]/20 space-y-1">
+                    <span className="text-[10px] font-bold text-[#1B4332] uppercase tracking-wider block">
                       Stated Niyyah & Delegation Formula:
                     </span>
-                    <p className="text-xs text-gray-800 leading-relaxed italic">
+                    <p className="text-xs text-[#112A20] leading-relaxed italic">
                       "{log.niyyahWording}"
                     </p>
                   </div>
 
-                  <div className="flex justify-between items-center text-[10px] text-gray-500 pt-1">
+                  <div className="flex justify-between items-center text-[10px] text-[#526059] pt-1">
                     <span>{log.date}</span>
-                    <span className="font-mono bg-gray-100 px-2 py-0.5 rounded-md text-gray-600">
+                    <span className="font-mono bg-[#F3EFE6] px-2 py-0.5 rounded-md text-[#526059]">
                       Hash: {log.digitalConsentHash}
                     </span>
                   </div>
@@ -547,10 +547,10 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
           <div className="space-y-3">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-sm font-bold text-gray-900">Eligible Recipients Directory</h3>
-                <p className="text-xs text-gray-500">Directly assign entrusted Zakat funds</p>
+                <h3 className="text-sm font-bold text-[#112A20]">Eligible Recipients Directory</h3>
+                <p className="text-xs text-[#526059]">Directly assign entrusted Zakat funds</p>
               </div>
-              <span className="text-xs font-bold text-[#0D7C66] bg-[#E8F6F3] px-2.5 py-1 rounded-full">
+              <span className="text-xs font-bold text-[#1B4332] bg-[#E9F3ED] px-2.5 py-1 rounded-full border border-[#40916C]/20">
                 8 Quranic Classes
               </span>
             </div>
@@ -561,12 +561,12 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                 return (
                   <div
                     key={rec.id}
-                    className="bg-white p-4 rounded-3xl border border-gray-100 shadow-xs space-y-3"
+                    className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3"
                   >
                     <div className="flex justify-between items-start">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h4 className="font-bold text-xs sm:text-sm text-gray-900">{rec.name}</h4>
+                          <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{rec.name}</h4>
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                             rec.urgency === 'Immediate'
                               ? 'bg-red-100 text-red-800'
@@ -576,10 +576,10 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                           </span>
                         </div>
                         <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[10px] font-bold bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-bold bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-md border border-[#40916C]/20">
                             {rec.category}
                           </span>
-                          <span className="text-[11px] text-gray-500">{rec.location}</span>
+                          <span className="text-[11px] text-[#526059]">{rec.location}</span>
                         </div>
                       </div>
 
@@ -613,14 +613,14 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                             setSelectedRecipientForDisburse(rec);
                             setDisburseAmountInput(String(Math.min(needed, 10000)));
                           }}
-                          className="py-2 px-4 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-xs transition flex items-center gap-1.5"
+                          className="py-2 px-4 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-xs transition flex items-center gap-1.5 cursor-pointer"
                         >
                           <Send className="w-3.5 h-3.5" />
                           <span>Disburse Entrusted Capital</span>
                         </button>
                       ) : (
-                        <span className="text-xs font-bold text-emerald-700 flex items-center gap-1">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span className="text-xs font-bold text-[#1B4332] flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-[#40916C]" />
                           <span>Fully Funded</span>
                         </span>
                       )}
@@ -636,17 +636,17 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
         {activeTab === 'proof' && (
           <div className="space-y-4">
             {/* Proof Submission Form */}
-            <div className="bg-white p-5 rounded-3xl border border-gray-100 shadow-xs space-y-4">
+            <div className="bg-white p-5 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-4">
               <div>
-                <h3 className="text-sm font-bold text-gray-900">Submit Delivery Confirmation</h3>
-                <p className="text-xs text-gray-500">
+                <h3 className="text-sm font-bold text-[#112A20]">Submit Delivery Confirmation</h3>
+                <p className="text-xs text-[#526059]">
                   Transmit verifiable proof of Zakat receipt back to the delegating donor.
                 </p>
               </div>
 
               {proofSuccessMsg && (
-                <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs text-emerald-800 font-bold flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <div className="p-3 bg-[#E9F3ED] border border-[#40916C]/30 rounded-2xl text-xs text-[#1B4332] font-bold flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-[#40916C] shrink-0" />
                   <span>Execution proof successfully verified and linked to donor portal!</span>
                 </div>
               )}
@@ -654,13 +654,13 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
               <form onSubmit={handleProofSubmit} className="space-y-3">
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#112A20] mb-1">
                       Entrusting Donor
                     </label>
                     <select
                       value={proofForm.donorName}
                       onChange={(e) => setProofForm({ ...proofForm, donorName: e.target.value })}
-                      className="w-full px-2.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                      className="w-full px-2.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                     >
                       {assignedFunds.map(f => (
                         <option key={f.id} value={f.donorName}>{f.donorName}</option>
@@ -668,7 +668,7 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#112A20] mb-1">
                       Recipient / Case Name
                     </label>
                     <input
@@ -677,14 +677,14 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                       value={proofForm.beneficiaryName}
                       onChange={(e) => setProofForm({ ...proofForm, beneficiaryName: e.target.value })}
                       placeholder="e.g. Master Rayyan"
-                      className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-2">
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#112A20] mb-1">
                       Handed Over Amount (₹)
                     </label>
                     <input
@@ -693,11 +693,11 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                       value={proofForm.amount}
                       onChange={(e) => setProofForm({ ...proofForm, amount: e.target.value })}
                       placeholder="e.g. 10000"
-                      className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-gray-700 mb-1">
+                    <label className="block text-xs font-semibold text-[#112A20] mb-1">
                       Bank Ref / Receipt ID
                     </label>
                     <input
@@ -705,19 +705,19 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                       value={proofForm.referenceCode}
                       onChange={(e) => setProofForm({ ...proofForm, referenceCode: e.target.value })}
                       placeholder="e.g. UTR-982180"
-                      className="w-full px-3 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                      className="w-full px-3 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#112A20] mb-1">
                     Handover Method
                   </label>
                   <select
                     value={proofForm.method}
                     onChange={(e) => setProofForm({ ...proofForm, method: e.target.value })}
-                    className="w-full px-2.5 py-2 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full px-2.5 py-2 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                   >
                     <option value="Direct Bank NEFT / RTGS Transfer">Direct Bank NEFT / RTGS Transfer</option>
                     <option value="In-Person Cash Handover with Signature">In-Person Cash Handover with Signature</option>
@@ -728,9 +728,9 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
 
                 <button
                   type="submit"
-                  className="w-full py-3.5 bg-[#0D7C66] hover:bg-[#0A6654] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-2"
+                  className="w-full py-3.5 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
                 >
-                  <UploadCloud className="w-4 h-4 text-emerald-300" />
+                  <UploadCloud className="w-4 h-4 text-amber-300" />
                   <span>Log & Transmit Proof to Donor</span>
                 </button>
               </form>
@@ -738,27 +738,27 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
 
             {/* List of past proofs */}
             <div className="space-y-2.5">
-              <h3 className="text-xs font-bold text-gray-700 px-1">
+              <h3 className="text-xs font-bold text-[#112A20] px-1">
                 Verified Delivery Records
               </h3>
 
               {proofs.map((prf) => (
                 <div
                   key={prf.id}
-                  className="bg-white p-3.5 rounded-2xl border border-gray-100 shadow-xs flex justify-between items-center"
+                  className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
                 >
                   <div className="space-y-0.5">
-                    <h4 className="font-bold text-xs text-gray-900">{prf.beneficiaryName}</h4>
-                    <p className="text-[11px] text-gray-500">For {prf.donorName} • {prf.method}</p>
-                    <span className="text-[10px] font-mono text-gray-400 block">Ref: {prf.documentRef}</span>
+                    <h4 className="font-bold text-xs text-[#112A20]">{prf.beneficiaryName}</h4>
+                    <p className="text-[11px] text-[#526059]">For {prf.donorName} • {prf.method}</p>
+                    <span className="text-[10px] font-mono text-[#526059] block">Ref: {prf.documentRef}</span>
                   </div>
 
                   <div className="text-right">
-                    <span className="text-xs sm:text-sm font-extrabold text-[#0D7C66] font-mono block">
+                    <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
                       ₹ {prf.amount.toLocaleString()}
                     </span>
-                    <span className="text-[10px] text-emerald-700 font-bold flex items-center justify-end gap-1">
-                      <Check className="w-3 h-3 text-emerald-600" />
+                    <span className="text-[10px] text-[#1B4332] font-bold flex items-center justify-end gap-1">
+                      <Check className="w-3 h-3 text-[#40916C]" />
                       <span>Donor Verified</span>
                     </span>
                   </div>
@@ -773,44 +773,44 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
       {/* Disburse Modal */}
       {selectedRecipientForDisburse && (
         <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-xs">
-          <div className="bg-white w-full max-w-sm rounded-3xl p-5 space-y-4 shadow-2xl animate-in zoom-in-95">
-            <div className="flex justify-between items-center border-b pb-2">
-              <h3 className="font-bold text-sm text-gray-900">Disburse Entrusted Capital</h3>
+          <div className="bg-white w-full max-w-sm rounded-3xl p-5 space-y-4 shadow-2xl animate-in zoom-in-95 border border-[#EBE5D8]">
+            <div className="flex justify-between items-center border-b border-[#EBE5D8] pb-2">
+              <h3 className="font-bold text-sm text-[#112A20]">Disburse Entrusted Capital</h3>
               <button
                 type="button"
                 onClick={() => setSelectedRecipientForDisburse(null)}
-                className="text-gray-400 hover:text-gray-600 text-sm font-bold"
+                className="text-[#526059] hover:text-[#112A20] text-sm font-bold cursor-pointer"
               >
                 ✕
               </button>
             </div>
 
             {disburseSuccessMsg ? (
-              <div className="p-4 bg-emerald-50 rounded-2xl text-center space-y-2">
-                <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
-                <h4 className="font-bold text-sm text-emerald-900">Disbursement Logged!</h4>
-                <p className="text-xs text-emerald-700">
+              <div className="p-4 bg-[#E9F3ED] rounded-2xl text-center space-y-2 border border-[#40916C]/30">
+                <CheckCircle2 className="w-8 h-8 text-[#40916C] mx-auto" />
+                <h4 className="font-bold text-sm text-[#1B4332]">Disbursement Logged!</h4>
+                <p className="text-xs text-[#526059]">
                   Wakalah portfolio updated and delivery proof recorded.
                 </p>
               </div>
             ) : (
               <form onSubmit={handleExecuteDisbursement} className="space-y-3">
                 <div>
-                  <span className="text-xs text-gray-500">Beneficiary:</span>
-                  <p className="text-xs font-bold text-gray-900">{selectedRecipientForDisburse.name}</p>
-                  <span className="text-[10px] bg-[#E8F6F3] text-[#0D7C66] px-2 py-0.5 rounded-md font-bold mt-1 inline-block">
+                  <span className="text-xs text-[#526059]">Beneficiary:</span>
+                  <p className="text-xs font-bold text-[#112A20]">{selectedRecipientForDisburse.name}</p>
+                  <span className="text-[10px] bg-[#E9F3ED] text-[#1B4332] px-2 py-0.5 rounded-md font-bold mt-1 inline-block border border-[#40916C]/20">
                     {selectedRecipientForDisburse.category}
                   </span>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#112A20] mb-1">
                     Select Delegating Donor Portfolio
                   </label>
                   <select
                     value={selectedAssignedFundId}
                     onChange={(e) => setSelectedAssignedFundId(e.target.value)}
-                    className="w-full p-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                   >
                     {assignedFunds.map(f => (
                       <option key={f.id} value={f.id}>
@@ -821,7 +821,7 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-gray-700 mb-1">
+                  <label className="block text-xs font-semibold text-[#112A20] mb-1">
                     Disbursement Amount (₹)
                   </label>
                   <input
@@ -829,7 +829,7 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                     required
                     value={disburseAmountInput}
                     onChange={(e) => setDisburseAmountInput(e.target.value)}
-                    className="w-full p-2.5 bg-[#F8FAF9] border border-gray-200 rounded-xl text-xs font-bold text-gray-900 focus:outline-hidden"
+                    className="w-full p-2.5 bg-white border border-[#EBE5D8] rounded-xl text-xs font-bold text-[#112A20] focus:outline-hidden"
                   />
                 </div>
 
@@ -837,13 +837,13 @@ export const VakeelPortalScreen: React.FC<VakeelPortalScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => setSelectedRecipientForDisburse(null)}
-                    className="flex-1 py-2.5 bg-gray-100 text-gray-700 rounded-full text-xs font-bold"
+                    className="flex-1 py-2.5 bg-[#F3EFE6] text-[#526059] hover:bg-[#EBE5D8] rounded-full text-xs font-bold cursor-pointer"
                   >
                     Cancel
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-2.5 bg-[#0D7C66] text-white rounded-full text-xs font-bold shadow-md hover:bg-[#0A6654]"
+                    className="flex-1 py-2.5 bg-[#1B4332] text-white rounded-full text-xs font-bold shadow-md hover:bg-[#2D6A4F] cursor-pointer"
                   >
                     Confirm Release
                   </button>

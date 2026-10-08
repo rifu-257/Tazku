@@ -122,22 +122,22 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
       <div 
-        className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[92vh] border border-[#0D7C66]/20 animate-in zoom-in-95 duration-150"
+        className="bg-white rounded-3xl max-w-md w-full overflow-hidden shadow-2xl flex flex-col max-h-[92vh] border border-[#EBE5D8] animate-in zoom-in-95 duration-150"
         role="dialog"
         aria-modal="true"
         aria-labelledby="edit-profile-title"
       >
-        {/* Header */}
-        <div className="bg-[#0D7C66] text-white p-5 flex items-center justify-between relative shrink-0">
+        {/* Header (Deep Forest Emerald #1B4332) */}
+        <div className="bg-[#1B4332] text-white p-5 flex items-center justify-between relative shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-white/15 flex items-center justify-center text-white border border-white/20">
-              <User className="w-5 h-5 text-emerald-200" />
+              <User className="w-5 h-5 text-[#E9F3ED]" />
             </div>
             <div>
               <h2 id="edit-profile-title" className="text-lg font-extrabold tracking-tight">
                 Edit Profile Details
               </h2>
-              <p className="text-xs text-teal-100">
+              <p className="text-xs text-[#F3EFE6]">
                 Update personal info, contacts & preferences
               </p>
             </div>
@@ -153,10 +153,10 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
         </div>
 
         {/* Scrollable Form Body */}
-        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 text-xs text-gray-700 flex-1">
+        <form onSubmit={handleSubmit} className="p-5 overflow-y-auto space-y-4 text-xs text-[#526059] flex-1">
           {successMessage && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center gap-2 text-emerald-800 text-xs font-bold animate-in fade-in">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <div className="p-3 bg-[#E9F3ED] border border-[#40916C]/30 rounded-2xl flex items-center gap-2 text-[#1B4332] text-xs font-bold animate-in fade-in">
+              <CheckCircle2 className="w-4 h-4 text-[#40916C] shrink-0" />
               <span>{successMessage}</span>
             </div>
           )}
@@ -169,12 +169,12 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           )}
 
           {/* Profile Avatar Selection */}
-          <div className="bg-[#F8FAF9] p-3.5 rounded-2xl border border-gray-100 space-y-2.5">
-            <label className="text-[11px] font-bold text-gray-800 block">
+          <div className="bg-[#FBFBF9] p-3.5 rounded-2xl border border-[#EBE5D8] space-y-2.5">
+            <label className="text-[11px] font-bold text-[#112A20] block">
               Profile Photo / Avatar
             </label>
             <div className="flex items-center gap-3">
-              <div className="w-14 h-14 rounded-full bg-[#0D7C66] text-white font-extrabold text-xl flex items-center justify-center shrink-0 overflow-hidden shadow-xs border-2 border-white ring-2 ring-[#0D7C66]/20">
+              <div className="w-14 h-14 rounded-full bg-[#1B4332] text-white font-extrabold text-xl flex items-center justify-center shrink-0 overflow-hidden shadow-xs border-2 border-white ring-2 ring-[#40916C]/30">
                 {photoURL ? (
                   <img src={photoURL} alt={displayName} className="w-full h-full object-cover" />
                 ) : (
@@ -196,7 +196,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                       type="button"
                       onClick={() => setPhotoURL(preset)}
                       className={`w-7 h-7 rounded-full overflow-hidden border-2 transition hover:scale-105 cursor-pointer ${
-                        photoURL === preset ? 'border-[#0D7C66] ring-2 ring-[#0D7C66]/30' : 'border-gray-200 opacity-80 hover:opacity-100'
+                        photoURL === preset ? 'border-[#1B4332] ring-2 ring-[#40916C]/40' : 'border-[#EBE5D8] opacity-80 hover:opacity-100'
                       }`}
                       title={`Choose Preset Avatar ${idx + 1}`}
                     >
@@ -207,7 +207,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                     <button
                       type="button"
                       onClick={() => setPhotoURL('')}
-                      className="text-[10px] text-gray-500 hover:text-red-600 ml-1 underline cursor-pointer"
+                      className="text-[10px] text-[#526059] hover:text-red-600 ml-1 underline cursor-pointer"
                     >
                       Use Initials
                     </button>
@@ -218,7 +218,7 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                   placeholder="Or paste custom photo URL..."
                   value={photoURL}
                   onChange={(e) => setPhotoURL(e.target.value)}
-                  className="w-full text-[11px] px-2.5 py-1.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden bg-white"
+                  className="w-full text-[11px] px-2.5 py-1.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden bg-white"
                 />
               </div>
             </div>
@@ -226,8 +226,8 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
 
           {/* Full Name */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5 text-[#0D7C66]" />
+            <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+              <User className="w-3.5 h-3.5 text-[#40916C]" />
               <span>Full Name / Display Name *</span>
             </label>
             <input
@@ -236,15 +236,15 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
               placeholder="e.g., Muhammed Shafi"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:ring-1 focus:ring-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900 font-medium"
+              className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:ring-1 focus:ring-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20] font-medium"
             />
           </div>
 
           {/* Contact Numbers: Phone & WhatsApp */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-                <Phone className="w-3.5 h-3.5 text-[#0D7C66]" />
+              <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+                <Phone className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>Phone Number</span>
               </label>
               <input
@@ -252,13 +252,13 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 placeholder="+91 98471 28910"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900"
+                className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20]"
               />
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-                <MessageSquare className="w-3.5 h-3.5 text-emerald-600" />
+              <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+                <MessageSquare className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>WhatsApp Number</span>
               </label>
               <input
@@ -266,21 +266,21 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 placeholder="+91 98471 28910"
                 value={whatsappNumber}
                 onChange={(e) => setWhatsappNumber(e.target.value)}
-                className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900"
+                className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20]"
               />
             </div>
           </div>
 
           {/* Registered Mahallu */}
           <div className="space-y-1">
-            <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-              <Building2 className="w-3.5 h-3.5 text-[#0D7C66]" />
+            <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+              <Building2 className="w-3.5 h-3.5 text-[#40916C]" />
               <span>Registered Mahallu Jurisdiction</span>
             </label>
             <select
               value={mahal}
               onChange={(e) => setMahal(e.target.value)}
-              className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900 font-medium"
+              className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20] font-medium"
             >
               {MAHAL_OPTIONS.map((opt) => (
                 <option key={opt} value={opt}>
@@ -293,32 +293,32 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
           {/* Fiqh Madhhab & Currency Preferences */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-                <BookOpen className="w-3.5 h-3.5 text-[#0D7C66]" />
+              <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+                <BookOpen className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>Fiqh Madhhab</span>
               </label>
               <select
                 value={madhhab}
                 onChange={(e) => setMadhhab(e.target.value as Madhhab)}
-                className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900 font-medium"
+                className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20] font-medium"
               >
                 <option value="Shafii">Shafi'i (شافعي)</option>
                 <option value="Hanafi">Hanafi (حنفي)</option>
                 <option value="Maliki">Maliki (مالكي)</option>
                 <option value="Hanbali">Hanbali (حنبلي)</option>
               </select>
-              <span className="text-[10px] text-gray-400 block">Determines Nisab & jewelry exemption rules</span>
+              <span className="text-[10px] text-[#526059] block">Determines Nisab & jewelry exemption rules</span>
             </div>
 
             <div className="space-y-1">
-              <label className="text-[11px] font-bold text-gray-800 flex items-center gap-1.5">
-                <DollarSign className="w-3.5 h-3.5 text-[#0D7C66]" />
+              <label className="text-[11px] font-bold text-[#112A20] flex items-center gap-1.5">
+                <DollarSign className="w-3.5 h-3.5 text-[#40916C]" />
                 <span>Preferred Currency</span>
               </label>
               <select
                 value={preferredCurrency}
                 onChange={(e) => setPreferredCurrency(e.target.value as CurrencyCode)}
-                className="w-full p-2.5 rounded-xl border border-gray-200 focus:border-[#0D7C66] focus:outline-hidden text-xs bg-white text-gray-900 font-medium"
+                className="w-full p-2.5 rounded-xl border border-[#EBE5D8] focus:border-[#40916C] focus:outline-hidden text-xs bg-white text-[#112A20] font-medium"
               >
                 <option value="INR">INR (₹) - Indian Rupee</option>
                 <option value="USD">USD ($) - US Dollar</option>
@@ -328,32 +328,32 @@ export const EditProfileModal: React.FC<EditProfileModalProps> = ({
                 <option value="GBP">GBP (£) - British Pound</option>
                 <option value="MYR">MYR (RM) - Malaysian Ringgit</option>
               </select>
-              <span className="text-[10px] text-gray-400 block">Default currency for nisab and calculations</span>
+              <span className="text-[10px] text-[#526059] block">Default currency for nisab and calculations</span>
             </div>
           </div>
 
           {/* Account Status Information */}
-          <div className="bg-[#E8F6F3]/60 p-3 rounded-2xl border border-[#0D7C66]/15 flex items-start gap-2.5">
-            <Sparkles className="w-4 h-4 text-[#0D7C66] shrink-0 mt-0.5" />
-            <div className="text-[11px] text-[#0A6654] leading-relaxed">
+          <div className="bg-[#E9F3ED] p-3 rounded-2xl border border-[#40916C]/20 flex items-start gap-2.5">
+            <Sparkles className="w-4 h-4 text-[#40916C] shrink-0 mt-0.5" />
+            <div className="text-[11px] text-[#1B4332] leading-relaxed">
               Your profile changes are synchronized with your account and reflected across all your Mahallu receipts, zakat calculations, and official tax certificates.
             </div>
           </div>
 
           {/* Modal Actions */}
-          <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-gray-100">
+          <div className="pt-2 flex items-center justify-end gap-2.5 border-t border-[#EBE5D8]">
             <button
               type="button"
               onClick={onClose}
               disabled={saving}
-              className="px-4 py-2.5 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 transition cursor-pointer"
+              className="px-4 py-2.5 rounded-xl text-xs font-bold text-[#526059] hover:bg-[#F3EFE6] transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={saving}
-              className="px-5 py-2.5 rounded-xl text-xs font-extrabold bg-[#0D7C66] hover:bg-[#0A6654] text-white shadow-md hover:shadow-lg transition flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
+              className="px-5 py-2.5 rounded-xl text-xs font-extrabold bg-[#1B4332] hover:bg-[#2D6A4F] text-white shadow-md hover:shadow-lg transition flex items-center gap-1.5 cursor-pointer disabled:opacity-60"
             >
               {saving ? (
                 <>

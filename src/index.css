@@ -1,8 +1,23 @@
 @import "tailwindcss";
 
+@theme {
+  --color-tazku-canvas: #FBFBF9;
+  --color-tazku-card: #FFFFFF;
+  --color-tazku-border: #EBE5D8;
+  --color-tazku-sand: #F3EFE6;
+  --color-tazku-sage: #40916C;
+  --color-tazku-sage-light: #E9F3ED;
+  --color-tazku-emerald: #1B4332;
+  --color-tazku-emerald-dark: #112A20;
+  --color-tazku-amber: #D97706;
+  --color-tazku-muted: #526059;
+}
+
 @layer base {
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #FBFBF9;
+    color: #112A20;
   }
 }
 
