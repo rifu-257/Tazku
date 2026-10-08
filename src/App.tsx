@@ -1351,62 +1351,7 @@ function TazkuApp() {
                   </button>
                 </div>
 
-                {/* Personal Information & Census Card */}
-                <div className="bg-white p-4 rounded-2xl border border-gray-100 shadow-xs space-y-2.5">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-gray-900 flex items-center gap-1.5">
-                      <User className="w-4 h-4 text-[#0D7C66]" />
-                      Personal Information & Census
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => setIsEditProfileOpen(true)}
-                      className="text-[11px] font-bold text-[#0D7C66] hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      <Edit3 className="w-3 h-3" />
-                      <span>Edit Details</span>
-                    </button>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2 text-xs pt-1">
-                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
-                      <span className="text-[10px] text-gray-400 block font-semibold">Registered Mahallu</span>
-                      <span className="text-xs font-bold text-gray-900 block truncate">
-                        {profile?.mahal || 'Juma Masjid Central Ward #3 (Audited)'}
-                      </span>
-                    </div>
-
-                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
-                      <span className="text-[10px] text-gray-400 block font-semibold">Fiqh Madhhab</span>
-                      <span className="text-xs font-bold text-[#0D7C66] block">
-                        {profile?.madhhab ? `${profile.madhhab} School` : 'Shafii School'}
-                      </span>
-                    </div>
-
-                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
-                      <span className="text-[10px] text-gray-400 block font-semibold">Phone / WhatsApp</span>
-                      <span className="text-xs font-bold text-gray-800 block truncate">
-                        {profile?.phoneNumber || profile?.whatsappNumber || '+91 98471 •••••'}
-                      </span>
-                    </div>
-
-                    <div className="bg-[#F8FAF9] p-2.5 rounded-xl border border-gray-100">
-                      <span className="text-[10px] text-gray-400 block font-semibold">Preferred Currency</span>
-                      <span className="text-xs font-bold text-gray-800 block">
-                        {profile?.preferredCurrency || 'INR'} (₹)
-                      </span>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={() => setIsEditProfileOpen(true)}
-                    className="w-full mt-1 py-2 text-xs font-bold text-[#0D7C66] bg-[#E8F6F3] hover:bg-[#d8efe9] rounded-xl border border-[#0D7C66]/20 flex items-center justify-center gap-1.5 transition cursor-pointer"
-                  >
-                    <Edit3 className="w-3.5 h-3.5" />
-                    <span>Edit Profile Details</span>
-                  </button>
-                </div>
+              
 
                 {/* Linked Bank Account Card with Persistent Status and Unlink Option */}
                 {linkedBankAccount ? (
@@ -1462,13 +1407,7 @@ function TazkuApp() {
                 
 
                 <div className="space-y-2 pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setMainScreen('onboarding')}
-                    className="w-full py-3 bg-[#E8F6F3] text-[#0D7C66] hover:bg-[#d8efe9] rounded-full font-bold text-xs transition"
-                  >
-                    View Get Started Screen
-                  </button>
+                 
 
                   <button
                     type="button"

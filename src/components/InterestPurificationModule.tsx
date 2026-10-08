@@ -524,13 +524,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                 </div>
               </div>
 
-              {/* Fiqh Clarification Card */}
-              <div className="bg-[#F8FAF9] rounded-2xl p-3.5 border border-[#E2ECE9] flex items-start gap-2.5">
-                <Info className="w-4 h-4 text-[#0D7C66] shrink-0 mt-0.5" />
-                <p className="text-xs text-gray-600 leading-relaxed">
-                  <strong>Fiqh Principle of Takhallus:</strong> Unlike Zakat (which carries religious reward), bank interest is spent purely to unburden and purify your personal wealth. The funds are directed to public community infrastructure or emergency hardship where individual ownership is avoided.
-                </p>
-              </div>
+            
 
               {/* Destination Selection */}
               <div>
@@ -577,20 +571,7 @@ export const InterestPurificationModule: React.FC<InterestPurificationModuleProp
                 </div>
               </div>
 
-              {/* Fiqh Affirmation Checkbox */}
-              <div 
-                onClick={() => setHasAffirmedTakhallus(!hasAffirmedTakhallus)}
-                className="flex items-start gap-3 p-3 rounded-xl bg-amber-50/50 border border-amber-200/80 cursor-pointer select-none"
-              >
-                <div className={`w-5 h-5 rounded-md border flex items-center justify-center shrink-0 mt-0.5 transition ${
-                  hasAffirmedTakhallus ? 'bg-[#0D7C66] border-[#0D7C66] text-white' : 'bg-white border-gray-300'
-                }`}>
-                  {hasAffirmedTakhallus && <Check className="w-3.5 h-3.5" />}
-                </div>
-                <span className="text-xs text-amber-950 leading-relaxed">
-                  I affirm this disbursement is made for wealth purification (<strong>Takhallus al-Riba</strong>) without expectation of spiritual reward (Thawab), and is kept completely distinct from my obligatory Zakat al-Mal.
-                </span>
-              </div>
+         
 
             </div>
 
