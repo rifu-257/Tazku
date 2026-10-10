@@ -92,6 +92,28 @@ function TazkuApp() {
     return (typeof window !== 'undefined' ? localStorage.getItem('tazku_entered_name') : '') || '';
   });
 
+  // Track if current logged-in Mahallu is newly registered (fresh clean data)
+  const [isFreshMahallu, setIsFreshMahallu] = useState<boolean>(() => {
+    return typeof window !== 'undefined' && localStorage.getItem('tazku_is_fresh_mahallu') === 'true';
+  });
+  const [mahalluCommitteeProfile, setMahalluCommitteeProfile] = useState<{
+    name: string;
+    ward?: string;
+    trustee?: string;
+    contact?: string;
+    regCode?: string;
+  } | null>(() => {
+    if (typeof window !== 'undefined') {
+      const cached = localStorage.getItem('tazku_mahallu_profile');
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch {}
+      }
+    }
+    return null;
+  });
+
   // Bottom Navigation & Tab State:
   // 5 tabs requested: Home, Tracker, Calculator, Articles/Docs, Profile
   // Plus special view: 'claimants' (Screen 2) and 'application'
@@ -586,7 +608,13 @@ function TazkuApp() {
     try {
       localStorage.removeItem('tazku_active_role');
       localStorage.removeItem('tazku_entered_name');
+      localStorage.removeItem('tazku_is_fresh_mahallu');
+      localStorage.removeItem('tazku_mahallu_profile');
+      localStorage.removeItem('tazku_fresh_mahallu_claimants');
+      localStorage.removeItem('tazku_fresh_mahallu_residents');
     } catch {}
+    setIsFreshMahallu(false);
+    setMahalluCommitteeProfile(null);
     setActiveRole('donor');
     setMainScreen('onboarding');
     setActiveTab('home');
@@ -647,7 +675,7 @@ function TazkuApp() {
             role={selectedRoleType}
             initialView={authInitialView}
             onBack={() => setMainScreen('account_action')}
-            onAuthSuccess={async (roleType, name) => {
+            onAuthSuccess={async (roleType, name, isNewAccount, committeeDetails) => {
               if (name) {
                 setCustomEnteredName(name);
                 try {
@@ -660,6 +688,27 @@ function TazkuApp() {
               try {
                 localStorage.setItem('tazku_active_role', targetRole);
               } catch {}
+
+              // New account handling for Mahallu Portal
+              if (targetRole === 'mahal') {
+                const isFresh = !!isNewAccount;
+                setIsFreshMahallu(isFresh);
+                try {
+                  localStorage.setItem('tazku_is_fresh_mahallu', isFresh ? 'true' : 'false');
+                } catch {}
+
+                if (committeeDetails) {
+                  setMahalluCommitteeProfile(committeeDetails);
+                  try {
+                    localStorage.setItem('tazku_mahallu_profile', JSON.stringify(committeeDetails));
+                  } catch {}
+                } else if (!isFresh) {
+                  setMahalluCommitteeProfile(null);
+                  try {
+                    localStorage.removeItem('tazku_mahallu_profile');
+                  } catch {}
+                }
+              }
 
               const currentUid = user?.uid || auth.currentUser?.uid;
               let hasLinkedAccount = false;
@@ -805,6 +854,8 @@ function TazkuApp() {
           /* MAHAL COMMITTEE ADMIN PORTAL                                              */
           /* ========================================================================= */
           <MahalluPortalScreen
+            isNewAccount={isFreshMahallu}
+            committeeProfile={mahalluCommitteeProfile}
             onBackToHome={() => {
               handleSignOut();
             }}

@@ -63,14 +63,178 @@ interface DisbursementRecord {
   receiptId: string;
 }
 
+export interface MahalluCommitteeProfile {
+  name: string;
+  ward?: string;
+  trustee?: string;
+  contact?: string;
+  regCode?: string;
+}
+
 interface MahalluPortalScreenProps {
   onBackToHome: () => void;
   onSwitchRole?: (role: 'donor' | 'vakeel' | 'personal') => void;
+  isNewAccount?: boolean;
+  committeeProfile?: MahalluCommitteeProfile | null;
 }
+
+const DEMO_CLAIMANTS: ClaimantReviewItem[] = [
+  {
+    id: 'CLM-01',
+    name: 'Sister Zainaba & 3 Dependents',
+    ward: 'Ward 3, Noor Street',
+    category: 'Al-Fuqara',
+    amountRequested: 20000,
+    amountFunded: 12000,
+    familyMembers: 4,
+    status: 'Pending',
+    reason: 'Husband passed away due to cardiac failure. Immediate rent arrears and essential groceries support.',
+    documents: ['Medical Discharge Summary', 'Ration Card BPL', 'Ward Council Verification Letter'],
+    appliedDate: 'Yesterday',
+  },
+  {
+    id: 'CLM-02',
+    name: 'Muhammad Basheer K.',
+    ward: 'Ward 3, Old Market Lane',
+    category: 'Al-Gharimin',
+    amountRequested: 35000,
+    amountFunded: 20000,
+    familyMembers: 5,
+    status: 'Pending',
+    reason: 'Small stationery stall suffered flash flood damage. Supplier debt due this month.',
+    documents: ['Shop Rental Agreement', 'Supplier Invoice Challans', 'Local Mahallu Inspection Form'],
+    appliedDate: '3 days ago',
+  },
+  {
+    id: 'CLM-03',
+    name: 'Khadija P. (Orphan Student)',
+    ward: 'Ward 3, East Crescent',
+    category: 'Al-Masakin',
+    amountRequested: 12000,
+    amountFunded: 12000,
+    familyMembers: 2,
+    status: 'Disbursed',
+    reason: 'Final year Bachelor of Science semester fees challan and laboratory instrument deposit.',
+    documents: ['College Admission Fee Slip', 'Orphan Care Registration'],
+    appliedDate: '1 week ago',
+    reviewNote: 'Approved in executive committee meeting. Disbursed via direct educational voucher.',
+  },
+  {
+    id: 'CLM-04',
+    name: 'Abdul Rasheed (Wheelchair Patient)',
+    ward: 'Ward 3, Hilltop Road',
+    category: 'Al-Fuqara',
+    amountRequested: 18000,
+    amountFunded: 0,
+    familyMembers: 3,
+    status: 'More Info Needed',
+    reason: 'Monthly insulin medication and specialized therapy consultation costs.',
+    documents: ['Prescription Copy'],
+    appliedDate: '5 days ago',
+    reviewNote: 'Requested government pharmacy subsidy confirmation passbook.',
+  },
+  {
+    id: 'CLM-05',
+    name: 'Sister Fatima & 3 Children',
+    ward: 'Ward 3, Industrial Colony',
+    category: 'Widow Support',
+    amountRequested: 18000,
+    amountFunded: 18000,
+    familyMembers: 4,
+    status: 'Disbursed',
+    reason: 'Widowed mother provided industrial sewing machine to start home tailoring micro-income.',
+    documents: ['Death Certificate', 'BPL Card', 'Ward Head Recommendation'],
+    appliedDate: '2 weeks ago',
+    reviewNote: 'Machine delivered on Oct 02. Family earning sustainable income.',
+  },
+];
+
+const DEMO_DONORS: MahalluDonorEntry[] = [
+  {
+    id: 'DNR-01',
+    donorName: 'Br. Tariq Mansoor',
+    wardAddress: 'Ward 3, Resident House #42',
+    amount: 45000,
+    zakatType: 'Zakat al-Mal (Gold & Cash)',
+    date: 'Today, 11:20 AM',
+    receiptNumber: 'TZK-MHL-9821',
+  },
+  {
+    id: 'DNR-02',
+    donorName: 'Hajjia Mariyam K.',
+    wardAddress: 'Ward 3, North Crescent',
+    amount: 28000,
+    zakatType: 'Zakat al-Mal (Commercial Stock)',
+    date: 'Yesterday, 04:30 PM',
+    receiptNumber: 'TZK-MHL-9818',
+  },
+  {
+    id: 'DNR-03',
+    donorName: 'Br. Adil Rasheed',
+    wardAddress: 'Ward 3, River View Road',
+    amount: 60000,
+    zakatType: 'Zakat al-Mal (Annual Savings)',
+    date: 'Oct 04, 2026',
+    receiptNumber: 'TZK-MHL-9804',
+  },
+  {
+    id: 'DNR-04',
+    donorName: 'Anonymous Ward 3 Contributor',
+    wardAddress: 'Ward 3 (Verified Resident)',
+    amount: 25000,
+    zakatType: 'Zakat al-Fitr & Sadaqah',
+    date: 'Oct 03, 2026',
+    receiptNumber: 'TZK-MHL-9799',
+  },
+  {
+    id: 'DNR-05',
+    donorName: 'K. M. Shafeeq & Family',
+    wardAddress: 'Ward 3, Market Road',
+    amount: 15000,
+    zakatType: 'Zakat al-Mal',
+    date: 'Oct 01, 2026',
+    receiptNumber: 'TZK-MHL-9782',
+  },
+];
+
+const DEMO_DISBURSEMENTS: DisbursementRecord[] = [
+  {
+    id: 'DSB-101',
+    beneficiaryName: 'Sister Fatima & 3 Children',
+    category: 'Al-Fuqara',
+    amount: 18000,
+    disbursedDate: 'Oct 05, 2026',
+    method: 'Direct Bank Settlement (Account Payee)',
+    signatory: 'Imam & Mahallu Secretary',
+    receiptId: 'DISB-2026-081',
+  },
+  {
+    id: 'DSB-102',
+    beneficiaryName: 'Khadija P. (Orphan Student)',
+    category: 'Al-Masakin (Education Aid)',
+    amount: 12000,
+    disbursedDate: 'Oct 04, 2026',
+    method: 'College Institutional Fee Challan',
+    signatory: 'Education Subcommittee Convener',
+    receiptId: 'DISB-2026-079',
+  },
+  {
+    id: 'DSB-103',
+    beneficiaryName: 'Elderly Household (Urgent Grains)',
+    category: 'Al-Fuqara',
+    amount: 9600,
+    disbursedDate: 'Oct 02, 2026',
+    method: 'Quarterly Mahallu Ration Card Stamp',
+    signatory: 'Ward 3 Relief Trustee',
+    receiptId: 'DISB-2026-072',
+  },
+];
 
 export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
   onBackToHome,
   onSwitchRole,
+  isNewAccount = false,
+  committeeProfile = null,
 }) => {
   // Four dedicated tabs: 'donors_claimants' | 'residents_census' | 'application' | 'ledger'
   const [activeTab, setActiveTab] = useState<'donors_claimants' | 'residents_census' | 'application' | 'ledger'>('donors_claimants');
@@ -81,190 +245,71 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string>('All');
 
-  // 1. All Claimants List (Who applied for Zakat)
-  const [claimants, setClaimants] = useState<ClaimantReviewItem[]>([
-    {
-      id: 'CLM-01',
-      name: 'Sister Zainaba & 3 Dependents',
-      ward: 'Ward 3, Noor Street',
-      category: 'Al-Fuqara',
-      amountRequested: 20000,
-      amountFunded: 12000,
-      familyMembers: 4,
-      status: 'Pending',
-      reason: 'Husband passed away due to cardiac failure. Immediate rent arrears and essential groceries support.',
-      documents: ['Medical Discharge Summary', 'Ration Card BPL', 'Ward Council Verification Letter'],
-      appliedDate: 'Yesterday',
-    },
-    {
-      id: 'CLM-02',
-      name: 'Muhammad Basheer K.',
-      ward: 'Ward 3, Old Market Lane',
-      category: 'Al-Gharimin',
-      amountRequested: 35000,
-      amountFunded: 20000,
-      familyMembers: 5,
-      status: 'Pending',
-      reason: 'Small stationery stall suffered flash flood damage. Supplier debt due this month.',
-      documents: ['Shop Rental Agreement', 'Supplier Invoice Challans', 'Local Mahallu Inspection Form'],
-      appliedDate: '3 days ago',
-    },
-    {
-      id: 'CLM-03',
-      name: 'Khadija P. (Orphan Student)',
-      ward: 'Ward 3, East Crescent',
-      category: 'Al-Masakin',
-      amountRequested: 12000,
-      amountFunded: 12000,
-      familyMembers: 2,
-      status: 'Disbursed',
-      reason: 'Final year Bachelor of Science semester fees challan and laboratory instrument deposit.',
-      documents: ['College Admission Fee Slip', 'Orphan Care Registration'],
-      appliedDate: '1 week ago',
-      reviewNote: 'Approved in executive committee meeting. Disbursed via direct educational voucher.',
-    },
-    {
-      id: 'CLM-04',
-      name: 'Abdul Rasheed (Wheelchair Patient)',
-      ward: 'Ward 3, Hilltop Road',
-      category: 'Al-Fuqara',
-      amountRequested: 18000,
-      amountFunded: 0,
-      familyMembers: 3,
-      status: 'More Info Needed',
-      reason: 'Monthly insulin medication and specialized therapy consultation costs.',
-      documents: ['Prescription Copy'],
-      appliedDate: '5 days ago',
-      reviewNote: 'Requested government pharmacy subsidy confirmation passbook.',
-    },
-    {
-      id: 'CLM-05',
-      name: 'Sister Fatima & 3 Children',
-      ward: 'Ward 3, Industrial Colony',
-      category: 'Widow Support',
-      amountRequested: 18000,
-      amountFunded: 18000,
-      familyMembers: 4,
-      status: 'Disbursed',
-      reason: 'Widowed mother provided industrial sewing machine to start home tailoring micro-income.',
-      documents: ['Death Certificate', 'BPL Card', 'Ward Head Recommendation'],
-      appliedDate: '2 weeks ago',
-      reviewNote: 'Machine delivered on Oct 02. Family earning sustainable income.',
-    },
-  ]);
+  // 1. All Claimants List (Empty if new account, pre-seeded for demo login)
+  const [claimants, setClaimants] = useState<ClaimantReviewItem[]>(() => {
+    if (isNewAccount) {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('tazku_fresh_mahallu_claimants');
+        if (saved) {
+          try {
+            return JSON.parse(saved);
+          } catch {}
+        }
+      }
+      return [];
+    }
+    return DEMO_CLAIMANTS;
+  });
 
   // Review Modal State
   const [selectedReviewClaimant, setSelectedReviewClaimant] = useState<ClaimantReviewItem | null>(null);
   const [reviewNoteInput, setReviewNoteInput] = useState('');
 
-  // 2. All Donors List (Who contributed to this Mahal)
-  const [donors] = useState<MahalluDonorEntry[]>([
-    {
-      id: 'DNR-01',
-      donorName: 'Br. Tariq Mansoor',
-      wardAddress: 'Ward 3, Resident House #42',
-      amount: 45000,
-      zakatType: 'Zakat al-Mal (Gold & Cash)',
-      date: 'Today, 11:20 AM',
-      receiptNumber: 'TZK-MHL-9821',
-    },
-    {
-      id: 'DNR-02',
-      donorName: 'Hajjia Mariyam K.',
-      wardAddress: 'Ward 3, North Crescent',
-      amount: 28000,
-      zakatType: 'Zakat al-Mal (Commercial Stock)',
-      date: 'Yesterday, 04:30 PM',
-      receiptNumber: 'TZK-MHL-9818',
-    },
-    {
-      id: 'DNR-03',
-      donorName: 'Br. Adil Rasheed',
-      wardAddress: 'Ward 3, River View Road',
-      amount: 60000,
-      zakatType: 'Zakat al-Mal (Annual Savings)',
-      date: 'Oct 04, 2026',
-      receiptNumber: 'TZK-MHL-9804',
-    },
-    {
-      id: 'DNR-04',
-      donorName: 'Anonymous Ward 3 Contributor',
-      wardAddress: 'Ward 3 (Verified Resident)',
-      amount: 25000,
-      zakatType: 'Zakat al-Fitr & Sadaqah',
-      date: 'Oct 03, 2026',
-      receiptNumber: 'TZK-MHL-9799',
-    },
-    {
-      id: 'DNR-05',
-      donorName: 'K. M. Shafeeq & Family',
-      wardAddress: 'Ward 3, Market Road',
-      amount: 15000,
-      zakatType: 'Zakat al-Mal',
-      date: 'Oct 01, 2026',
-      receiptNumber: 'TZK-MHL-9782',
-    },
-  ]);
+  // 2. All Donors List (Empty if new account, pre-seeded for demo login)
+  const [donors, setDonors] = useState<MahalluDonorEntry[]>(() => {
+    if (isNewAccount) return [];
+    return DEMO_DONORS;
+  });
 
-  // 3. Disbursements to Verified Families (Own Mahal)
-  const [disbursements] = useState<DisbursementRecord[]>([
-    {
-      id: 'DSB-101',
-      beneficiaryName: 'Sister Fatima & 3 Children',
-      category: 'Al-Fuqara',
-      amount: 18000,
-      disbursedDate: 'Oct 05, 2026',
-      method: 'Direct Bank Settlement (Account Payee)',
-      signatory: 'Imam & Mahallu Secretary',
-      receiptId: 'DISB-2026-081',
-    },
-    {
-      id: 'DSB-102',
-      beneficiaryName: 'Khadija P. (Orphan Student)',
-      category: 'Al-Masakin (Education Aid)',
-      amount: 12000,
-      disbursedDate: 'Oct 04, 2026',
-      method: 'College Institutional Fee Challan',
-      signatory: 'Education Subcommittee Convener',
-      receiptId: 'DISB-2026-079',
-    },
-    {
-      id: 'DSB-103',
-      beneficiaryName: 'Elderly Household (Urgent Grains)',
-      category: 'Al-Fuqara',
-      amount: 9600,
-      disbursedDate: 'Oct 02, 2026',
-      method: 'Quarterly Mahallu Ration Card Stamp',
-      signatory: 'Ward 3 Relief Trustee',
-      receiptId: 'DISB-2026-072',
-    },
-  ]);
+  // 3. Disbursements to Verified Families (Empty if new account)
+  const [disbursements, setDisbursements] = useState<DisbursementRecord[]>(() => {
+    if (isNewAccount) return [];
+    return DEMO_DISBURSEMENTS;
+  });
 
   // 4. Zakat Application Form State (For registering new applicant)
   const [applicationForm, setApplicationForm] = useState({
     name: '',
-    wardNumber: 'Ward 3',
+    wardNumber: isNewAccount && committeeProfile?.ward ? committeeProfile.ward : 'Ward 3',
     familySize: '4',
     incomeMonthly: '',
     category: 'Al-Fuqara',
     requestedAmount: '',
-    investigator: 'Hafiz Usman (Ward Field Auditor)',
+    investigator: isNewAccount && committeeProfile?.trustee ? `${committeeProfile.trustee} (Trustee)` : 'Hafiz Usman (Ward Field Auditor)',
     notes: '',
   });
   const [applicationSuccess, setApplicationSuccess] = useState(false);
 
   // Status Action Handlers
   const handleUpdateStatus = (id: string, newStatus: ClaimantReviewItem['status'], note?: string) => {
-    setClaimants(prev => prev.map(c => {
-      if (c.id === id) {
-        return {
-          ...c,
-          status: newStatus,
-          reviewNote: note || c.reviewNote,
-        };
+    setClaimants(prev => {
+      const updated = prev.map(c => {
+        if (c.id === id) {
+          return {
+            ...c,
+            status: newStatus,
+            reviewNote: note || c.reviewNote,
+          };
+        }
+        return c;
+      });
+      if (isNewAccount && typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('tazku_fresh_mahallu_claimants', JSON.stringify(updated));
+        } catch {}
       }
-      return c;
-    }));
+      return updated;
+    });
     setSelectedReviewClaimant(null);
     setReviewNoteInput('');
   };
@@ -288,16 +333,24 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
       reviewNote: `Submitted by ${applicationForm.investigator}. Awaiting board sign-off.`,
     };
 
-    setClaimants(prev => [newClaimant, ...prev]);
+    setClaimants(prev => {
+      const updated = [newClaimant, ...prev];
+      if (isNewAccount && typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('tazku_fresh_mahallu_claimants', JSON.stringify(updated));
+        } catch {}
+      }
+      return updated;
+    });
     setApplicationSuccess(true);
     setApplicationForm({
       name: '',
-      wardNumber: 'Ward 3',
+      wardNumber: isNewAccount && committeeProfile?.ward ? committeeProfile.ward : 'Ward 3',
       familySize: '4',
       incomeMonthly: '',
       category: 'Al-Fuqara',
       requestedAmount: '',
-      investigator: 'Hafiz Usman (Ward Field Auditor)',
+      investigator: isNewAccount && committeeProfile?.trustee ? `${committeeProfile.trustee} (Trustee)` : 'Hafiz Usman (Ward Field Auditor)',
       notes: '',
     });
     setTimeout(() => {
@@ -305,7 +358,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
       // Switch view to claimants directory to see it immediately
       setActiveTab('donors_claimants');
       setDirectorySubTab('claimants');
-    }, 2000);
+    }, 1800);
   };
 
   // Calculations (Strictly Own Mahallu)
@@ -347,16 +400,20 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
           </div>
           <div>
             <h1 className="text-lg font-bold text-white leading-tight">
-              Juma Masjid Mahallu Committee
+              {isNewAccount ? (committeeProfile?.name || 'Newly Registered Mahallu Committee') : 'Juma Masjid Mahallu Committee'}
             </h1>
             <p className="text-xs text-[#F3EFE6] flex items-center gap-1 mt-0.5">
               <MapPin className="w-3 h-3 shrink-0" />
-              <span>Ward 3 Jurisdiction • Reg #MHL-676505</span>
+              <span>
+                {isNewAccount
+                  ? `${committeeProfile?.ward || 'Ward Jurisdiction'} • Reg #${committeeProfile?.regCode || 'MHL-NEW'}`
+                  : 'Ward 3 Jurisdiction • Reg #MHL-676505'}
+              </span>
             </p>
             <div className="mt-2 flex items-center gap-2 flex-wrap">
               <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#E9F3ED]/20 text-[#E9F3ED] px-2.5 py-0.5 rounded-full border border-[#E9F3ED]/30">
                 <CheckCircle2 className="w-3 h-3 text-[#E9F3ED]" />
-                Verified Mahallu Executive
+                {isNewAccount ? 'Newly Registered Committee • Clean Roster' : 'Verified Mahallu Executive'}
               </span>
               <span className="text-[10px] bg-amber-400/20 text-amber-100 px-2 py-0.5 rounded-full font-bold">
                 {pendingCount} Pending Applications
@@ -416,6 +473,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
       {/* 3. Main Content Container */}
       <div className="px-4 mt-4 space-y-4 max-w-md mx-auto w-full">
         
+        
         {/* ========================================================================= */}
         {/* TAB 1: ALL DONORS & CLAIMANTS (Requested Core Option)                     */}
         {/* ========================================================================= */}
@@ -439,7 +497,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   </p>
                   <div className="mt-1.5">
                     <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-[#F3EFE6] text-[#2D6A4F] px-2.5 py-0.5 rounded-full border border-[#EBE5D8]">
-                      1,420 Registered Residents • 312 Households
+                      {isNewAccount ? '0 Registered Residents • 0 Households (Fresh Roster)' : '1,420 Registered Residents • 312 Households'}
                     </span>
                   </div>
                 </div>
@@ -508,76 +566,115 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   </button>
                 </div>
 
-                {filteredClaimants.map((item) => (
-                  <div
-                    key={item.id}
-                    className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3"
-                  >
-                    <div className="flex justify-between items-start gap-2">
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <h3 className="font-bold text-sm text-[#112A20]">{item.name}</h3>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            item.status === 'Approved'
-                              ? 'bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/20'
-                              : item.status === 'Disbursed'
-                              ? 'bg-blue-100 text-blue-800'
-                              : item.status === 'More Info Needed'
-                              ? 'bg-amber-100 text-amber-800'
-                              : 'bg-yellow-100 text-yellow-800'
-                          }`}>
-                            {item.status}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2 mt-1">
-                          <span className="text-[10px] font-bold bg-[#F3EFE6] text-[#2D6A4F] px-2 py-0.5 rounded-md border border-[#EBE5D8]">
-                            {item.category}
-                          </span>
-                          <span className="text-[11px] text-[#526059]">
-                            {item.ward} • {item.familyMembers} Family Members
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="text-right">
-                        <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
-                          ₹ {item.amountRequested.toLocaleString()}
-                        </span>
-                        <span className="text-[10px] text-[#526059] block">Requested</span>
-                      </div>
+                {filteredClaimants.length === 0 ? (
+                  <div className="bg-white rounded-3xl p-8 border border-[#EBE5D8] text-center space-y-3 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] text-[#1B4332] flex items-center justify-center mx-auto shadow-2xs">
+                      <Users className="w-6 h-6" />
                     </div>
-
-                    <p className="text-xs text-[#526059] leading-relaxed bg-[#FBFBF9] p-2.5 rounded-xl border border-[#EBE5D8]">
-                      {item.reason}
-                    </p>
-
-                    {item.reviewNote && (
-                      <div className="text-[11px] text-[#1B4332] bg-[#E9F3ED] p-2 rounded-xl font-medium border border-[#40916C]/20">
-                        <strong>Committee Audit Note:</strong> {item.reviewNote}
-                      </div>
-                    )}
-
-                    {/* Committee Actions */}
-                    <div className="pt-2 border-t border-[#EBE5D8] flex items-center gap-2">
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-extrabold text-[#112A20]">No Claimants Enrolled Yet</h4>
+                      <p className="text-xs text-[#526059] max-w-xs mx-auto leading-relaxed">
+                        {searchQuery
+                          ? `No claimants match "${searchQuery}". Try a different keyword.`
+                          : 'As a newly registered Mahallu committee, your claimants roster is clean. Submit your first relief application below.'}
+                      </p>
+                    </div>
+                    <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
                       <button
                         type="button"
-                        onClick={() => handleUpdateStatus(item.id, 'Approved', 'Approved by Ward 3 Executive Board.')}
-                        className="flex-1 py-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1 shadow-xs cursor-pointer"
+                        onClick={() => setActiveTab('application')}
+                        className="w-full sm:w-auto px-4 py-2.5 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
                       >
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Approve Aid</span>
+                        <PlusCircle className="w-4 h-4 text-[#E9F3ED]" />
+                        <span>Submit First Aid Application</span>
                       </button>
-
-                      <button
-                        type="button"
-                        onClick={() => handleUpdateStatus(item.id, 'Disbursed', 'Funds fully handed over.')}
-                        className="flex-1 py-2 bg-[#F3EFE6] text-[#2D6A4F] hover:bg-[#EBE5D8] rounded-full font-bold text-xs transition cursor-pointer"
-                      >
-                        Mark Disbursed
-                      </button>
+                      {isNewAccount && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setClaimants(DEMO_CLAIMANTS);
+                            setDonors(DEMO_DONORS);
+                            setDisbursements(DEMO_DISBURSEMENTS);
+                          }}
+                          className="w-full sm:w-auto px-4 py-2.5 bg-[#F3EFE6] hover:bg-[#EBE5D8] text-[#2D6A4F] rounded-full font-bold text-xs transition cursor-pointer"
+                        >
+                          Load Demo Applications
+                        </button>
+                      )}
                     </div>
                   </div>
-                ))}
+                ) : (
+                  filteredClaimants.map((item) => (
+                    <div
+                      key={item.id}
+                      className="bg-white p-4 rounded-3xl border border-[#EBE5D8] shadow-xs space-y-3"
+                    >
+                      <div className="flex justify-between items-start gap-2">
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <h3 className="font-bold text-sm text-[#112A20]">{item.name}</h3>
+                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                              item.status === 'Approved'
+                                ? 'bg-[#E9F3ED] text-[#1B4332] border border-[#40916C]/20'
+                                : item.status === 'Disbursed'
+                                ? 'bg-blue-100 text-blue-800'
+                                : item.status === 'More Info Needed'
+                                ? 'bg-amber-100 text-amber-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {item.status}
+                            </span>
+                          </div>
+                          <div className="flex items-center gap-2 mt-1">
+                            <span className="text-[10px] font-bold bg-[#F3EFE6] text-[#2D6A4F] px-2 py-0.5 rounded-md border border-[#EBE5D8]">
+                              {item.category}
+                            </span>
+                            <span className="text-[11px] text-[#526059]">
+                              {item.ward} • {item.familyMembers} Family Members
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="text-right">
+                          <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
+                            ₹ {item.amountRequested.toLocaleString()}
+                          </span>
+                          <span className="text-[10px] text-[#526059] block">Requested</span>
+                        </div>
+                      </div>
+
+                      <p className="text-xs text-[#526059] leading-relaxed bg-[#FBFBF9] p-2.5 rounded-xl border border-[#EBE5D8]">
+                        {item.reason}
+                      </p>
+
+                      {item.reviewNote && (
+                        <div className="text-[11px] text-[#1B4332] bg-[#E9F3ED] p-2 rounded-xl font-medium border border-[#40916C]/20">
+                          <strong>Committee Audit Note:</strong> {item.reviewNote}
+                        </div>
+                      )}
+
+                      {/* Committee Actions */}
+                      <div className="pt-2 border-t border-[#EBE5D8] flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateStatus(item.id, 'Approved', 'Approved by Executive Board.')}
+                          className="flex-1 py-2 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1 shadow-xs cursor-pointer"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Approve Aid</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateStatus(item.id, 'Disbursed', 'Funds fully handed over.')}
+                          className="flex-1 py-2 bg-[#F3EFE6] text-[#2D6A4F] hover:bg-[#EBE5D8] rounded-full font-bold text-xs transition cursor-pointer"
+                        >
+                          Mark Disbursed
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
 
@@ -588,27 +685,48 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                   All local community donors who contributed Zakat to this Mahallu
                 </span>
 
-                {filteredDonors.map((donor) => (
-                  <div
-                    key={donor.id}
-                    className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
-                  >
-                    <div>
-                      <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{donor.donorName}</h4>
-                      <p className="text-[11px] text-[#526059]">{donor.wardAddress} • {donor.zakatType}</p>
-                      <span className="text-[10px] font-mono text-[#526059] block mt-0.5">
-                        Receipt: {donor.receiptNumber}
-                      </span>
+                {filteredDonors.length === 0 ? (
+                  <div className="bg-white rounded-3xl p-8 border border-[#EBE5D8] text-center space-y-3 shadow-xs">
+                    <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] text-[#1B4332] flex items-center justify-center mx-auto shadow-2xs">
+                      <Coins className="w-6 h-6" />
                     </div>
-
-                    <div className="text-right">
-                      <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
-                        ₹ {donor.amount.toLocaleString()}
+                    <div className="space-y-1">
+                      <h4 className="text-sm font-extrabold text-[#112A20]">No Donors or Contributions Yet</h4>
+                      <p className="text-xs text-[#526059] max-w-xs mx-auto leading-relaxed">
+                        {searchQuery
+                          ? `No donors match "${searchQuery}".`
+                          : 'Direct Zakat donations sent by local contributors to your Mahallu will automatically appear in this verified ledger.'}
+                      </p>
+                    </div>
+                    <div className="pt-1">
+                      <span className="text-[11px] font-semibold text-[#2D6A4F] bg-[#F3EFE6] px-3.5 py-1.5 rounded-full border border-[#EBE5D8] inline-block">
+                        Committee Code: <strong>{isNewAccount && committeeProfile?.regCode ? committeeProfile.regCode : 'MHL-676505'}</strong>
                       </span>
-                      <span className="text-[10px] text-[#526059] block">{donor.date}</span>
                     </div>
                   </div>
-                ))}
+                ) : (
+                  filteredDonors.map((donor) => (
+                    <div
+                      key={donor.id}
+                      className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
+                    >
+                      <div>
+                        <h4 className="font-bold text-xs sm:text-sm text-[#112A20]">{donor.donorName}</h4>
+                        <p className="text-[11px] text-[#526059]">{donor.wardAddress} • {donor.zakatType}</p>
+                        <span className="text-[10px] font-mono text-[#526059] block mt-0.5">
+                          Receipt: {donor.receiptNumber}
+                        </span>
+                      </div>
+
+                      <div className="text-right">
+                        <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono block">
+                          ₹ {donor.amount.toLocaleString()}
+                        </span>
+                        <span className="text-[10px] text-[#526059] block">{donor.date}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             )}
           </div>
@@ -619,6 +737,7 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
         {/* ========================================================================= */}
         {activeTab === 'residents_census' && (
           <MahalResidentsDirectory
+            isNewAccount={isNewAccount}
             onBack={() => setActiveTab('donors_claimants')}
             onOpenApplicationWithResident={(resident) => {
               setApplicationForm(prev => ({
@@ -783,25 +902,37 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                 Recent Direct Zakat Collections
               </h3>
 
-              {donors.map((entry) => (
-                <div
-                  key={entry.id}
-                  className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
-                >
-                  <div className="space-y-0.5">
-                    <span className="text-xs font-bold text-[#112A20] block">{entry.donorName}</span>
-                    <p className="text-[11px] text-[#526059]">{entry.wardAddress} • {entry.zakatType}</p>
-                    <span className="text-[10px] font-mono text-[#526059] block">{entry.receiptNumber}</span>
+              {donors.length === 0 ? (
+                <div className="bg-white rounded-3xl p-7 border border-[#EBE5D8] text-center space-y-2.5 shadow-xs">
+                  <div className="w-10 h-10 rounded-2xl bg-[#E9F3ED] text-[#1B4332] flex items-center justify-center mx-auto shadow-2xs">
+                    <Receipt className="w-5 h-5 text-[#1B4332]" />
                   </div>
-
-                  <div className="text-right">
-                    <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono">
-                      +₹ {entry.amount.toLocaleString()}
-                    </span>
-                    <span className="text-[10px] text-[#526059] block">{entry.date}</span>
-                  </div>
+                  <h4 className="text-sm font-bold text-[#112A20]">Ledger is Fresh & Empty</h4>
+                  <p className="text-xs text-[#526059] max-w-xs mx-auto leading-relaxed">
+                    No financial inflows or disbursements recorded yet for this committee. All verified receipts and direct Zakat payments will appear here.
+                  </p>
                 </div>
-              ))}
+              ) : (
+                donors.map((entry) => (
+                  <div
+                    key={entry.id}
+                    className="bg-white p-3.5 rounded-2xl border border-[#EBE5D8] shadow-xs flex justify-between items-center"
+                  >
+                    <div className="space-y-0.5">
+                      <span className="text-xs font-bold text-[#112A20] block">{entry.donorName}</span>
+                      <p className="text-[11px] text-[#526059]">{entry.wardAddress} • {entry.zakatType}</p>
+                      <span className="text-[10px] font-mono text-[#526059] block">{entry.receiptNumber}</span>
+                    </div>
+
+                    <div className="text-right">
+                      <span className="text-xs sm:text-sm font-extrabold text-[#1B4332] font-mono">
+                        +₹ {entry.amount.toLocaleString()}
+                      </span>
+                      <span className="text-[10px] text-[#526059] block">{entry.date}</span>
+                    </div>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}

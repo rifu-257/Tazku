@@ -31,6 +31,7 @@ import { MahalResident, FamilyMember, HistoricalAidEntry } from '../types';
 interface MahalResidentsDirectoryProps {
   onBack?: () => void;
   onOpenApplicationWithResident?: (resident: MahalResident) => void;
+  isNewAccount?: boolean;
 }
 
 const INITIAL_RESIDENTS: MahalResident[] = [
@@ -319,8 +320,22 @@ const INITIAL_RESIDENTS: MahalResident[] = [
 export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = ({
   onBack,
   onOpenApplicationWithResident,
+  isNewAccount = false,
 }) => {
-  const [residents, setResidents] = useState<MahalResident[]>(INITIAL_RESIDENTS);
+  const [residents, setResidents] = useState<MahalResident[]>(() => {
+    if (isNewAccount) {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('tazku_fresh_mahallu_residents');
+        if (saved) {
+          try {
+            return JSON.parse(saved);
+          } catch {}
+        }
+      }
+      return [];
+    }
+    return INITIAL_RESIDENTS;
+  });
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFilter, setActiveFilter] = useState<string>('All');
   const [selectedResident, setSelectedResident] = useState<MahalResident | null>(null);
@@ -373,9 +388,9 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
     });
   }, [residents, searchQuery, activeFilter]);
 
-  // Aggregate stats
-  const totalResidentsCount = 1420;
-  const totalHouseholdsCount = 312;
+  // Aggregate stats (dynamic for new committee, realistic demo totals for default)
+  const totalResidentsCount = isNewAccount ? residents.length : 1420;
+  const totalHouseholdsCount = isNewAccount ? residents.filter(r => r.isHeadOfHousehold).length : 312;
   const zakatEligibleCount = residents.filter(r => r.zakatClassification === 'Eligible for Zakat').length;
   const activeDonorsCount = residents.filter(r => r.zakatClassification === 'Active Contributor / Donor').length;
 
@@ -536,7 +551,15 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
       notes: 'Newly enrolled resident through Mahallu administrative portal.',
     };
 
-    setResidents(prev => [newResident, ...prev]);
+    setResidents(prev => {
+      const updated = [newResident, ...prev];
+      if (isNewAccount && typeof window !== 'undefined') {
+        try {
+          localStorage.setItem('tazku_fresh_mahallu_residents', JSON.stringify(updated));
+        } catch {}
+      }
+      return updated;
+    });
     setIsRegisterModalOpen(false);
     setNewRegForm({
       fullName: '',
@@ -693,16 +716,48 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
           {activeFilter !== 'All' && <span> in <strong>{activeFilter}</strong></span>}
         </span>
         <span className="text-[#1B4332] font-bold">
-          Juma Masjid Mahallu Registry
+          {isNewAccount ? 'Official Ward Registry' : 'Juma Masjid Mahallu Registry'}
         </span>
       </div>
 
       {/* Resident List Cards */}
       <div className="space-y-3">
-        {filteredResidents.length === 0 ? (
+        {residents.length === 0 ? (
+          <div className="bg-white rounded-3xl p-8 border border-[#EBE5D8] text-center space-y-3 shadow-xs">
+            <div className="w-12 h-12 rounded-2xl bg-[#E9F3ED] text-[#1B4332] flex items-center justify-center mx-auto shadow-2xs">
+              <Users className="w-6 h-6" />
+            </div>
+            <div className="space-y-1">
+              <h4 className="text-sm font-extrabold text-[#112A20]">Census Directory is Fresh & Empty</h4>
+              <p className="text-xs text-[#526059] max-w-xs mx-auto leading-relaxed">
+                As a newly registered Mahallu committee, your community census is clean. Enroll your first household to begin tracking residents, heads of families, and Zakat eligibility.
+              </p>
+            </div>
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-2">
+              <button
+                type="button"
+                onClick={() => setIsRegisterModalOpen(true)}
+                className="w-full sm:w-auto px-4 py-2.5 bg-[#1B4332] hover:bg-[#2D6A4F] text-white rounded-full font-bold text-xs transition flex items-center justify-center gap-1.5 shadow-xs cursor-pointer"
+              >
+                <PlusCircle className="w-4 h-4 text-[#E9F3ED]" />
+                <span>Enroll First Resident</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setResidents(INITIAL_RESIDENTS);
+                  showToast('Sample census roster loaded for demonstration');
+                }}
+                className="w-full sm:w-auto px-4 py-2.5 bg-[#F3EFE6] hover:bg-[#EBE5D8] text-[#2D6A4F] rounded-full font-bold text-xs transition cursor-pointer"
+              >
+                Load Demo Roster
+              </button>
+            </div>
+          </div>
+        ) : filteredResidents.length === 0 ? (
           <div className="bg-white rounded-3xl p-8 border border-[#EBE5D8] text-center space-y-2 shadow-xs">
             <Users className="w-8 h-8 text-[#526059]/40 mx-auto" />
-            <h4 className="text-sm font-bold text-[#112A20]">No Residents Found</h4>
+            <h4 className="text-sm font-bold text-[#112A20]">No Matching Residents Found</h4>
             <p className="text-xs text-[#526059] max-w-xs mx-auto">
               No matching records for "{searchQuery}". Try searching by another keyword or reset filters.
             </p>

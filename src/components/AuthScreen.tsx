@@ -18,11 +18,24 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
+export interface MahalluCommitteeAuthData {
+  name: string;
+  ward: string;
+  trustee: string;
+  contact: string;
+  regCode: string;
+}
+
 interface AuthScreenProps {
   role: 'personal' | 'mahal';
   initialView?: 'login' | 'signup';
   onBack: () => void;
-  onAuthSuccess: (role: 'personal' | 'mahal', name?: string) => void;
+  onAuthSuccess: (
+    role: 'personal' | 'mahal',
+    name?: string,
+    isNewAccount?: boolean,
+    committeeDetails?: MahalluCommitteeAuthData
+  ) => void;
   onSwitchRole?: () => void;
 }
 
@@ -198,14 +211,34 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       setIsSubmitting(true);
       await new Promise((r) => setTimeout(r, 600));
       setIsSubmitting(false);
-      onAuthSuccess('mahal', 'Juma Masjid Mahallu Committee');
+
+      // Check if this matches a previously registered custom mahal
+      let matchedCustom: MahalluCommitteeAuthData | null = null;
+      try {
+        const storedMahals = localStorage.getItem('tazku_registered_mahals');
+        if (storedMahals) {
+          const list = JSON.parse(storedMahals);
+          const found = list.find((m: any) => 
+            (m.regCode && m.regCode.toLowerCase() === mahalCode.trim().toLowerCase()) ||
+            (m.name && m.name.toLowerCase() === mahalCode.trim().toLowerCase())
+          );
+          if (found) matchedCustom = found;
+        }
+      } catch {}
+
+      if (matchedCustom) {
+        onAuthSuccess('mahal', matchedCustom.name, true, matchedCustom);
+      } else {
+        // Default verified demo committee
+        onAuthSuccess('mahal', 'Juma Masjid Mahallu Committee', false);
+      }
     } catch (err: any) {
       setIsSubmitting(false);
       setErrorMessage(err.message || 'Mahal login failed. Please verify credentials.');
     }
   };
 
-  // 4. Mahal Signup Submit
+  // 4. Mahal Signup Submit (Create Account from Mahal Login)
   const handleMahalSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage(null);
@@ -235,7 +268,31 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({
       setIsSubmitting(true);
       await new Promise((r) => setTimeout(r, 700));
       setIsSubmitting(false);
-      onAuthSuccess('mahal', mahalName.trim());
+
+      const cleanName = mahalName.trim();
+      const cleanWard = mahalWard.trim() || 'Ward 3, Central Jurisdiction';
+      const cleanTrustee = trusteeName.trim();
+      const cleanContact = officialContact.trim();
+      const randomId = Math.floor(100000 + Math.random() * 900000);
+      const generatedCode = `MHL-${randomId}`;
+
+      const newCommittee: MahalluCommitteeAuthData = {
+        name: cleanName,
+        ward: cleanWard,
+        trustee: cleanTrustee,
+        contact: cleanContact,
+        regCode: generatedCode,
+      };
+
+      try {
+        const storedMahals = localStorage.getItem('tazku_registered_mahals');
+        const list = storedMahals ? JSON.parse(storedMahals) : [];
+        list.push(newCommittee);
+        localStorage.setItem('tazku_registered_mahals', JSON.stringify(list));
+      } catch {}
+
+      // Critical requirement: isNewAccount = true signals fresh clean portal!
+      onAuthSuccess('mahal', cleanName, true, newCommittee);
     } catch (err: any) {
       setIsSubmitting(false);
       setErrorMessage(err.message || 'Registration failed. Please try again.');
