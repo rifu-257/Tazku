@@ -742,16 +742,7 @@ export const MahalResidentsDirectory: React.FC<MahalResidentsDirectoryProps> = (
                 <PlusCircle className="w-4 h-4 text-[#E9F3ED]" />
                 <span>Enroll First Resident</span>
               </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setResidents(INITIAL_RESIDENTS);
-                  showToast('Sample census roster loaded for demonstration');
-                }}
-                className="w-full sm:w-auto px-4 py-2.5 bg-[#F3EFE6] hover:bg-[#EBE5D8] text-[#2D6A4F] rounded-full font-bold text-xs transition cursor-pointer"
-              >
-                Load Demo Roster
-              </button>
+
             </div>
           </div>
         ) : filteredResidents.length === 0 ? (

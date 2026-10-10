@@ -588,19 +588,6 @@ export const MahalluPortalScreen: React.FC<MahalluPortalScreenProps> = ({
                         <PlusCircle className="w-4 h-4 text-[#E9F3ED]" />
                         <span>Submit First Aid Application</span>
                       </button>
-                      {isNewAccount && (
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setClaimants(DEMO_CLAIMANTS);
-                            setDonors(DEMO_DONORS);
-                            setDisbursements(DEMO_DISBURSEMENTS);
-                          }}
-                          className="w-full sm:w-auto px-4 py-2.5 bg-[#F3EFE6] hover:bg-[#EBE5D8] text-[#2D6A4F] rounded-full font-bold text-xs transition cursor-pointer"
-                        >
-                          Load Demo Applications
-                        </button>
-                      )}
                     </div>
                   </div>
                 ) : (

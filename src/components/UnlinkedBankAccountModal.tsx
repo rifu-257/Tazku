@@ -84,15 +84,15 @@ export const UnlinkedBankAccountModal: React.FC<UnlinkedBankAccountModalProps> =
             </span>
             <div className="grid grid-cols-1 gap-2 text-xs text-[#112A20]">
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
-                <ShieldCheck className="w-4 h-4 text-[#40916C]" shrink-0 />
+                <ShieldCheck className="w-4 h-4 text-[#40916C] shrink-0" />
                 <span>Automatic isolation of interest from Halal wealth</span>
               </div>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
-                <Sparkles className="w-4 h-4 text-[#40916C]" shrink-0 />
+                <Sparkles className="w-4 h-4 text-[#40916C] shrink-0" />
                 <span>Live statement scan with 100% audited Takhallus ledger</span>
               </div>
               <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#FBFBF9] border border-[#EBE5D8]">
-                <CreditCard className="w-4 h-4 text-[#40916C]" shrink-0 />
+                <CreditCard className="w-4 h-4 text-[#40916C] shrink-0" />
                 <span>Zero-fee direct bank-to-charity disbursement</span>
               </div>
             </div>
